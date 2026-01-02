@@ -5,7 +5,7 @@
  * This module provides pre-configured accessibility profiles for common
  * disability types, allowing users to quickly apply relevant settings.
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @license MIT
  */
 (function(a11yJQ) {
@@ -386,10 +386,20 @@
 
             var skipContainer = document.createElement('div');
             skipContainer.id = 'a11y-skip-links';
-            skipContainer.innerHTML = [
-                '<a href="#main-content" class="a11y-skip-link">Skip to main content</a>',
-                '<a href="#navigation" class="a11y-skip-link">Skip to navigation</a>'
-            ].join('');
+
+            // Use createElement instead of innerHTML to avoid XSS patterns
+            var skipLinks = [
+                { href: '#main-content', text: 'Skip to main content' },
+                { href: '#navigation', text: 'Skip to navigation' }
+            ];
+
+            skipLinks.forEach(function(linkData) {
+                var link = document.createElement('a');
+                link.href = linkData.href;
+                link.className = 'a11y-skip-link';
+                link.textContent = linkData.text;
+                skipContainer.appendChild(link);
+            });
 
             // Add styles for skip links
             var style = document.createElement('style');
@@ -493,8 +503,16 @@
          * @private
          */
         _dispatchEvent: function(eventName, detail) {
-            var event = new CustomEvent('a11y:' + eventName, { detail: detail });
-            document.dispatchEvent(event);
+            // Use try-catch for CustomEvent compatibility with older browsers
+            try {
+                var event = new CustomEvent('a11y:' + eventName, { detail: detail });
+                document.dispatchEvent(event);
+            } catch (e) {
+                // Fallback for older browsers
+                var evt = document.createEvent('CustomEvent');
+                evt.initCustomEvent('a11y:' + eventName, true, true, detail);
+                document.dispatchEvent(evt);
+            }
         },
 
         /**

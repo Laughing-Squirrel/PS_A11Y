@@ -10,7 +10,7 @@
  * - Focus highlighting
  * - User preference persistence via localStorage
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @license MIT
  */
 (function(a11yJQ) {
@@ -22,7 +22,30 @@
         return;
     }
 
-    var CONFIG = window.A11Y_CONFIG || { storage: { preferencesKey: 'a11y_prefs' } };
+    var CONFIG = window.A11Y_CONFIG || {
+        storage: { preferencesKey: 'a11y_prefs' },
+        defaults: {
+            fontSizeMin: 0.5,
+            fontSizeMax: 3.0,
+            fontSize: 1.0,
+            contrastMode: 'none',
+            cursorSize: 'default'
+        },
+        validValues: {
+            contrastModes: ['none', 'dark', 'light', 'invert', 'yellow-black', 'black-yellow'],
+            cursorSizes: ['default', 'large', 'xlarge']
+        },
+        zIndex: {
+            readingGuide: 999998
+        }
+    };
+
+    var LOG = window.A11Y_LOG || {
+        log: function() {},
+        info: function() { console.log.apply(console, ['[A11Y]'].concat(Array.prototype.slice.call(arguments))); },
+        warn: function() { console.warn.apply(console, ['[A11Y]'].concat(Array.prototype.slice.call(arguments))); },
+        error: function() { console.error.apply(console, ['[A11Y]'].concat(Array.prototype.slice.call(arguments))); }
+    };
 
     /**
      * Dynamic Style Injection Module
@@ -34,6 +57,7 @@
         _styleElement: null,
         _readingGuideElement: null,
         _currentRules: {},
+        _eventHandlers: {}, // Store event handlers for cleanup
         _settings: {
             fontSize: 1.0,
             contrastMode: 'none',
@@ -61,7 +85,7 @@
             this._setupFocusHighlight();
 
             this._initialized = true;
-            console.log('[A11Y] Styles module initialized');
+            LOG.info('Styles module initialized');
         },
 
         /**
@@ -69,6 +93,12 @@
          * @private
          */
         _createStyleElement: function() {
+            // Remove existing if present
+            var existing = document.getElementById('a11y-dynamic-styles');
+            if (existing) {
+                existing.parentNode.removeChild(existing);
+            }
+
             this._styleElement = document.createElement('style');
             this._styleElement.id = 'a11y-dynamic-styles';
             this._styleElement.setAttribute('data-a11y', 'true');
@@ -80,8 +110,15 @@
          * @private
          */
         _createReadingGuide: function() {
+            // Remove existing if present
+            var existing = document.getElementById('a11y-reading-guide');
+            if (existing) {
+                existing.parentNode.removeChild(existing);
+            }
+
             this._readingGuideElement = document.createElement('div');
             this._readingGuideElement.id = 'a11y-reading-guide';
+            this._readingGuideElement.setAttribute('aria-hidden', 'true');
             this._readingGuideElement.style.cssText = [
                 'position: fixed',
                 'left: 0',
@@ -89,7 +126,7 @@
                 'height: 30px',
                 'background: rgba(255, 255, 0, 0.3)',
                 'pointer-events: none',
-                'z-index: 999998',
+                'z-index: ' + (CONFIG.zIndex.readingGuide || 999998),
                 'display: none',
                 'border-top: 2px solid #ff0',
                 'border-bottom: 2px solid #ff0'
@@ -97,13 +134,14 @@
 
             document.body.appendChild(this._readingGuideElement);
 
-            // Track mouse movement for reading guide
+            // Track mouse movement for reading guide (with passive listener)
             var self = this;
-            document.addEventListener('mousemove', function(e) {
-                if (self._settings.readingGuide) {
+            this._eventHandlers.mousemove = function(e) {
+                if (self._settings.readingGuide && self._readingGuideElement) {
                     self._readingGuideElement.style.top = (e.clientY - 15) + 'px';
                 }
-            });
+            };
+            document.addEventListener('mousemove', this._eventHandlers.mousemove, { passive: true });
         },
 
         /**
@@ -113,17 +151,20 @@
         _setupFocusHighlight: function() {
             var self = this;
 
-            document.addEventListener('focusin', function(e) {
+            this._eventHandlers.focusin = function(e) {
                 if (self._settings.focusHighlight && e.target) {
                     self._highlightElement(e.target);
                 }
-            });
+            };
 
-            document.addEventListener('focusout', function(e) {
+            this._eventHandlers.focusout = function(e) {
                 if (self._settings.focusHighlight && e.target) {
                     self._removeHighlight(e.target);
                 }
-            });
+            };
+
+            document.addEventListener('focusin', this._eventHandlers.focusin);
+            document.addEventListener('focusout', this._eventHandlers.focusout);
         },
 
         /**
@@ -131,7 +172,9 @@
          * @private
          */
         _highlightElement: function(element) {
-            element.setAttribute('data-a11y-focus', 'true');
+            if (element && element.setAttribute) {
+                element.setAttribute('data-a11y-focus', 'true');
+            }
         },
 
         /**
@@ -139,7 +182,9 @@
          * @private
          */
         _removeHighlight: function(element) {
-            element.removeAttribute('data-a11y-focus');
+            if (element && element.removeAttribute) {
+                element.removeAttribute('data-a11y-focus');
+            }
         },
 
         // ==================== FONT SIZE ====================
@@ -147,9 +192,19 @@
         /**
          * Set font size scale
          * @param {number} scale - Scale factor (1.0 = 100%)
+         * @returns {object} this - for chaining
          */
         setFontSize: function(scale) {
-            scale = Math.max(0.5, Math.min(3.0, scale));
+            // Validate and clamp
+            if (typeof scale !== 'number' || isNaN(scale)) {
+                LOG.warn('Invalid font size scale:', scale);
+                scale = CONFIG.defaults.fontSize;
+            }
+
+            var min = CONFIG.defaults.fontSizeMin || 0.5;
+            var max = CONFIG.defaults.fontSizeMax || 3.0;
+            scale = Math.max(min, Math.min(max, scale));
+
             this._settings.fontSize = scale;
 
             if (scale === 1.0) {
@@ -167,27 +222,30 @@
 
         /**
          * Increase font size by step
-         * @param {number} step - Step amount (default 0.1)
+         * @param {number} step - Step amount (default from config)
+         * @returns {object} this - for chaining
          */
         increaseFontSize: function(step) {
-            step = step || 0.1;
+            step = step || CONFIG.defaults.fontSizeStep || 0.1;
             return this.setFontSize(this._settings.fontSize + step);
         },
 
         /**
          * Decrease font size by step
-         * @param {number} step - Step amount (default 0.1)
+         * @param {number} step - Step amount (default from config)
+         * @returns {object} this - for chaining
          */
         decreaseFontSize: function(step) {
-            step = step || 0.1;
+            step = step || CONFIG.defaults.fontSizeStep || 0.1;
             return this.setFontSize(this._settings.fontSize - step);
         },
 
         /**
          * Reset font size to default
+         * @returns {object} this - for chaining
          */
         resetFontSize: function() {
-            return this.setFontSize(1.0);
+            return this.setFontSize(CONFIG.defaults.fontSize || 1.0);
         },
 
         /**
@@ -203,8 +261,18 @@
         /**
          * Set high contrast mode
          * @param {string} mode - 'none', 'dark', 'light', 'invert', 'yellow-black', 'black-yellow'
+         * @returns {object} this - for chaining
          */
         setHighContrast: function(mode) {
+            // Validate mode
+            var validModes = CONFIG.validValues.contrastModes ||
+                ['none', 'dark', 'light', 'invert', 'yellow-black', 'black-yellow'];
+
+            if (validModes.indexOf(mode) === -1) {
+                LOG.warn('Invalid contrast mode:', mode, '- defaulting to none');
+                mode = 'none';
+            }
+
             this._settings.contrastMode = mode;
 
             var rules = {
@@ -276,9 +344,11 @@
 
         /**
          * Toggle through contrast modes
+         * @returns {object} this - for chaining
          */
         toggleContrast: function() {
-            var modes = ['none', 'dark', 'light', 'invert', 'yellow-black', 'black-yellow'];
+            var modes = CONFIG.validValues.contrastModes ||
+                ['none', 'dark', 'light', 'invert', 'yellow-black', 'black-yellow'];
             var currentIndex = modes.indexOf(this._settings.contrastMode);
             var nextIndex = (currentIndex + 1) % modes.length;
             return this.setHighContrast(modes[nextIndex]);
@@ -289,9 +359,10 @@
         /**
          * Stop/enable animations
          * @param {boolean} stop - True to stop animations
+         * @returns {object} this - for chaining
          */
         setStopAnimations: function(stop) {
-            this._settings.stopAnimations = stop;
+            this._settings.stopAnimations = Boolean(stop);
 
             if (stop) {
                 this._currentRules.animations = [
@@ -303,13 +374,15 @@
                     '}'
                 ].join('\n');
 
-                // Pause videos
-                document.querySelectorAll('video').forEach(function(video) {
-                    video.pause();
-                });
-
-                // Stop GIF animations by replacing with static
-                // Note: This is a basic implementation
+                // Pause videos safely
+                try {
+                    var videos = document.querySelectorAll('video');
+                    for (var i = 0; i < videos.length; i++) {
+                        videos[i].pause();
+                    }
+                } catch (e) {
+                    LOG.warn('Could not pause videos:', e.message);
+                }
             } else {
                 delete this._currentRules.animations;
             }
@@ -320,6 +393,7 @@
 
         /**
          * Toggle animation stopping
+         * @returns {object} this - for chaining
          */
         toggleAnimations: function() {
             return this.setStopAnimations(!this._settings.stopAnimations);
@@ -330,15 +404,21 @@
         /**
          * Enable/disable reading guide
          * @param {boolean} enabled - True to enable
+         * @returns {object} this - for chaining
          */
         setReadingGuide: function(enabled) {
-            this._settings.readingGuide = enabled;
-            this._readingGuideElement.style.display = enabled ? 'block' : 'none';
+            this._settings.readingGuide = Boolean(enabled);
+
+            if (this._readingGuideElement) {
+                this._readingGuideElement.style.display = enabled ? 'block' : 'none';
+            }
+
             return this;
         },
 
         /**
          * Toggle reading guide
+         * @returns {object} this - for chaining
          */
         toggleReadingGuide: function() {
             return this.setReadingGuide(!this._settings.readingGuide);
@@ -349,9 +429,10 @@
         /**
          * Enable/disable focus highlighting
          * @param {boolean} enabled - True to enable
+         * @returns {object} this - for chaining
          */
         setFocusHighlight: function(enabled) {
-            this._settings.focusHighlight = enabled;
+            this._settings.focusHighlight = Boolean(enabled);
 
             if (enabled) {
                 this._currentRules.focusHighlight = [
@@ -375,6 +456,7 @@
 
         /**
          * Toggle focus highlighting
+         * @returns {object} this - for chaining
          */
         toggleFocusHighlight: function() {
             return this.setFocusHighlight(!this._settings.focusHighlight);
@@ -385,8 +467,13 @@
         /**
          * Set line height
          * @param {number} scale - Scale factor (1.0 = normal)
+         * @returns {object} this - for chaining
          */
         setLineHeight: function(scale) {
+            if (typeof scale !== 'number' || isNaN(scale)) {
+                scale = 1.0;
+            }
+            scale = Math.max(1.0, Math.min(3.0, scale));
             this._settings.lineHeight = scale;
 
             if (scale === 1.0) {
@@ -403,8 +490,13 @@
         /**
          * Set letter spacing
          * @param {number} pixels - Extra spacing in pixels
+         * @returns {object} this - for chaining
          */
         setLetterSpacing: function(pixels) {
+            if (typeof pixels !== 'number' || isNaN(pixels)) {
+                pixels = 0;
+            }
+            pixels = Math.max(0, Math.min(10, pixels));
             this._settings.letterSpacing = pixels;
 
             if (pixels === 0) {
@@ -421,8 +513,13 @@
         /**
          * Set word spacing
          * @param {number} pixels - Extra spacing in pixels
+         * @returns {object} this - for chaining
          */
         setWordSpacing: function(pixels) {
+            if (typeof pixels !== 'number' || isNaN(pixels)) {
+                pixels = 0;
+            }
+            pixels = Math.max(0, Math.min(20, pixels));
             this._settings.wordSpacing = pixels;
 
             if (pixels === 0) {
@@ -439,8 +536,16 @@
         /**
          * Set cursor size
          * @param {string} size - 'default', 'large', 'xlarge'
+         * @returns {object} this - for chaining
          */
         setCursorSize: function(size) {
+            // Validate size
+            var validSizes = CONFIG.validValues.cursorSizes || ['default', 'large', 'xlarge'];
+            if (validSizes.indexOf(size) === -1) {
+                LOG.warn('Invalid cursor size:', size, '- defaulting to default');
+                size = 'default';
+            }
+
             this._settings.cursorSize = size;
 
             var cursors = {
@@ -465,9 +570,10 @@
         /**
          * Highlight all links
          * @param {boolean} enabled - True to enable
+         * @returns {object} this - for chaining
          */
         setLinkHighlight: function(enabled) {
-            this._settings.linkHighlight = enabled;
+            this._settings.linkHighlight = Boolean(enabled);
 
             if (enabled) {
                 this._currentRules.linkHighlight = [
@@ -493,7 +599,21 @@
          * @private
          */
         _applyRules: function() {
-            var css = Object.values(this._currentRules).filter(Boolean).join('\n\n');
+            if (!this._styleElement) {
+                LOG.warn('Style element not available');
+                return;
+            }
+
+            // Object.values polyfill for compatibility
+            var rules = this._currentRules;
+            var values = [];
+            for (var key in rules) {
+                if (rules.hasOwnProperty(key) && rules[key]) {
+                    values.push(rules[key]);
+                }
+            }
+
+            var css = values.join('\n\n');
             this._styleElement.textContent = css;
             this._savePreferences();
         },
@@ -507,7 +627,16 @@
                 var prefs = JSON.stringify(this._settings);
                 localStorage.setItem(CONFIG.storage.preferencesKey, prefs);
             } catch (e) {
-                console.warn('[A11Y] Could not save preferences:', e);
+                if (e.name === 'QuotaExceededError') {
+                    LOG.warn('localStorage quota exceeded, trying sessionStorage');
+                    try {
+                        sessionStorage.setItem(CONFIG.storage.preferencesKey, JSON.stringify(this._settings));
+                    } catch (e2) {
+                        LOG.warn('Could not save preferences:', e2.message);
+                    }
+                } else {
+                    LOG.warn('Could not save preferences:', e.message);
+                }
             }
         },
 
@@ -518,12 +647,15 @@
         _loadSavedPreferences: function() {
             try {
                 var saved = localStorage.getItem(CONFIG.storage.preferencesKey);
+                if (!saved) {
+                    saved = sessionStorage.getItem(CONFIG.storage.preferencesKey);
+                }
                 if (saved) {
                     var prefs = JSON.parse(saved);
                     this._applyPreferences(prefs);
                 }
             } catch (e) {
-                console.warn('[A11Y] Could not load preferences:', e);
+                LOG.warn('Could not load preferences:', e.message);
             }
         },
 
@@ -532,6 +664,10 @@
          * @private
          */
         _applyPreferences: function(prefs) {
+            if (!prefs || typeof prefs !== 'object') {
+                return;
+            }
+
             if (prefs.fontSize && prefs.fontSize !== 1.0) {
                 this.setFontSize(prefs.fontSize);
             }
@@ -566,31 +702,41 @@
 
         /**
          * Get all current settings
-         * @returns {object} Current settings
+         * @returns {object} Current settings (copy)
          */
         getSettings: function() {
-            return Object.assign({}, this._settings);
+            var copy = {};
+            for (var key in this._settings) {
+                if (this._settings.hasOwnProperty(key)) {
+                    copy[key] = this._settings[key];
+                }
+            }
+            return copy;
         },
 
         /**
          * Reset all styles to default
+         * @returns {object} this - for chaining
          */
         resetAll: function() {
             this._settings = {
-                fontSize: 1.0,
-                contrastMode: 'none',
+                fontSize: CONFIG.defaults.fontSize || 1.0,
+                contrastMode: CONFIG.defaults.contrastMode || 'none',
                 stopAnimations: false,
                 readingGuide: false,
                 focusHighlight: false,
-                lineHeight: 1.0,
-                letterSpacing: 0,
-                wordSpacing: 0,
-                cursorSize: 'default',
+                lineHeight: CONFIG.defaults.lineHeight || 1.0,
+                letterSpacing: CONFIG.defaults.letterSpacing || 0,
+                wordSpacing: CONFIG.defaults.wordSpacing || 0,
+                cursorSize: CONFIG.defaults.cursorSize || 'default',
                 linkHighlight: false
             };
             this._currentRules = {};
             this._applyRules();
-            this._readingGuideElement.style.display = 'none';
+
+            if (this._readingGuideElement) {
+                this._readingGuideElement.style.display = 'none';
+            }
 
             return this;
         },
@@ -599,13 +745,31 @@
          * Destroy the module and clean up
          */
         destroy: function() {
+            // Remove event listeners
+            if (this._eventHandlers.mousemove) {
+                document.removeEventListener('mousemove', this._eventHandlers.mousemove);
+            }
+            if (this._eventHandlers.focusin) {
+                document.removeEventListener('focusin', this._eventHandlers.focusin);
+            }
+            if (this._eventHandlers.focusout) {
+                document.removeEventListener('focusout', this._eventHandlers.focusout);
+            }
+            this._eventHandlers = {};
+
+            // Remove DOM elements
             if (this._styleElement && this._styleElement.parentNode) {
                 this._styleElement.parentNode.removeChild(this._styleElement);
             }
             if (this._readingGuideElement && this._readingGuideElement.parentNode) {
                 this._readingGuideElement.parentNode.removeChild(this._readingGuideElement);
             }
+
+            this._styleElement = null;
+            this._readingGuideElement = null;
             this._initialized = false;
+
+            LOG.log('Styles module destroyed');
         }
     };
 

@@ -9,7 +9,7 @@
  * - Module integration
  * - Event handling
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @license MIT
  */
 (function(a11yJQ) {
@@ -51,8 +51,24 @@
             this._initialized = true;
             console.log('[A11Y] Accessibility Widget initialized');
 
-            // Dispatch ready event
-            document.dispatchEvent(new CustomEvent('a11y:ready'));
+            // Dispatch ready event with browser compatibility
+            this._dispatchEvent('ready', { version: this.getVersion() });
+        },
+
+        /**
+         * Dispatch custom event with browser compatibility
+         * @private
+         */
+        _dispatchEvent: function(eventName, detail) {
+            try {
+                var event = new CustomEvent('a11y:' + eventName, { detail: detail });
+                document.dispatchEvent(event);
+            } catch (e) {
+                // Fallback for older browsers
+                var evt = document.createEvent('CustomEvent');
+                evt.initCustomEvent('a11y:' + eventName, true, true, detail);
+                document.dispatchEvent(evt);
+            }
         },
 
         /**
@@ -208,7 +224,7 @@
                 '            <span>Developer Mode (Highlight Issues)</span>',
                 '          </label>',
                 '          <div id="a11y-scan-results" class="a11y-scan-results" hidden>',
-                '            <div class="a11y-scan-summary"></div>',
+                '            <div class="a11y-scan-summary" aria-live="polite" aria-atomic="true"></div>',
                 '            <div class="a11y-scan-actions">',
                 '              <button id="a11y-export-csv" class="a11y-btn a11y-btn--small">Export CSV</button>',
                 '              <button id="a11y-export-json" class="a11y-btn a11y-btn--small">Export JSON</button>',
@@ -725,18 +741,30 @@
         }
     };
 
+    /**
+     * Initialize with requestIdleCallback or fallback
+     * Uses requestIdleCallback for better performance, with setTimeout fallback
+     */
+    function scheduleInit() {
+        var initFn = function() {
+            A11Y_CORE.init();
+        };
+
+        // Use requestIdleCallback if available for better performance
+        if (typeof requestIdleCallback === 'function') {
+            requestIdleCallback(initFn, { timeout: 500 });
+        } else {
+            // Fallback with configurable delay
+            var delay = (CONFIG.timing && CONFIG.timing.initDelay) || 200;
+            setTimeout(initFn, delay);
+        }
+    }
+
     // Initialize on DOM ready
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            // Small delay to ensure other modules are initialized
-            setTimeout(function() {
-                A11Y_CORE.init();
-            }, 200);
-        });
+        document.addEventListener('DOMContentLoaded', scheduleInit);
     } else {
-        setTimeout(function() {
-            A11Y_CORE.init();
-        }, 200);
+        scheduleInit();
     }
 
     // Expose globally

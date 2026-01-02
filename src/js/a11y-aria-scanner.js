@@ -8,7 +8,7 @@
  * - Remediation reporting
  * - Developer mode with visual highlighting
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @license MIT
  */
 (function(a11yJQ) {
@@ -204,15 +204,25 @@
 
             // If axe-core is loaded, run it too
             if (this._axeLoaded) {
-                return this._runAxeScan(context, options).then(function(axeResults) {
-                    self._results = self._mergeResults(psftResults, axeResults);
+                return this._runAxeScan(context, options)
+                    .then(function(axeResults) {
+                        self._results = self._mergeResults(psftResults, axeResults);
 
-                    if (self._developerMode) {
-                        self._highlightIssues();
-                    }
+                        if (self._developerMode) {
+                            self._highlightIssues();
+                        }
 
-                    return self._results;
-                });
+                        return self._results;
+                    })
+                    .catch(function(error) {
+                        console.error('[A11Y] axe-core scan failed:', error);
+                        // Return PeopleSoft rules results as partial results
+                        self._results = psftResults;
+                        if (self._developerMode) {
+                            self._highlightIssues();
+                        }
+                        return self._results;
+                    });
             } else {
                 // Return PeopleSoft rules only
                 this._results = psftResults;
@@ -298,7 +308,11 @@
                 resultTypes: ['violations', 'incomplete', 'passes']
             };
 
-            return axe.run(context, runOptions);
+            return axe.run(context, runOptions).catch(function(error) {
+                console.error('[A11Y] axe.run error:', error);
+                // Re-throw to be handled by caller
+                throw error;
+            });
         },
 
         /**

@@ -5,7 +5,7 @@
  * This module provides configuration settings and constants for the
  * accessibility widget. It can optionally configure RequireJS if present.
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @license MIT
  */
 (function(global) {
@@ -17,8 +17,11 @@
     var A11Y_CONFIG = {
 
         // Version information
-        version: '1.0.0',
+        version: '1.0.1',
         buildDate: '2026-01-02',
+
+        // Debug mode - set to false in production
+        debug: false,
 
         // Feature flags
         features: {
@@ -35,17 +38,35 @@
         // Default settings
         defaults: {
             fontSize: 1.0,           // 1.0 = 100%
-            fontSizeMin: 0.8,        // 80%
-            fontSizeMax: 2.0,        // 200%
+            fontSizeMin: 0.5,        // 50% - minimum allowed
+            fontSizeMax: 3.0,        // 300% - maximum allowed
             fontSizeStep: 0.1,       // 10% increments
-            contrastMode: 'none',    // 'none', 'dark', 'light', 'invert'
+            contrastMode: 'none',    // 'none', 'dark', 'light', 'invert', 'yellow-black', 'black-yellow'
             stopAnimations: false,
             readingGuide: false,
             focusHighlight: false,
             activeProfile: null,
             widgetPosition: 'right', // 'left' or 'right'
             widgetCollapsed: true,
-            keyboardShortcutsEnabled: true
+            keyboardShortcutsEnabled: true,
+            lineHeight: 1.0,
+            letterSpacing: 0,
+            wordSpacing: 0,
+            cursorSize: 'default'
+        },
+
+        // Valid values for validation
+        validValues: {
+            contrastModes: ['none', 'dark', 'light', 'invert', 'yellow-black', 'black-yellow'],
+            cursorSizes: ['default', 'large', 'xlarge'],
+            positions: ['left', 'right']
+        },
+
+        // Timing configuration
+        timing: {
+            initDelay: 200,          // Delay before widget initialization
+            debounceDelay: 100,      // Debounce for mutation observer
+            animationDuration: 200   // CSS transition duration
         },
 
         // Keyboard shortcuts
@@ -65,7 +86,8 @@
             prefix: 'a11y_',
             preferencesKey: 'a11y_prefs',
             profileKey: 'a11y_profile',
-            scanResultsKey: 'a11y_scan_results'
+            scanResultsKey: 'a11y_scan_results',
+            positionKey: 'a11y_widget_position'
         },
 
         // PeopleSoft selectors
@@ -182,6 +204,79 @@
          */
         getSelectors: function(isFluid) {
             return isFluid ? this.selectors.fluid : this.selectors.classic;
+        },
+
+        /**
+         * Validate a value against valid options
+         * @param {string} type - Type of value (e.g., 'contrastModes')
+         * @param {*} value - Value to validate
+         * @returns {boolean} Whether value is valid
+         */
+        isValidValue: function(type, value) {
+            var validList = this.validValues[type];
+            if (!validList) {
+                return true; // No validation defined
+            }
+            return validList.indexOf(value) !== -1;
+        },
+
+        /**
+         * Get default value for invalid input
+         * @param {string} type - Type of value
+         * @returns {*} Default value
+         */
+        getDefaultForType: function(type) {
+            var defaults = {
+                contrastModes: 'none',
+                cursorSizes: 'default',
+                positions: 'right'
+            };
+            return defaults[type];
+        }
+    };
+
+    /**
+     * Logging utility with debug mode support
+     */
+    var A11Y_LOG = {
+        _prefix: '[A11Y]',
+
+        log: function() {
+            if (A11Y_CONFIG.debug) {
+                var args = Array.prototype.slice.call(arguments);
+                args.unshift(this._prefix);
+                console.log.apply(console, args);
+            }
+        },
+
+        info: function() {
+            var args = Array.prototype.slice.call(arguments);
+            args.unshift(this._prefix);
+            console.log.apply(console, args);
+        },
+
+        warn: function() {
+            var args = Array.prototype.slice.call(arguments);
+            args.unshift(this._prefix);
+            console.warn.apply(console, args);
+        },
+
+        error: function() {
+            var args = Array.prototype.slice.call(arguments);
+            args.unshift(this._prefix);
+            console.error.apply(console, args);
+        },
+
+        group: function(label) {
+            if (A11Y_CONFIG.debug && console.group) {
+                console.group(this._prefix + ' ' + label);
+            }
+        },
+
+        groupEnd: function() {
+            if (A11Y_CONFIG.debug && console.groupEnd) {
+                console.groupEnd();
+            }
         }
     };
 
@@ -203,12 +298,13 @@
                 }
             }
         });
-        console.log('[A11Y] RequireJS configured');
+        A11Y_LOG.log('RequireJS configured');
     }
 
-    // Expose configuration globally
+    // Expose configuration and logging globally
     global.A11Y_CONFIG = A11Y_CONFIG;
+    global.A11Y_LOG = A11Y_LOG;
 
-    console.log('[A11Y] Configuration loaded - v' + A11Y_CONFIG.version);
+    A11Y_LOG.info('Configuration loaded - v' + A11Y_CONFIG.version);
 
 })(window);

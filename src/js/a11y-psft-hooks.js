@@ -8,7 +8,7 @@
  * - Page metadata extraction
  * - PeopleSoft event integration
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @license MIT
  */
 (function(a11yJQ) {
@@ -28,10 +28,12 @@
         // State
         _initialized: false,
         _observer: null,
+        _processingObserver: null,  // Store processing observer for cleanup
         _callbacks: [],
         _debounceTimer: null,
         _debounceDelay: 100,
         _lastPageInfo: null,
+        _eventHandlers: {},  // Store event handlers for cleanup
 
         /**
          * Initialize the PeopleSoft hooks
@@ -266,9 +268,10 @@
             }
 
             // Listen for PeopleSoft's custom events if available
-            document.addEventListener('PSPageLoaded', function(e) {
+            this._eventHandlers.psPageLoaded = function(e) {
                 self._onPageChange();
-            });
+            };
+            document.addEventListener('PSPageLoaded', this._eventHandlers.psPageLoaded);
         },
 
         /**
@@ -289,7 +292,12 @@
 
             if (!processingEl) return;
 
-            var observer = new MutationObserver(function(mutations) {
+            // Disconnect existing observer if any
+            if (this._processingObserver) {
+                this._processingObserver.disconnect();
+            }
+
+            this._processingObserver = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     if (mutation.attributeName === 'style') {
                         var isVisible = processingEl.style.visibility !== 'hidden' &&
@@ -304,7 +312,7 @@
                 });
             });
 
-            observer.observe(processingEl, { attributes: true });
+            this._processingObserver.observe(processingEl, { attributes: true });
         },
 
         /**
@@ -370,13 +378,26 @@
          * Destroy the module and clean up
          */
         destroy: function() {
+            // Disconnect main mutation observer
             if (this._observer) {
                 this._observer.disconnect();
                 this._observer = null;
             }
 
+            // Disconnect processing observer
+            if (this._processingObserver) {
+                this._processingObserver.disconnect();
+                this._processingObserver = null;
+            }
+
+            // Remove event listeners
+            if (this._eventHandlers.psPageLoaded) {
+                document.removeEventListener('PSPageLoaded', this._eventHandlers.psPageLoaded);
+            }
+
             clearTimeout(this._debounceTimer);
             this._callbacks = [];
+            this._eventHandlers = {};
             this._initialized = false;
         }
     };
