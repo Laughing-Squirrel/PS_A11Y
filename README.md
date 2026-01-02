@@ -6,6 +6,42 @@ A PeopleSoft Accessibility Widget overlay for PeopleSoft PeopleTools 8.5+ system
 
 The A11Y Widget provides a comprehensive accessibility overlay that enables users to customize their PeopleSoft experience according to their individual accessibility needs. It supports both Fluid and Classic UI modes.
 
+## Widget Preview
+
+```
+                              ┌──────────────────────────────┐
+                              │  Accessibility          [×]  │ ← Blue header
+                              ├──────────────────────────────┤
+                              │  QUICK PROFILES              │
+                              │  [-- Select Profile --  ▼]   │
+                              │                              │
+                              │  TEXT SIZE                   │
+                              │  [A-]    100%    [A+]        │
+                              │                              │
+                              │  CONTRAST                    │
+                              │  [Normal] [Dark] [Light]     │
+                              │  [Invert]                    │
+                              │                              │
+                              │  FEATURES                    │
+                              │  ☑ Stop Animations           │
+                              │  ☐ Reading Guide             │
+                              │  ☐ Focus Highlight           │
+                              │  ☐ Highlight Links           │
+  ┌────┐                      │                              │
+  │ ♿ │ ← Trigger button     │  SPACING                     │
+  └────┘   (48px blue circle) │  Line Height: ───●────       │
+                              │  Letter Spacing: ──●─────    │
+                              │                              │
+                              │  CURSOR                      │
+                              │  [Default] [Large] [X-Large] │
+                              │                              │
+                              ├──────────────────────────────┤
+                              │  [Reset All] [←] [→]         │
+                              └──────────────────────────────┘
+```
+
+For an interactive demo, open `demo/widget-demo.html` in your browser.
+
 ## Features
 
 - **Font Size Adjustment** - Scale text from 80% to 200%
