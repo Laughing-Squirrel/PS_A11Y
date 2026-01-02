@@ -2,36 +2,99 @@
  * A11Y_JQUERY_NOCONFLICT_JS
  * PeopleSoft Accessibility Widget - jQuery NoConflict Wrapper
  *
- * This module loads jQuery in noConflict mode to prevent conflicts with
- * PeopleSoft's internal jQuery usage. The accessibility widget's jQuery
- * is accessible via window.a11yJQ.
+ * This module manages jQuery for the A11Y widget. By default, it uses
+ * PeopleSoft's native jQuery if it meets minimum version requirements,
+ * avoiding unnecessary duplicate loading.
  *
- * INSTALLATION OPTIONS:
- * 1. Embed jQuery: Paste jQuery 3.7.1 minified source at the placeholder below
- * 2. CDN Fallback: If jQuery is not embedded, will attempt to load from CDN
- * 3. Use Existing: Will use PeopleSoft's jQuery if version 3.x+
+ * LOADING PRIORITY (default behavior):
+ * 1. PeopleSoft's native jQuery (if version >= minimum required)
+ * 2. Embedded jQuery (if pasted at placeholder below)
+ * 3. CDN fallback (code.jquery.com with cdnjs.cloudflare.com backup)
  *
- * @version 1.0.1
+ * CONFIGURATION:
+ * - JQUERY_MIN_VERSION: Minimum required version (default: '1.12.0')
+ * - PREFER_NATIVE: Use PeopleSoft's jQuery when compatible (default: true)
+ * - JQUERY_CDN_VERSION: Version to load from CDN if needed (default: '3.7.1')
+ *
+ * The widget's jQuery reference is accessible via window.a11yJQ
+ *
+ * @version 1.0.2
  * @license MIT
  */
 (function() {
     'use strict';
 
-    // Configuration
-    var JQUERY_VERSION = '3.7.1';
-    var JQUERY_CDN_URL = 'https://code.jquery.com/jquery-' + JQUERY_VERSION + '.min.js';
-    var JQUERY_CDN_FALLBACK = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/' + JQUERY_VERSION + '/jquery.min.js';
-    var LOAD_TIMEOUT = 10000; // 10 seconds
+    // ============================================================
+    // CONFIGURATION - Modify these settings as needed
+    // ============================================================
+
+    var CONFIG = {
+        // Minimum jQuery version required for the widget to function
+        // PeopleSoft 8.55+ typically includes jQuery 1.12.x
+        // PeopleSoft 8.57+ typically includes jQuery 3.x
+        JQUERY_MIN_VERSION: '1.12.0',
+
+        // Prefer using PeopleSoft's native jQuery when it meets minimum version
+        // Set to false to always load a separate jQuery instance
+        PREFER_NATIVE: true,
+
+        // jQuery version to load from CDN if native is unavailable/incompatible
+        JQUERY_CDN_VERSION: '3.7.1',
+
+        // CDN URLs (primary and fallback)
+        JQUERY_CDN_URL: 'https://code.jquery.com/jquery-3.7.1.min.js',
+        JQUERY_CDN_FALLBACK: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js',
+
+        // Timeout for CDN loading (milliseconds)
+        LOAD_TIMEOUT: 10000
+    };
+
+    // ============================================================
 
     // Store existing jQuery references if present
     var _jQuery = window.jQuery;
     var _$ = window.$;
 
     /**
-     * Check if existing jQuery version is compatible (3.x+)
+     * Compare two version strings (e.g., '1.12.0' vs '3.7.1')
+     * @param {string} version - Version to check
+     * @param {string} minVersion - Minimum required version
+     * @returns {boolean} True if version >= minVersion
+     */
+    function isVersionCompatible(version, minVersion) {
+        if (!version || !minVersion) {
+            return false;
+        }
+
+        var vParts = version.split('.').map(function(p) {
+            return parseInt(p, 10) || 0;
+        });
+        var mParts = minVersion.split('.').map(function(p) {
+            return parseInt(p, 10) || 0;
+        });
+
+        // Pad arrays to same length
+        while (vParts.length < 3) vParts.push(0);
+        while (mParts.length < 3) mParts.push(0);
+
+        // Compare major.minor.patch
+        for (var i = 0; i < 3; i++) {
+            if (vParts[i] > mParts[i]) return true;
+            if (vParts[i] < mParts[i]) return false;
+        }
+
+        return true; // Equal versions
+    }
+
+    /**
+     * Check if PeopleSoft's native jQuery meets minimum requirements
      * @returns {boolean} True if compatible version exists
      */
     function hasCompatibleJQuery() {
+        if (!CONFIG.PREFER_NATIVE) {
+            return false;
+        }
+
         if (!_jQuery || typeof _jQuery.fn !== 'object') {
             return false;
         }
@@ -41,10 +104,18 @@
             return false;
         }
 
-        var parts = version.split('.');
-        var major = parseInt(parts[0], 10);
+        return isVersionCompatible(version, CONFIG.JQUERY_MIN_VERSION);
+    }
 
-        return major >= 3;
+    /**
+     * Get version info string for logging
+     * @returns {string} Version info
+     */
+    function getVersionInfo() {
+        if (_jQuery && _jQuery.fn && _jQuery.fn.jquery) {
+            return _jQuery.fn.jquery + ' (native PeopleSoft)';
+        }
+        return 'not detected';
     }
 
     /**
@@ -82,8 +153,8 @@
 
         var timeout = setTimeout(function() {
             script.onload = script.onerror = null;
-            onError(new Error('jQuery load timeout'));
-        }, LOAD_TIMEOUT);
+            onError(new Error('jQuery load timeout after ' + CONFIG.LOAD_TIMEOUT + 'ms'));
+        }, CONFIG.LOAD_TIMEOUT);
 
         script.onload = function() {
             clearTimeout(timeout);
@@ -104,62 +175,86 @@
 
     /**
      * Initialize jQuery with fallback chain
+     *
+     * Priority order:
+     * 1. PeopleSoft's native jQuery (if PREFER_NATIVE=true and version compatible)
+     * 2. Embedded jQuery (if pasted at placeholder)
+     * 3. CDN loading (with fallback)
      */
     function initializeJQuery() {
-        // Option 1: Use existing compatible jQuery
+        // Log current state for debugging
+        console.log('[A11Y] jQuery detection: ' + getVersionInfo());
+        console.log('[A11Y] Minimum required version: ' + CONFIG.JQUERY_MIN_VERSION);
+
+        // ================================================================
+        // OPTION 1: Use PeopleSoft's native jQuery (DEFAULT BEHAVIOR)
+        // This is preferred to avoid loading duplicate jQuery instances
+        // ================================================================
         if (hasCompatibleJQuery()) {
-            window.a11yJQ = _jQuery.noConflict(true);
+            // Create a reference to the native jQuery WITHOUT removing it
+            // from the global scope. This allows both PeopleSoft and A11Y
+            // widget to use the same jQuery instance.
+            window.a11yJQ = _jQuery;
 
-            // Restore original references
-            if (_jQuery) {
-                window.jQuery = _jQuery;
-            }
-            if (_$) {
-                window.$ = _$;
-            }
-
-            console.log('[A11Y] Using existing jQuery ' + _jQuery.fn.jquery);
+            console.log('[A11Y] Using PeopleSoft native jQuery ' + _jQuery.fn.jquery);
+            console.log('[A11Y] jQuery remains available globally for PeopleSoft');
             dispatchReadyEvent();
             return;
         }
 
-        // Option 2: Check if jQuery was embedded below
+        // Log why native jQuery wasn't used
+        if (!CONFIG.PREFER_NATIVE) {
+            console.log('[A11Y] PREFER_NATIVE is disabled, loading separate jQuery');
+        } else if (!_jQuery) {
+            console.log('[A11Y] No native jQuery detected');
+        } else {
+            console.log('[A11Y] Native jQuery ' + (_jQuery.fn ? _jQuery.fn.jquery : 'unknown') +
+                       ' does not meet minimum version ' + CONFIG.JQUERY_MIN_VERSION);
+        }
+
+        // ================================================================
+        // OPTION 2: Check if jQuery was embedded below
+        // ================================================================
         /* === BEGIN JQUERY EMBED === */
         // PRODUCTION: Paste the contents of jquery-3.7.1.min.js here
         // Download from: https://code.jquery.com/jquery-3.7.1.min.js
         //
         // This is the recommended approach for PeopleSoft deployments
-        // as it avoids external CDN dependencies.
+        // when native jQuery is not compatible or PREFER_NATIVE is false.
         /* === END JQUERY EMBED === */
 
-        // Check if jQuery was embedded
-        if (typeof jQuery !== 'undefined' && setupNoConflict()) {
-            console.log('[A11Y] Using embedded jQuery');
+        // Check if jQuery was embedded (would be defined after the placeholder)
+        if (typeof jQuery !== 'undefined' && jQuery !== _jQuery && setupNoConflict()) {
+            console.log('[A11Y] Using embedded jQuery ' + window.a11yJQ.fn.jquery);
             dispatchReadyEvent();
             return;
         }
 
-        // Option 3: Load from CDN with fallback
-        console.log('[A11Y] Loading jQuery from CDN...');
+        // ================================================================
+        // OPTION 3: Load from CDN with fallback
+        // ================================================================
+        console.log('[A11Y] Loading jQuery ' + CONFIG.JQUERY_CDN_VERSION + ' from CDN...');
 
-        loadFromCDN(JQUERY_CDN_URL,
+        loadFromCDN(CONFIG.JQUERY_CDN_URL,
             function() {
-                console.log('[A11Y] jQuery ' + JQUERY_VERSION + ' loaded from CDN');
+                console.log('[A11Y] jQuery ' + CONFIG.JQUERY_CDN_VERSION + ' loaded from CDN');
                 dispatchReadyEvent();
             },
             function(primaryError) {
                 console.warn('[A11Y] Primary CDN failed, trying fallback...', primaryError.message);
 
-                loadFromCDN(JQUERY_CDN_FALLBACK,
+                loadFromCDN(CONFIG.JQUERY_CDN_FALLBACK,
                     function() {
-                        console.log('[A11Y] jQuery ' + JQUERY_VERSION + ' loaded from fallback CDN');
+                        console.log('[A11Y] jQuery ' + CONFIG.JQUERY_CDN_VERSION + ' loaded from fallback CDN');
                         dispatchReadyEvent();
                     },
                     function(fallbackError) {
                         console.error('[A11Y] Failed to load jQuery from all sources.');
                         console.error('[A11Y] Primary error:', primaryError.message);
                         console.error('[A11Y] Fallback error:', fallbackError.message);
-                        console.error('[A11Y] Widget will not function. Please embed jQuery in this file.');
+                        console.error('[A11Y] Widget will not function.');
+                        console.error('[A11Y] Solutions: 1) Embed jQuery in this file, or');
+                        console.error('[A11Y]            2) Ensure PeopleSoft jQuery >= ' + CONFIG.JQUERY_MIN_VERSION);
                         dispatchErrorEvent(fallbackError);
                     }
                 );
