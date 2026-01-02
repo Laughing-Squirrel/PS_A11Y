@@ -1,0 +1,361 @@
+/**
+ * A11Y Classic UI Styles
+ * PeopleSoft Accessibility Widget - Classic UI Specific Overrides
+ *
+ * This stylesheet contains overrides specific to PeopleSoft Classic UI.
+ * It should be added as a sub stylesheet to PSSTYLEDEF_TANGERINE.
+ *
+ * @version 1.0.0
+ */
+
+/* =============================================
+   Classic UI Base Overrides
+   ============================================= */
+
+/* Enhanced focus indicators for Classic buttons */
+.PSPUSHBUTTON:focus,
+.PSPUSHBUTTONTBHDR:focus,
+input[type="button"]:focus {
+    outline: 3px solid #0066cc !important;
+    outline-offset: 2px !important;
+}
+
+/* Improved label visibility */
+.PSLONGEDITBOX,
+.PSEDITBOX {
+    font-weight: 500;
+}
+
+/* Enhanced link visibility */
+.PSHYPERLINK:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+    background-color: rgba(0, 102, 204, 0.1) !important;
+}
+
+/* Disabled link indication */
+.PSHYPERLINKDISABLED {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* =============================================
+   Classic Navigation
+   ============================================= */
+
+/* Menu items focus */
+#pthdr2navbar a:focus,
+#pthdr2menu a:focus {
+    outline: 2px solid #ffffff !important;
+    outline-offset: 2px !important;
+}
+
+/* Breadcrumb navigation */
+#pthdr2breadcrumb a:focus {
+    outline: 2px solid #0066cc !important;
+    text-decoration: underline;
+}
+
+/* =============================================
+   Classic Forms
+   ============================================= */
+
+/* Input field focus states */
+input.PSEDITBOX:focus,
+input.PSEDITBOX_LONG:focus,
+input.PSLONGEDITBOX:focus,
+textarea.PSLONGEDITBOX:focus,
+select:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 1px !important;
+    border-color: #0066cc !important;
+}
+
+/* Required field indicators - enhance visibility */
+.PSREQUIREDFLDLBL {
+    font-weight: 600 !important;
+}
+
+.PSREQUIREDFLDLBL::after {
+    content: " *";
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Error messages */
+.PSERRORMESSAGE {
+    color: #dc3545 !important;
+    font-weight: 500 !important;
+    padding: 4px 8px !important;
+    background-color: #fff5f5 !important;
+    border-left: 3px solid #dc3545 !important;
+}
+
+/* =============================================
+   Classic Grids and Tables
+   ============================================= */
+
+/* Grid header improvements */
+.PSLEVEL1GRID th,
+.PSLEVEL2GRID th,
+.PSLEVEL3GRID th {
+    font-weight: 600 !important;
+    background-color: #f0f4f8 !important;
+}
+
+/* Add scope attribute styling (visual only - actual attribute via JS) */
+.PSLEVEL1GRID th[scope],
+.PSLEVEL2GRID th[scope] {
+    text-align: left;
+}
+
+/* Row focus indicators */
+.PSLEVEL1GRID tr:focus-within,
+.PSLEVEL2GRID tr:focus-within {
+    outline: 2px solid #0066cc;
+    outline-offset: -2px;
+}
+
+/* Alternating row colors for readability */
+.PSLEVEL1GRID tbody tr:nth-child(even),
+.PSLEVEL2GRID tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Grid action buttons */
+.PSLEVEL1GRID a[id*="$add$"]:focus,
+.PSLEVEL1GRID a[id*="$delete$"]:focus,
+.PSLEVEL2GRID a[id*="$add$"]:focus,
+.PSLEVEL2GRID a[id*="$delete$"]:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+}
+
+/* =============================================
+   Classic Modals and Dialogs
+   ============================================= */
+
+/* Modal container */
+#ptMod_1:focus,
+.PSMODAL:focus {
+    outline: 3px solid #0066cc;
+    outline-offset: -3px;
+}
+
+/* Modal title */
+.PSMODAL .PTPAGETITLE {
+    font-size: 1.25em;
+    font-weight: 600;
+}
+
+/* =============================================
+   Classic Tabs
+   ============================================= */
+
+/* Tab focus states */
+.PSTAB:focus,
+td.PSTAB:focus a {
+    outline: 2px solid #0066cc !important;
+    outline-offset: -2px !important;
+}
+
+/* Active tab - enhanced indicator */
+.PSTABSEL {
+    border-bottom: 3px solid #0066cc !important;
+}
+
+/* =============================================
+   Classic Menus and Dropdowns
+   ============================================= */
+
+/* Dropdown items */
+.PSDROPDOWNLIST option:focus,
+select.PSDROPDOWN:focus {
+    outline: 2px solid #0066cc !important;
+}
+
+/* =============================================
+   Classic Search
+   ============================================= */
+
+/* Search field */
+.PSSRCHFLD:focus {
+    outline: 2px solid #0066cc !important;
+    box-shadow: 0 0 8px rgba(0, 102, 204, 0.3) !important;
+}
+
+/* Search button */
+.PSSRCHBTN:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+}
+
+/* =============================================
+   Classic Icons and Action Buttons
+   ============================================= */
+
+/* Prompt/lookup icons */
+img.PTPROMPT:focus,
+a[id*="ICSearch"]:focus,
+a[id*="ICList"]:focus,
+a[id*="ICDetail"]:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+}
+
+/* Calendar icons */
+a[id*="$prompt"]:focus,
+img[id*="CALENDAR"]:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+}
+
+/* Tree expand/collapse icons */
+img.PSEXPANDABLE:focus,
+img.PSCOLLAPSIBLE:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+}
+
+/* =============================================
+   Classic Group Boxes
+   ============================================= */
+
+.PSGROUPBOX {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    margin: 8px 0;
+}
+
+.PSGROUPBOXLABEL {
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-bottom: 8px;
+}
+
+/* =============================================
+   Classic Page Titles and Headers
+   ============================================= */
+
+.PTPAGETITLE {
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.PTSECTIONHEADER {
+    font-size: 1.2em;
+    font-weight: 600;
+    border-bottom: 2px solid #0066cc;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+/* =============================================
+   Classic Scroll Areas
+   ============================================= */
+
+/* Scroll area focus */
+.PSSCROLLAREAFRAME:focus-within {
+    outline: 1px solid #0066cc;
+}
+
+/* Scroll buttons */
+.PSSCROLLUP:focus,
+.PSSCROLLDOWN:focus,
+.PSSCROLLLEFT:focus,
+.PSSCROLLRIGHT:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+}
+
+/* =============================================
+   Classic Process Monitor
+   ============================================= */
+
+/* Process status indicators */
+.PSPROCRUNNING {
+    color: #0066cc;
+    font-weight: 500;
+}
+
+.PSPROCERROR {
+    color: #dc3545;
+    font-weight: 500;
+}
+
+.PROCSUCCESS {
+    color: #28a745;
+    font-weight: 500;
+}
+
+/* =============================================
+   Classic Worklist
+   ============================================= */
+
+.PSWORKLISTENTRY:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+    background-color: #f0f7ff !important;
+}
+
+/* =============================================
+   Classic Popup Calendar
+   ============================================= */
+
+/* Calendar navigation buttons */
+#ICAL_SP table a:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 1px !important;
+}
+
+/* Calendar date cells */
+#ICAL_SP td.PSCALENDARCELL:focus-within {
+    outline: 2px solid #0066cc !important;
+}
+
+/* =============================================
+   Classic Help Text
+   ============================================= */
+
+.PSLONGHELP,
+.PSSHORTHELP {
+    font-size: 0.9em;
+    color: #666666;
+    font-style: italic;
+}
+
+/* =============================================
+   Classic Iframe Adjustments
+   ============================================= */
+
+/* Target frame focus */
+#ptifrmtgtframe:focus {
+    outline: none;
+}
+
+/* Content within iframe */
+#ptpgltbody a:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+}
+
+/* =============================================
+   Print Overrides for Classic
+   ============================================= */
+
+@media print {
+    .PSPUSHBUTTON,
+    .PSPUSHBUTTONTBHDR,
+    img.PTPROMPT,
+    a[id*="ICSearch"],
+    .PSSCROLLUP,
+    .PSSCROLLDOWN {
+        display: none !important;
+    }
+
+    .PSLEVEL1GRID,
+    .PSLEVEL2GRID {
+        border: 1px solid #000 !important;
+    }
+}
