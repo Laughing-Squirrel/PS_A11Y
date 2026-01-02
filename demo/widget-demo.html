@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A11Y Widget Demo</title>
+    <style>
+        /* ========================================
+           Reset and Base Styles
+           ======================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --a11y-primary: #0066cc;
+            --a11y-primary-dark: #004c99;
+            --a11y-white: #ffffff;
+            --a11y-light-gray: #f8f9fa;
+            --a11y-border: #dee2e6;
+            --a11y-text: #212529;
+            --a11y-focus: #ffcc00;
+            --a11y-shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--a11y-text);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* ========================================
+           Demo Page Content
+           ======================================== */
+        .demo-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            padding-right: 100px;
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .demo-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: var(--a11y-primary);
+        }
+
+        .demo-header p {
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .demo-section {
+            background: var(--a11y-white);
+            border: 1px solid var(--a11y-border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .demo-section h2 {
+            margin-top: 0;
+            color: var(--a11y-primary);
+            border-bottom: 2px solid var(--a11y-primary);
+            padding-bottom: 8px;
+        }
+
+        .demo-section p {
+            margin-bottom: 16px;
+        }
+
+        .demo-link {
+            color: var(--a11y-primary);
+            text-decoration: underline;
+        }
+
+        .demo-link:hover {
+            color: var(--a11y-primary-dark);
+        }
+
+        .demo-button {
+            background: var(--a11y-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .demo-button:hover {
+            background: var(--a11y-primary-dark);
+        }
+
+        .demo-button:focus {
+            outline: 3px solid var(--a11y-focus);
+            outline-offset: 2px;
+        }
+
+        .demo-input {
+            padding: 10px;
+            border: 1px solid var(--a11y-border);
+            border-radius: 4px;
+            font-size: 16px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .demo-input:focus {
+            outline: 2px solid var(--a11y-primary);
+            outline-offset: 1px;
+        }
+
+        .animated-box {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #0066cc, #00cc66);
+            border-radius: 8px;
+            animation: pulse 2s infinite;
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .spinning-box {
+            width: 60px;
+            height: 60px;
+            background: #cc6600;
+            animation: spin 3s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .keyboard-shortcuts {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .shortcut {
+            background: var(--a11y-light-gray);
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .shortcut kbd {
+            background: var(--a11y-text);
+            color: var(--a11y-white);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        /* ========================================
+           A11Y Widget Styles
+           ======================================== */
+        .a11y-widget-container {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 999999;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .a11y-widget-container.position-right {
+            right: 0;
+        }
+
+        .a11y-widget-container.position-left {
+            left: 0;
+        }
+
+        .a11y-trigger {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--a11y-primary);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px var(--a11y-shadow);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .a11y-trigger:hover {
+            background: var(--a11y-primary-dark);
+            transform: scale(1.1);
+        }
+
+        .a11y-trigger:focus {
+            outline: 3px solid var(--a11y-focus);
+            outline-offset: 2px;
+        }
+
+        .a11y-trigger svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+
+        .a11y-panel {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 320px;
+            max-height: 80vh;
+            background: var(--a11y-white);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--a11y-shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+        }
+
+        .a11y-panel.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .position-right .a11y-panel {
+            right: 60px;
+            transform: translateY(-50%) scale(0.9);
+        }
+
+        .position-right .a11y-panel.open {
+            transform: translateY(-50%) scale(1);
+        }
+
+        .position-left .a11y-panel {
+            left: 60px;
+            transform: translateY(-50%) scale(0.9);
+        }
+
+        .position-left .a11y-panel.open {
+            transform: translateY(-50%) scale(1);
+        }
+
+        .a11y-header {
+            background: var(--a11y-primary);
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .a11y-header h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .a11y-close {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .a11y-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .a11y-close:focus {
+            outline: 2px solid var(--a11y-focus);
+            outline-offset: 1px;
+        }
+
+        .a11y-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .a11y-section {
+            margin-bottom: 20px;
+        }
+
+        .a11y-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .a11y-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .a11y-profile-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--a11y-border);
+            border-radius: 4px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .a11y-profile-select:focus {
+            outline: 2px solid var(--a11y-primary);
+            outline-offset: 1px;
+        }
+
+        .a11y-font-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .a11y-font-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--a11y-border);
+            background: var(--a11y-white);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .a11y-font-btn:hover {
+            background: var(--a11y-light-gray);
+            border-color: var(--a11y-primary);
+        }
+
+        .a11y-font-btn:focus {
+            outline: 2px solid var(--a11y-primary);
+            outline-offset: 1px;
+        }
+
+        .a11y-font-display {
+            font-size: 18px;
+            font-weight: 600;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .a11y-contrast-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .a11y-contrast-btn {
+            padding: 8px 12px;
+            border: 1px solid var(--a11y-border);
+            background: var(--a11y-white);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .a11y-contrast-btn:hover {
+            background: var(--a11y-light-gray);
+            border-color: var(--a11y-primary);
+        }
+
+        .a11y-contrast-btn:focus {
+            outline: 2px solid var(--a11y-primary);
+            outline-offset: 1px;
+        }
+
+        .a11y-contrast-btn.active {
+            background: var(--a11y-primary);
+            color: white;
+            border-color: var(--a11y-primary);
+        }
+
+        .a11y-toggle-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .a11y-toggle {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .a11y-toggle:hover {
+            background: var(--a11y-light-gray);
+        }
+
+        .a11y-toggle input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            accent-color: var(--a11y-primary);
+            cursor: pointer;
+        }
+
+        .a11y-toggle label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .a11y-slider-group {
+            margin-bottom: 12px;
+        }
+
+        .a11y-slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+
+        .a11y-slider {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--a11y-border);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .a11y-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--a11y-primary);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .a11y-slider:focus {
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.3);
+        }
+
+        .a11y-cursor-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .a11y-cursor-btn {
+            padding: 8px;
+            border: 1px solid var(--a11y-border);
+            background: var(--a11y-white);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .a11y-cursor-btn:hover {
+            background: var(--a11y-light-gray);
+            border-color: var(--a11y-primary);
+        }
+
+        .a11y-cursor-btn:focus {
+            outline: 2px solid var(--a11y-primary);
+            outline-offset: 1px;
+        }
+
+        .a11y-cursor-btn.active {
+            background: var(--a11y-primary);
+            color: white;
+            border-color: var(--a11y-primary);
+        }
+
+        .a11y-footer {
+            padding: 12px 16px;
+            border-top: 1px solid var(--a11y-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .a11y-reset-btn {
+            padding: 8px 16px;
+            border: 1px solid #dc3545;
+            background: white;
+            color: #dc3545;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .a11y-reset-btn:hover {
+            background: #dc3545;
+            color: white;
+        }
+
+        .a11y-reset-btn:focus {
+            outline: 2px solid #dc3545;
+            outline-offset: 1px;
+        }
+
+        .a11y-position-btns {
+            display: flex;
+            gap: 4px;
+        }
+
+        .a11y-position-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--a11y-border);
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .a11y-position-btn:hover {
+            background: var(--a11y-light-gray);
+            border-color: var(--a11y-primary);
+        }
+
+        .a11y-position-btn:focus {
+            outline: 2px solid var(--a11y-primary);
+            outline-offset: 1px;
+        }
+
+        /* ========================================
+           Accessibility Effect Styles
+           ======================================== */
+        .a11y-reading-guide {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: rgba(255, 255, 0, 0.3);
+            border-top: 2px solid #ffcc00;
+            border-bottom: 2px solid #ffcc00;
+            pointer-events: none;
+            z-index: 999998;
+            display: none;
+        }
+
+        /* Dark Mode */
+        body.a11y-dark-mode {
+            background-color: #1a1a1a !important;
+            color: #f0f0f0 !important;
+        }
+
+        body.a11y-dark-mode .demo-section {
+            background: #2a2a2a;
+            border-color: #444;
+        }
+
+        body.a11y-dark-mode .demo-section h2 {
+            color: #66b3ff;
+            border-color: #66b3ff;
+        }
+
+        /* Light Mode (High Contrast) */
+        body.a11y-light-mode {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+        }
+
+        body.a11y-light-mode .demo-section {
+            background: #ffffff;
+            border-color: #000000;
+            border-width: 2px;
+        }
+
+        /* Invert Mode */
+        body.a11y-invert-mode {
+            filter: invert(1) hue-rotate(180deg);
+        }
+
+        body.a11y-invert-mode img,
+        body.a11y-invert-mode .a11y-widget-container {
+            filter: invert(1) hue-rotate(180deg);
+        }
+
+        /* Stop Animations */
+        body.a11y-stop-animations *,
+        body.a11y-stop-animations *::before,
+        body.a11y-stop-animations *::after {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        /* Focus Highlight */
+        body.a11y-focus-highlight *:focus {
+            outline: 3px solid #ff6600 !important;
+            outline-offset: 2px !important;
+            box-shadow: 0 0 0 6px rgba(255, 102, 0, 0.3) !important;
+        }
+
+        /* Highlight Links */
+        body.a11y-highlight-links a {
+            background-color: #ffffcc !important;
+            color: #0000cc !important;
+            text-decoration: underline !important;
+            padding: 2px 4px !important;
+            border-radius: 2px !important;
+        }
+
+        /* Large Cursor */
+        body.a11y-cursor-large,
+        body.a11y-cursor-large * {
+            cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="%23000" stroke="%23fff" stroke-width="1" d="M5 3l14 9-6 1 4 8-3 1-4-8-5 4z"/></svg>') 0 0, auto !important;
+        }
+
+        /* X-Large Cursor */
+        body.a11y-cursor-xlarge,
+        body.a11y-cursor-xlarge * {
+            cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24"><path fill="%23000" stroke="%23fff" stroke-width="1" d="M5 3l14 9-6 1 4 8-3 1-4-8-5 4z"/></svg>') 0 0, auto !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .a11y-panel {
+                width: 280px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .a11y-panel {
+                max-height: 90vh;
+            }
+        }
+
+        @media print {
+            .a11y-widget-container {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo Page Content -->
+    <div class="demo-content">
+        <div class="demo-header">
+            <h1>A11Y Widget Demo</h1>
+            <p>Click the blue accessibility button on the right to open the widget</p>
+        </div>
+
+        <div class="demo-section">
+            <h2>About This Demo</h2>
+            <p>This is a standalone demonstration of the A11Y Widget - a PeopleSoft Accessibility Overlay. The widget provides comprehensive accessibility controls that allow users to customize their browsing experience according to their individual needs.</p>
+            <p>Try the different features using the widget panel, or use the <a href="#shortcuts" class="demo-link">keyboard shortcuts</a> listed below.</p>
+        </div>
+
+        <div class="demo-section">
+            <h2>Sample Text Content</h2>
+            <p>This paragraph contains sample text that you can use to test the font size, line height, and letter spacing controls. Adjust the sliders in the widget to see how the text appearance changes.</p>
+            <p>Here's another paragraph with a <a href="#" class="demo-link">sample link</a> that will be highlighted when you enable the "Highlight Links" feature. Notice how links become more visible and easier to identify.</p>
+            <p><strong>Bold text</strong> and <em>italic text</em> are also supported. The accessibility features work with all text styles.</p>
+        </div>
+
+        <div class="demo-section">
+            <h2>Interactive Elements</h2>
+            <p>Test the focus highlight feature by tabbing through these interactive elements:</p>
+            <button class="demo-button">Primary Button</button>
+            <button class="demo-button">Secondary Button</button>
+            <input type="text" class="demo-input" placeholder="Text input field">
+            <input type="email" class="demo-input" placeholder="Email input field">
+        </div>
+
+        <div class="demo-section">
+            <h2>Animated Content</h2>
+            <p>Enable "Stop Animations" to pause these animated elements:</p>
+            <div class="animated-box"></div>
+            <div class="spinning-box"></div>
+            <p style="margin-top: 20px;">The animations will freeze when the stop animations feature is enabled.</p>
+        </div>
+
+        <div class="demo-section" id="shortcuts">
+            <h2>Keyboard Shortcuts</h2>
+            <div class="keyboard-shortcuts">
+                <div class="shortcut"><kbd>Alt</kbd> + <kbd>A</kbd> Toggle panel</div>
+                <div class="shortcut"><kbd>Alt</kbd> + <kbd>+</kbd> Increase font</div>
+                <div class="shortcut"><kbd>Alt</kbd> + <kbd>-</kbd> Decrease font</div>
+                <div class="shortcut"><kbd>Alt</kbd> + <kbd>0</kbd> Reset font</div>
+                <div class="shortcut"><kbd>Alt</kbd> + <kbd>C</kbd> Cycle contrast</div>
+                <div class="shortcut"><kbd>Alt</kbd> + <kbd>R</kbd> Reading guide</div>
+                <div class="shortcut"><kbd>Esc</kbd> Close panel</div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Contrast Mode Testing</h2>
+            <p>Use the contrast mode buttons to switch between:</p>
+            <ul>
+                <li><strong>Normal:</strong> Default colors</li>
+                <li><strong>Dark:</strong> Dark background with light text</li>
+                <li><strong>Light:</strong> High contrast light mode</li>
+                <li><strong>Invert:</strong> Inverts all colors on the page</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Reading Guide (follows mouse) -->
+    <div class="a11y-reading-guide" id="readingGuide"></div>
+
+    <!-- A11Y Widget -->
+    <div class="a11y-widget-container position-right" id="a11yWidget">
+        <!-- Trigger Button -->
+        <button class="a11y-trigger" id="a11yTrigger" aria-label="Open accessibility options" aria-expanded="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9H15V22H13V16H11V22H9V9H3V7H21V9Z"/>
+            </svg>
+        </button>
+
+        <!-- Panel -->
+        <div class="a11y-panel" id="a11yPanel" role="dialog" aria-label="Accessibility options">
+            <div class="a11y-header">
+                <h2>Accessibility</h2>
+                <button class="a11y-close" id="a11yClose" aria-label="Close accessibility panel">&times;</button>
+            </div>
+
+            <div class="a11y-body">
+                <!-- Quick Profiles -->
+                <div class="a11y-section">
+                    <div class="a11y-section-title">Quick Profiles</div>
+                    <select class="a11y-profile-select" id="profileSelect">
+                        <option value="">-- Select Profile --</option>
+                        <option value="lowVision">Low Vision</option>
+                        <option value="colorBlind">Color Blind Friendly</option>
+                        <option value="lightSensitive">Light Sensitive</option>
+                        <option value="motor">Motor Accessibility</option>
+                        <option value="dyslexia">Dyslexia Friendly</option>
+                        <option value="adhd">ADHD Friendly</option>
+                        <option value="seizureSafe">Seizure Safe</option>
+                        <option value="screenReader">Screen Reader Optimized</option>
+                        <option value="senior">Senior Friendly</option>
+                    </select>
+                </div>
+
+                <!-- Font Size -->
+                <div class="a11y-section">
+                    <div class="a11y-section-title">Text Size</div>
+                    <div class="a11y-font-controls">
+                        <button class="a11y-font-btn" id="fontDecrease" aria-label="Decrease font size">A-</button>
+                        <span class="a11y-font-display" id="fontDisplay" aria-live="polite">100%</span>
+                        <button class="a11y-font-btn" id="fontIncrease" aria-label="Increase font size">A+</button>
+                    </div>
+                </div>
+
+                <!-- Contrast -->
+                <div class="a11y-section">
+                    <div class="a11y-section-title">Contrast</div>
+                    <div class="a11y-contrast-grid">
+                        <button class="a11y-contrast-btn active" data-contrast="normal">Normal</button>
+                        <button class="a11y-contrast-btn" data-contrast="dark">Dark</button>
+                        <button class="a11y-contrast-btn" data-contrast="light">Light</button>
+                        <button class="a11y-contrast-btn" data-contrast="invert">Invert</button>
+                    </div>
+                </div>
+
+                <!-- Features -->
+                <div class="a11y-section">
+                    <div class="a11y-section-title">Features</div>
+                    <div class="a11y-toggle-list">
+                        <div class="a11y-toggle">
+                            <input type="checkbox" id="stopAnimations">
+                            <label for="stopAnimations">Stop Animations</label>
+                        </div>
+                        <div class="a11y-toggle">
+                            <input type="checkbox" id="readingGuideToggle">
+                            <label for="readingGuideToggle">Reading Guide</label>
+                        </div>
+                        <div class="a11y-toggle">
+                            <input type="checkbox" id="focusHighlight">
+                            <label for="focusHighlight">Focus Highlight</label>
+                        </div>
+                        <div class="a11y-toggle">
+                            <input type="checkbox" id="highlightLinks">
+                            <label for="highlightLinks">Highlight Links</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spacing -->
+                <div class="a11y-section">
+                    <div class="a11y-section-title">Spacing</div>
+                    <div class="a11y-slider-group">
+                        <div class="a11y-slider-label">
+                            <span>Line Height</span>
+                            <span id="lineHeightValue">1.5</span>
+                        </div>
+                        <input type="range" class="a11y-slider" id="lineHeight" min="1" max="2" step="0.1" value="1.5">
+                    </div>
+                    <div class="a11y-slider-group">
+                        <div class="a11y-slider-label">
+                            <span>Letter Spacing</span>
+                            <span id="letterSpacingValue">0px</span>
+                        </div>
+                        <input type="range" class="a11y-slider" id="letterSpacing" min="0" max="5" step="0.5" value="0">
+                    </div>
+                </div>
+
+                <!-- Cursor -->
+                <div class="a11y-section">
+                    <div class="a11y-section-title">Cursor</div>
+                    <div class="a11y-cursor-grid">
+                        <button class="a11y-cursor-btn active" data-cursor="default">Default</button>
+                        <button class="a11y-cursor-btn" data-cursor="large">Large</button>
+                        <button class="a11y-cursor-btn" data-cursor="xlarge">X-Large</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="a11y-footer">
+                <button class="a11y-reset-btn" id="resetAll">Reset All</button>
+                <div class="a11y-position-btns">
+                    <button class="a11y-position-btn" id="moveLeft" aria-label="Move widget to left">&larr;</button>
+                    <button class="a11y-position-btn" id="moveRight" aria-label="Move widget to right">&rarr;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // State
+            const state = {
+                panelOpen: false,
+                fontSize: 100,
+                contrast: 'normal',
+                position: 'right',
+                stopAnimations: false,
+                readingGuide: false,
+                focusHighlight: false,
+                highlightLinks: false,
+                lineHeight: 1.5,
+                letterSpacing: 0,
+                cursor: 'default'
+            };
+
+            // Elements
+            const widget = document.getElementById('a11yWidget');
+            const trigger = document.getElementById('a11yTrigger');
+            const panel = document.getElementById('a11yPanel');
+            const closeBtn = document.getElementById('a11yClose');
+            const fontDecrease = document.getElementById('fontDecrease');
+            const fontIncrease = document.getElementById('fontIncrease');
+            const fontDisplay = document.getElementById('fontDisplay');
+            const contrastBtns = document.querySelectorAll('.a11y-contrast-btn');
+            const cursorBtns = document.querySelectorAll('.a11y-cursor-btn');
+            const stopAnimationsCheck = document.getElementById('stopAnimations');
+            const readingGuideCheck = document.getElementById('readingGuideToggle');
+            const focusHighlightCheck = document.getElementById('focusHighlight');
+            const highlightLinksCheck = document.getElementById('highlightLinks');
+            const lineHeightSlider = document.getElementById('lineHeight');
+            const lineHeightValue = document.getElementById('lineHeightValue');
+            const letterSpacingSlider = document.getElementById('letterSpacing');
+            const letterSpacingValue = document.getElementById('letterSpacingValue');
+            const resetBtn = document.getElementById('resetAll');
+            const moveLeftBtn = document.getElementById('moveLeft');
+            const moveRightBtn = document.getElementById('moveRight');
+            const readingGuideEl = document.getElementById('readingGuide');
+            const profileSelect = document.getElementById('profileSelect');
+
+            // Profiles
+            const profiles = {
+                lowVision: { fontSize: 150, focusHighlight: true, cursor: 'large', highlightLinks: true },
+                colorBlind: { fontSize: 110, contrast: 'light', focusHighlight: true, highlightLinks: true },
+                lightSensitive: { contrast: 'dark', stopAnimations: true },
+                motor: { fontSize: 120, focusHighlight: true, cursor: 'xlarge', lineHeight: 1.8 },
+                dyslexia: { fontSize: 120, lineHeight: 1.5, letterSpacing: 2, readingGuide: true },
+                adhd: { stopAnimations: true, focusHighlight: true, readingGuide: true },
+                seizureSafe: { stopAnimations: true },
+                screenReader: { stopAnimations: true, focusHighlight: true },
+                senior: { fontSize: 140, lineHeight: 1.4, contrast: 'light', focusHighlight: true, cursor: 'large', highlightLinks: true, stopAnimations: true }
+            };
+
+            // Toggle panel
+            function togglePanel() {
+                state.panelOpen = !state.panelOpen;
+                panel.classList.toggle('open', state.panelOpen);
+                trigger.setAttribute('aria-expanded', state.panelOpen);
+                if (state.panelOpen) {
+                    closeBtn.focus();
+                }
+            }
+
+            // Update font size
+            function updateFontSize(delta) {
+                state.fontSize = Math.max(50, Math.min(300, state.fontSize + delta));
+                fontDisplay.textContent = state.fontSize + '%';
+                document.body.style.fontSize = state.fontSize + '%';
+            }
+
+            // Update contrast
+            function updateContrast(mode) {
+                state.contrast = mode;
+                document.body.classList.remove('a11y-dark-mode', 'a11y-light-mode', 'a11y-invert-mode');
+                contrastBtns.forEach(btn => btn.classList.remove('active'));
+                document.querySelector(`[data-contrast="${mode}"]`).classList.add('active');
+
+                if (mode === 'dark') document.body.classList.add('a11y-dark-mode');
+                if (mode === 'light') document.body.classList.add('a11y-light-mode');
+                if (mode === 'invert') document.body.classList.add('a11y-invert-mode');
+            }
+
+            // Update cursor
+            function updateCursor(size) {
+                state.cursor = size;
+                document.body.classList.remove('a11y-cursor-large', 'a11y-cursor-xlarge');
+                cursorBtns.forEach(btn => btn.classList.remove('active'));
+                document.querySelector(`[data-cursor="${size}"]`).classList.add('active');
+
+                if (size === 'large') document.body.classList.add('a11y-cursor-large');
+                if (size === 'xlarge') document.body.classList.add('a11y-cursor-xlarge');
+            }
+
+            // Toggle features
+            function toggleStopAnimations(enabled) {
+                state.stopAnimations = enabled;
+                document.body.classList.toggle('a11y-stop-animations', enabled);
+                stopAnimationsCheck.checked = enabled;
+            }
+
+            function toggleReadingGuide(enabled) {
+                state.readingGuide = enabled;
+                readingGuideEl.style.display = enabled ? 'block' : 'none';
+                readingGuideCheck.checked = enabled;
+            }
+
+            function toggleFocusHighlight(enabled) {
+                state.focusHighlight = enabled;
+                document.body.classList.toggle('a11y-focus-highlight', enabled);
+                focusHighlightCheck.checked = enabled;
+            }
+
+            function toggleHighlightLinks(enabled) {
+                state.highlightLinks = enabled;
+                document.body.classList.toggle('a11y-highlight-links', enabled);
+                highlightLinksCheck.checked = enabled;
+            }
+
+            // Update spacing
+            function updateLineHeight(value) {
+                state.lineHeight = value;
+                lineHeightValue.textContent = value;
+                document.body.style.lineHeight = value;
+            }
+
+            function updateLetterSpacing(value) {
+                state.letterSpacing = value;
+                letterSpacingValue.textContent = value + 'px';
+                document.body.style.letterSpacing = value + 'px';
+            }
+
+            // Move widget position
+            function moveWidget(position) {
+                state.position = position;
+                widget.classList.remove('position-left', 'position-right');
+                widget.classList.add('position-' + position);
+            }
+
+            // Apply profile
+            function applyProfile(profileName) {
+                if (!profileName || !profiles[profileName]) return;
+
+                const profile = profiles[profileName];
+
+                if (profile.fontSize) {
+                    state.fontSize = profile.fontSize;
+                    fontDisplay.textContent = state.fontSize + '%';
+                    document.body.style.fontSize = state.fontSize + '%';
+                }
+                if (profile.contrast) updateContrast(profile.contrast);
+                if (profile.cursor) updateCursor(profile.cursor);
+                if (profile.stopAnimations !== undefined) toggleStopAnimations(profile.stopAnimations);
+                if (profile.readingGuide !== undefined) toggleReadingGuide(profile.readingGuide);
+                if (profile.focusHighlight !== undefined) toggleFocusHighlight(profile.focusHighlight);
+                if (profile.highlightLinks !== undefined) toggleHighlightLinks(profile.highlightLinks);
+                if (profile.lineHeight) {
+                    lineHeightSlider.value = profile.lineHeight;
+                    updateLineHeight(profile.lineHeight);
+                }
+                if (profile.letterSpacing) {
+                    letterSpacingSlider.value = profile.letterSpacing;
+                    updateLetterSpacing(profile.letterSpacing);
+                }
+            }
+
+            // Reset all settings
+            function resetAll() {
+                state.fontSize = 100;
+                fontDisplay.textContent = '100%';
+                document.body.style.fontSize = '';
+
+                updateContrast('normal');
+                updateCursor('default');
+                toggleStopAnimations(false);
+                toggleReadingGuide(false);
+                toggleFocusHighlight(false);
+                toggleHighlightLinks(false);
+
+                lineHeightSlider.value = 1.5;
+                updateLineHeight(1.5);
+                letterSpacingSlider.value = 0;
+                updateLetterSpacing(0);
+
+                profileSelect.value = '';
+            }
+
+            // Event listeners
+            trigger.addEventListener('click', togglePanel);
+            closeBtn.addEventListener('click', togglePanel);
+
+            fontDecrease.addEventListener('click', () => updateFontSize(-10));
+            fontIncrease.addEventListener('click', () => updateFontSize(10));
+
+            contrastBtns.forEach(btn => {
+                btn.addEventListener('click', () => updateContrast(btn.dataset.contrast));
+            });
+
+            cursorBtns.forEach(btn => {
+                btn.addEventListener('click', () => updateCursor(btn.dataset.cursor));
+            });
+
+            stopAnimationsCheck.addEventListener('change', (e) => toggleStopAnimations(e.target.checked));
+            readingGuideCheck.addEventListener('change', (e) => toggleReadingGuide(e.target.checked));
+            focusHighlightCheck.addEventListener('change', (e) => toggleFocusHighlight(e.target.checked));
+            highlightLinksCheck.addEventListener('change', (e) => toggleHighlightLinks(e.target.checked));
+
+            lineHeightSlider.addEventListener('input', (e) => updateLineHeight(e.target.value));
+            letterSpacingSlider.addEventListener('input', (e) => updateLetterSpacing(e.target.value));
+
+            resetBtn.addEventListener('click', resetAll);
+            moveLeftBtn.addEventListener('click', () => moveWidget('left'));
+            moveRightBtn.addEventListener('click', () => moveWidget('right'));
+
+            profileSelect.addEventListener('change', (e) => applyProfile(e.target.value));
+
+            // Reading guide mouse tracking
+            document.addEventListener('mousemove', (e) => {
+                if (state.readingGuide) {
+                    readingGuideEl.style.top = (e.clientY - 15) + 'px';
+                }
+            });
+
+            // Close on outside click
+            document.addEventListener('click', (e) => {
+                if (state.panelOpen && !widget.contains(e.target)) {
+                    togglePanel();
+                }
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                // Escape to close
+                if (e.key === 'Escape' && state.panelOpen) {
+                    togglePanel();
+                    trigger.focus();
+                }
+
+                // Alt + key shortcuts
+                if (e.altKey) {
+                    switch(e.key.toLowerCase()) {
+                        case 'a':
+                            e.preventDefault();
+                            togglePanel();
+                            break;
+                        case '+':
+                        case '=':
+                            e.preventDefault();
+                            updateFontSize(10);
+                            break;
+                        case '-':
+                            e.preventDefault();
+                            updateFontSize(-10);
+                            break;
+                        case '0':
+                            e.preventDefault();
+                            state.fontSize = 100;
+                            fontDisplay.textContent = '100%';
+                            document.body.style.fontSize = '';
+                            break;
+                        case 'c':
+                            e.preventDefault();
+                            const modes = ['normal', 'dark', 'light', 'invert'];
+                            const nextIndex = (modes.indexOf(state.contrast) + 1) % modes.length;
+                            updateContrast(modes[nextIndex]);
+                            break;
+                        case 'r':
+                            e.preventDefault();
+                            toggleReadingGuide(!state.readingGuide);
+                            break;
+                    }
+                }
+            });
+
+            // Initial state
+            document.body.style.lineHeight = state.lineHeight;
+        })();
+    </script>
+</body>
+</html>
