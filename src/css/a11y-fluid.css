@@ -1,0 +1,280 @@
+/**
+ * A11Y Fluid UI Styles
+ * PeopleSoft Accessibility Widget - Fluid UI Specific Overrides
+ *
+ * This stylesheet contains overrides specific to PeopleSoft Fluid UI.
+ * It should be added as a sub stylesheet to PSSTYLEDEF_FMODE.
+ *
+ * @version 1.0.0
+ */
+
+/* =============================================
+   Fluid UI Base Overrides
+   ============================================= */
+
+/* Enhanced focus indicators for Fluid buttons */
+.ps_apps-fluid .ps-button:focus,
+.ps_apps-fluid .ps-button-wrapper:focus-within {
+    outline: 3px solid #0066cc !important;
+    outline-offset: 2px !important;
+}
+
+/* Improved label visibility */
+.ps_apps-fluid .ps-label {
+    font-weight: 500;
+}
+
+/* Enhanced link visibility */
+.ps_apps-fluid .ps-link:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+    background-color: rgba(0, 102, 204, 0.1) !important;
+}
+
+/* =============================================
+   Fluid Navigation
+   ============================================= */
+
+/* Homepage tiles - improved focus */
+.ps_apps-fluid .ps_apps-tile:focus,
+.ps_apps-fluid .ps_apps-tile:focus-within {
+    outline: 3px solid #0066cc !important;
+    outline-offset: 4px !important;
+    box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.3) !important;
+}
+
+/* Navigation bar items */
+.ps_apps-fluid .pthdr2navbar a:focus {
+    outline: 2px solid #ffffff !important;
+    outline-offset: 2px !important;
+}
+
+/* =============================================
+   Fluid Forms
+   ============================================= */
+
+/* Input field focus states */
+.ps_apps-fluid input[type="text"]:focus,
+.ps_apps-fluid input[type="password"]:focus,
+.ps_apps-fluid input[type="email"]:focus,
+.ps_apps-fluid input[type="number"]:focus,
+.ps_apps-fluid textarea:focus,
+.ps_apps-fluid select:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 1px !important;
+    border-color: #0066cc !important;
+}
+
+/* Required field indicators */
+.ps_apps-fluid .ps-required-field::after {
+    content: " *";
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Error messages - improved association */
+.ps_apps-fluid .ps-error-message {
+    color: #dc3545;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* =============================================
+   Fluid Grids and Tables
+   ============================================= */
+
+/* Table header improvements */
+.ps_apps-fluid .ps-grid th {
+    font-weight: 600;
+    background-color: #f0f4f8;
+}
+
+/* Row focus indicators */
+.ps_apps-fluid .ps-grid tr:focus-within {
+    outline: 2px solid #0066cc;
+    outline-offset: -2px;
+}
+
+/* Sortable header indicators */
+.ps_apps-fluid .ps-grid th[aria-sort] {
+    cursor: pointer;
+}
+
+.ps_apps-fluid .ps-grid th[aria-sort]:hover {
+    background-color: #e0e7ee;
+}
+
+/* =============================================
+   Fluid Modals and Dialogs
+   ============================================= */
+
+/* Modal focus trap visual indicator */
+.ps_apps-fluid .ps-modal:focus {
+    outline: 3px solid #0066cc;
+    outline-offset: -3px;
+}
+
+/* Modal header */
+.ps_apps-fluid .ps-modal-header {
+    font-size: 1.25em;
+    font-weight: 600;
+}
+
+/* Modal close button */
+.ps_apps-fluid .ps-modal-close:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+}
+
+/* =============================================
+   Fluid Tabs
+   ============================================= */
+
+/* Tab focus states */
+.ps_apps-fluid .ps-tabs [role="tab"]:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: -2px !important;
+}
+
+/* Active tab indicator */
+.ps_apps-fluid .ps-tabs [role="tab"][aria-selected="true"] {
+    border-bottom: 3px solid #0066cc;
+}
+
+/* Tab panel */
+.ps_apps-fluid .ps-tabs [role="tabpanel"]:focus {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}
+
+/* =============================================
+   Fluid Menus and Dropdowns
+   ============================================= */
+
+/* Dropdown menu items */
+.ps_apps-fluid .ps-dropdown-menu [role="menuitem"]:focus {
+    background-color: #0066cc !important;
+    color: #ffffff !important;
+    outline: none !important;
+}
+
+/* Related Actions menu */
+.ps_apps-fluid .ps-related-actions-menu a:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: -2px !important;
+}
+
+/* =============================================
+   Fluid Search
+   ============================================= */
+
+/* Search field */
+.ps_apps-fluid .ps-search-input:focus {
+    outline: 2px solid #0066cc !important;
+    box-shadow: 0 0 8px rgba(0, 102, 204, 0.3) !important;
+}
+
+/* Search suggestions */
+.ps_apps-fluid .ps-search-suggestions [role="option"]:focus,
+.ps_apps-fluid .ps-search-suggestions [role="option"].highlighted {
+    background-color: #e6f0ff !important;
+    outline: none;
+}
+
+/* =============================================
+   Fluid Icons and Action Buttons
+   ============================================= */
+
+/* Icon buttons - ensure visibility */
+.ps_apps-fluid .ps-icon-button:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+    border-radius: 4px;
+}
+
+/* Prompt/lookup icons */
+.ps_apps-fluid img.PTPROMPT:focus,
+.ps_apps-fluid a[id*="ICSearch"]:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+}
+
+/* Calendar icons */
+.ps_apps-fluid a[id*="CALENDAR"]:focus,
+.ps_apps-fluid img[id*="CALENDAR"]:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+}
+
+/* =============================================
+   Fluid Accordion/Collapsible Sections
+   ============================================= */
+
+/* Accordion headers */
+.ps_apps-fluid .ps-accordion-header:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: -2px !important;
+}
+
+/* Expanded state indicator */
+.ps_apps-fluid .ps-accordion-header[aria-expanded="true"] {
+    background-color: #f0f4f8;
+}
+
+/* =============================================
+   Fluid Breadcrumbs
+   ============================================= */
+
+.ps_apps-fluid .ps-breadcrumb a:focus {
+    outline: 2px solid #0066cc !important;
+    outline-offset: 2px !important;
+    text-decoration: underline;
+}
+
+/* =============================================
+   Fluid Progress Indicators
+   ============================================= */
+
+/* Loading spinners - provide context */
+.ps_apps-fluid .ps-loading-spinner::after {
+    content: "Loading...";
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* =============================================
+   Fluid Notifications/Alerts
+   ============================================= */
+
+/* Alert messages */
+.ps_apps-fluid .ps-alert {
+    border-left: 4px solid;
+    padding-left: 12px;
+}
+
+.ps_apps-fluid .ps-alert--error {
+    border-color: #dc3545;
+    background-color: #fff5f5;
+}
+
+.ps_apps-fluid .ps-alert--warning {
+    border-color: #ffc107;
+    background-color: #fffbeb;
+}
+
+.ps_apps-fluid .ps-alert--success {
+    border-color: #28a745;
+    background-color: #f0fff4;
+}
+
+.ps_apps-fluid .ps-alert--info {
+    border-color: #0066cc;
+    background-color: #f0f7ff;
+}

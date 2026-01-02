@@ -1,0 +1,561 @@
+/**
+ * A11Y Widget Styles
+ * PeopleSoft Accessibility Widget - Main Stylesheet
+ *
+ * @version 1.0.0
+ */
+
+/* =============================================
+   CSS Variables
+   ============================================= */
+:root {
+    --a11y-primary: #0066cc;
+    --a11y-primary-dark: #004c99;
+    --a11y-secondary: #666666;
+    --a11y-success: #28a745;
+    --a11y-warning: #ffc107;
+    --a11y-danger: #dc3545;
+    --a11y-light: #f8f9fa;
+    --a11y-dark: #212529;
+    --a11y-white: #ffffff;
+    --a11y-border: #dee2e6;
+    --a11y-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --a11y-radius: 8px;
+    --a11y-transition: 0.2s ease;
+    --a11y-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --a11y-z-index: 999999;
+}
+
+/* =============================================
+   Widget Container
+   ============================================= */
+.a11y-widget {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: var(--a11y-z-index);
+    font-family: var(--a11y-font);
+    font-size: 14px;
+    line-height: 1.5;
+    box-sizing: border-box;
+}
+
+.a11y-widget *,
+.a11y-widget *::before,
+.a11y-widget *::after {
+    box-sizing: border-box;
+}
+
+.a11y-widget--right {
+    right: 0;
+}
+
+.a11y-widget--left {
+    left: 0;
+}
+
+/* =============================================
+   Trigger Button
+   ============================================= */
+.a11y-trigger {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50%;
+    background: var(--a11y-primary);
+    color: var(--a11y-white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--a11y-shadow);
+    transition: all var(--a11y-transition);
+    z-index: 2;
+}
+
+.a11y-widget--right .a11y-trigger {
+    right: 10px;
+}
+
+.a11y-widget--left .a11y-trigger {
+    left: 10px;
+}
+
+.a11y-trigger:hover,
+.a11y-trigger:focus {
+    background: var(--a11y-primary-dark);
+    transform: translateY(-50%) scale(1.1);
+    outline: 3px solid #ffcc00;
+    outline-offset: 2px;
+}
+
+.a11y-trigger svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* =============================================
+   Panel
+   ============================================= */
+.a11y-panel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 320px;
+    max-height: 80vh;
+    background: var(--a11y-white);
+    border-radius: var(--a11y-radius);
+    box-shadow: var(--a11y-shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all var(--a11y-transition);
+}
+
+.a11y-widget--right .a11y-panel {
+    right: 70px;
+}
+
+.a11y-widget--left .a11y-panel {
+    left: 70px;
+}
+
+.a11y-widget--closed .a11y-panel {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-50%) scale(0.9);
+}
+
+.a11y-widget--open .a11y-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) scale(1);
+}
+
+/* Panel Header */
+.a11y-panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background: var(--a11y-primary);
+    color: var(--a11y-white);
+}
+
+.a11y-panel__header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.a11y-panel__close {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--a11y-white);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--a11y-transition);
+}
+
+.a11y-panel__close:hover,
+.a11y-panel__close:focus {
+    background: rgba(255, 255, 255, 0.3);
+    outline: 2px solid var(--a11y-white);
+}
+
+/* Panel Content */
+.a11y-panel__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+/* Panel Footer */
+.a11y-panel__footer {
+    padding: 12px 16px;
+    border-top: 1px solid var(--a11y-border);
+    background: var(--a11y-light);
+}
+
+.a11y-panel__position {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+/* =============================================
+   Sections
+   ============================================= */
+.a11y-section {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--a11y-border);
+}
+
+.a11y-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.a11y-section h3 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--a11y-dark);
+}
+
+.a11y-section__toggle {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    font-weight: 600;
+    color: var(--a11y-dark);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.a11y-section__toggle:hover,
+.a11y-section__toggle:focus {
+    color: var(--a11y-primary);
+    outline: none;
+}
+
+.a11y-section__arrow {
+    font-size: 10px;
+    transition: transform var(--a11y-transition);
+}
+
+.a11y-section__toggle[aria-expanded="true"] .a11y-section__arrow {
+    transform: rotate(180deg);
+}
+
+.a11y-section__content {
+    margin-top: 12px;
+}
+
+/* =============================================
+   Buttons
+   ============================================= */
+.a11y-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border: 1px solid var(--a11y-border);
+    border-radius: 4px;
+    background: var(--a11y-white);
+    color: var(--a11y-dark);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--a11y-transition);
+}
+
+.a11y-btn:hover,
+.a11y-btn:focus {
+    background: var(--a11y-light);
+    border-color: var(--a11y-primary);
+    outline: 2px solid var(--a11y-primary);
+    outline-offset: 1px;
+}
+
+.a11y-btn--active {
+    background: var(--a11y-primary);
+    border-color: var(--a11y-primary);
+    color: var(--a11y-white);
+}
+
+.a11y-btn--active:hover,
+.a11y-btn--active:focus {
+    background: var(--a11y-primary-dark);
+}
+
+.a11y-btn--secondary {
+    background: var(--a11y-secondary);
+    border-color: var(--a11y-secondary);
+    color: var(--a11y-white);
+}
+
+.a11y-btn--secondary:hover,
+.a11y-btn--secondary:focus {
+    background: #555;
+}
+
+.a11y-btn--full {
+    width: 100%;
+}
+
+.a11y-btn--small {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.a11y-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* =============================================
+   Control Groups
+   ============================================= */
+.a11y-control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.a11y-value {
+    min-width: 50px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--a11y-primary);
+}
+
+.a11y-contrast-buttons {
+    flex-wrap: wrap;
+}
+
+.a11y-contrast-buttons .a11y-btn {
+    flex: 1;
+    min-width: 70px;
+}
+
+/* =============================================
+   Toggles
+   ============================================= */
+.a11y-toggles {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.a11y-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background var(--a11y-transition);
+}
+
+.a11y-toggle:hover {
+    background: var(--a11y-light);
+}
+
+.a11y-toggle input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--a11y-primary);
+}
+
+.a11y-toggle input[type="checkbox"]:focus {
+    outline: 2px solid var(--a11y-primary);
+    outline-offset: 2px;
+}
+
+.a11y-toggle span {
+    flex: 1;
+}
+
+/* =============================================
+   Select Dropdown
+   ============================================= */
+.a11y-select {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--a11y-border);
+    border-radius: 4px;
+    background: var(--a11y-white);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.a11y-select:focus {
+    outline: 2px solid var(--a11y-primary);
+    outline-offset: 1px;
+    border-color: var(--a11y-primary);
+}
+
+.a11y-profiles {
+    display: flex;
+    gap: 8px;
+}
+
+/* =============================================
+   Sliders
+   ============================================= */
+.a11y-slider-group {
+    margin-bottom: 12px;
+}
+
+.a11y-slider-group:last-child {
+    margin-bottom: 0;
+}
+
+.a11y-slider-group label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 13px;
+    color: var(--a11y-secondary);
+}
+
+.a11y-slider-group input[type="range"] {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--a11y-border);
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.a11y-slider-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--a11y-primary);
+    cursor: pointer;
+    border: 2px solid var(--a11y-white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.a11y-slider-group input[type="range"]:focus {
+    outline: none;
+}
+
+.a11y-slider-group input[type="range"]:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.3);
+}
+
+/* =============================================
+   Scan Results
+   ============================================= */
+.a11y-scan-results {
+    margin-top: 12px;
+    padding: 12px;
+    background: var(--a11y-light);
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.a11y-scan-summary {
+    margin-bottom: 12px;
+}
+
+.a11y-scan-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* =============================================
+   Developer Section
+   ============================================= */
+.a11y-section--dev {
+    background: #f0f4f8;
+    margin: 0 -16px;
+    padding: 16px;
+    border-radius: 0;
+}
+
+/* =============================================
+   Accessibility Helpers
+   ============================================= */
+
+/* Screen reader only content */
+.a11y-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus visible polyfill */
+.a11y-widget *:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.a11y-widget *:focus-visible {
+    outline: 2px solid var(--a11y-primary);
+    outline-offset: 2px;
+}
+
+/* =============================================
+   Responsive Adjustments
+   ============================================= */
+@media (max-width: 400px) {
+    .a11y-panel {
+        width: 280px;
+    }
+
+    .a11y-widget--right .a11y-panel {
+        right: 60px;
+    }
+
+    .a11y-widget--left .a11y-panel {
+        left: 60px;
+    }
+}
+
+@media (max-height: 600px) {
+    .a11y-panel {
+        max-height: 90vh;
+    }
+}
+
+/* =============================================
+   Print Styles
+   ============================================= */
+@media print {
+    .a11y-widget {
+        display: none !important;
+    }
+}
+
+/* =============================================
+   High Contrast Mode Support
+   ============================================= */
+@media (prefers-contrast: high) {
+    .a11y-widget {
+        --a11y-primary: #000080;
+        --a11y-border: #000000;
+    }
+
+    .a11y-btn {
+        border-width: 2px;
+    }
+}
+
+/* =============================================
+   Reduced Motion Support
+   ============================================= */
+@media (prefers-reduced-motion: reduce) {
+    .a11y-widget * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
