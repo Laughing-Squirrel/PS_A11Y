@@ -8,11 +8,36 @@
  * - Remediation reporting
  * - Developer mode with visual highlighting
  *
- * @version 1.0.1
+ * AXE-CORE LOADING PRIORITY:
+ * 1. Existing global axe-core (if already loaded)
+ * 2. Embedded axe-core (if pasted at placeholder below)
+ * 3. CDN fallback (cdnjs.cloudflare.com)
+ *
+ * @version 1.0.2
  * @license MIT
  */
 (function(a11yJQ) {
     'use strict';
+
+    // ============================================================
+    // CONFIGURATION - Modify these settings as needed
+    // ============================================================
+
+    var SCANNER_CONFIG = {
+        // axe-core version to load from CDN if not embedded
+        AXE_VERSION: '4.8.4',
+
+        // CDN URL for axe-core (used if not embedded and not already loaded)
+        AXE_CDN_URL: 'https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.8.4/axe.min.js',
+
+        // Timeout for CDN loading (milliseconds)
+        LOAD_TIMEOUT: 15000,
+
+        // Whether to attempt CDN loading if axe-core is not available
+        ENABLE_CDN_FALLBACK: true
+    };
+
+    // ============================================================
 
     // Ensure dependencies are available
     if (typeof a11yJQ === 'undefined') {
@@ -21,6 +46,89 @@
     }
 
     var CONFIG = window.A11Y_CONFIG || {};
+
+    // ============================================================
+    // AXE-CORE EMBED PLACEHOLDER
+    // ============================================================
+    /* === BEGIN AXE-CORE EMBED === */
+    // PRODUCTION: Paste the contents of axe.min.js here for self-contained deployment
+    // Download from: https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.8.4/axe.min.js
+    // Or via npm: npm install axe-core && cat node_modules/axe-core/axe.min.js
+    //
+    // File size: ~500KB minified
+    // This is recommended for PeopleSoft deployments to avoid external CDN dependencies.
+    //
+    // Note: axe-core is licensed under the Mozilla Public License 2.0
+    // See: https://github.com/dequelabs/axe-core/blob/develop/LICENSE
+    /* === END AXE-CORE EMBED === */
+    // ============================================================
+
+    /**
+     * Load axe-core from CDN
+     * @param {function} onSuccess - Callback on successful load
+     * @param {function} onError - Callback on error
+     */
+    function loadAxeFromCDN(onSuccess, onError) {
+        if (!SCANNER_CONFIG.ENABLE_CDN_FALLBACK) {
+            onError(new Error('CDN fallback is disabled'));
+            return;
+        }
+
+        console.log('[A11Y] Loading axe-core ' + SCANNER_CONFIG.AXE_VERSION + ' from CDN...');
+
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = SCANNER_CONFIG.AXE_CDN_URL;
+        script.async = true;
+
+        var timeout = setTimeout(function() {
+            script.onload = script.onerror = null;
+            onError(new Error('axe-core load timeout after ' + SCANNER_CONFIG.LOAD_TIMEOUT + 'ms'));
+        }, SCANNER_CONFIG.LOAD_TIMEOUT);
+
+        script.onload = function() {
+            clearTimeout(timeout);
+            if (typeof axe !== 'undefined') {
+                console.log('[A11Y] axe-core ' + axe.version + ' loaded from CDN');
+                onSuccess();
+            } else {
+                onError(new Error('axe-core loaded but not available'));
+            }
+        };
+
+        script.onerror = function() {
+            clearTimeout(timeout);
+            onError(new Error('Failed to load axe-core from CDN'));
+        };
+
+        document.head.appendChild(script);
+    }
+
+    /**
+     * Initialize axe-core with loading fallback
+     * @param {function} callback - Called when initialization is complete
+     */
+    function initializeAxeCore(callback) {
+        // Check if axe-core is already available (embedded or pre-loaded)
+        if (typeof axe !== 'undefined') {
+            console.log('[A11Y] Using existing axe-core ' + axe.version);
+            callback(true);
+            return;
+        }
+
+        // Try loading from CDN
+        loadAxeFromCDN(
+            function() {
+                callback(true);
+            },
+            function(error) {
+                console.warn('[A11Y] axe-core not available:', error.message);
+                console.warn('[A11Y] Scanner will use PeopleSoft-specific rules only.');
+                console.warn('[A11Y] For full scanning, embed axe-core in this file or ensure CDN access.');
+                callback(false);
+            }
+        );
+    }
 
     /**
      * ARIA Scanner Module
@@ -146,26 +254,63 @@
 
         /**
          * Initialize the scanner
+         * @param {function} [callback] - Optional callback when initialization is complete
          */
-        init: function() {
+        init: function(callback) {
+            var self = this;
+
             if (this._initialized) {
+                if (callback) callback();
                 return;
             }
 
-            this._checkAxeCore();
-            this._initialized = true;
-            console.log('[A11Y] ARIA Scanner initialized' +
-                (this._axeLoaded ? ' with axe-core' : ' (axe-core not loaded)'));
+            // Initialize axe-core (will try embedded, then CDN)
+            initializeAxeCore(function(axeAvailable) {
+                self._axeLoaded = axeAvailable;
+
+                if (axeAvailable) {
+                    self._configureAxe();
+                }
+
+                self._initialized = true;
+                console.log('[A11Y] ARIA Scanner initialized' +
+                    (self._axeLoaded ? ' with axe-core ' + axe.version : ' (PeopleSoft rules only)'));
+
+                // Dispatch ready event
+                self._dispatchEvent('scannerReady', { axeLoaded: self._axeLoaded });
+
+                if (callback) callback();
+            });
         },
 
         /**
-         * Check if axe-core is available
+         * Check if axe-core is loaded
+         * @returns {boolean} True if axe-core is available
+         */
+        isAxeLoaded: function() {
+            return this._axeLoaded;
+        },
+
+        /**
+         * Get axe-core version if loaded
+         * @returns {string|null} Version string or null
+         */
+        getAxeVersion: function() {
+            return this._axeLoaded && typeof axe !== 'undefined' ? axe.version : null;
+        },
+
+        /**
+         * Dispatch custom event
          * @private
          */
-        _checkAxeCore: function() {
-            if (typeof axe !== 'undefined') {
-                this._axeLoaded = true;
-                this._configureAxe();
+        _dispatchEvent: function(eventName, detail) {
+            try {
+                var event = new CustomEvent('a11y:' + eventName, { detail: detail });
+                document.dispatchEvent(event);
+            } catch (e) {
+                var evt = document.createEvent('CustomEvent');
+                evt.initCustomEvent('a11y:' + eventName, true, true, detail);
+                document.dispatchEvent(evt);
             }
         },
 
@@ -603,6 +748,7 @@
             var summary = this.getSummary();
 
             console.group('[A11Y] Accessibility Scan Results');
+            console.log('Scanner:', this._axeLoaded ? 'axe-core ' + axe.version + ' + PeopleSoft rules' : 'PeopleSoft rules only');
             console.log('Page:', this._results.component + ' / ' + this._results.page);
             console.log('UI Mode:', this._results.uiMode);
             console.log('Total Issues:', summary.total);
