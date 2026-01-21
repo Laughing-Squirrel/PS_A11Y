@@ -7,23 +7,19 @@
     <style>
         /* ========================================
            PeopleSoft FSCM 9.2 Classic Plus Theme
+           Using Delivered PeopleSoft Class Names
+           Aligned with PSSTYLEDEF_TANGERINE
            ======================================== */
         *, *::before, *::after {
             box-sizing: border-box;
         }
 
         :root {
-            /* PeopleSoft Classic Plus Color Palette - Actual Colors */
+            /* PeopleSoft Classic Plus Color Palette */
             --ps-primary: #4b6b8a;
             --ps-primary-light: #5a7a99;
             --ps-primary-dark: #3a5a79;
-            --ps-header-bg: #4b6b8a;
-            --ps-header-gradient-start: #6a8aa9;
-            --ps-header-gradient-end: #3a5a79;
             --ps-section-header: #e07000;
-            --ps-section-header-light: #f08010;
-            --ps-nav-bg: #f0f0f0;
-            --ps-nav-border: #c0c0c0;
             --ps-body-bg: #f0f0f0;
             --ps-content-bg: #ffffff;
             --ps-text: #000000;
@@ -33,27 +29,10 @@
             --ps-border: #b0b0b0;
             --ps-border-light: #d0d0d0;
             --ps-border-dark: #808080;
-            --ps-button-bg: #e8e8e8;
-            --ps-button-border: #808080;
-            --ps-button-hover: #d8d8d8;
-            --ps-grid-header: #4b6b8a;
-            --ps-grid-alt-row: #f5f5f5;
             --ps-required: #cc0000;
-            --ps-focus: #ffcc00;
+            --ps-focus: #0066cc;
+            --ps-error: #dc3545;
             --ps-success: #28a745;
-            --ps-warning: #ffc107;
-            --ps-info: #17a2b8;
-            --ps-shadow: rgba(0, 0, 0, 0.15);
-
-            /* A11Y Widget Colors */
-            --a11y-primary: #4b6b8a;
-            --a11y-primary-dark: #3a5a79;
-            --a11y-white: #ffffff;
-            --a11y-light-gray: #f0f0f0;
-            --a11y-border: #b0b0b0;
-            --a11y-text: #000000;
-            --a11y-focus: #ffcc00;
-            --a11y-shadow: rgba(0, 0, 0, 0.15);
         }
 
         body {
@@ -65,19 +44,19 @@
             padding: 0;
             background: var(--ps-body-bg);
             min-height: 100vh;
-            transition: background-color 0.3s, color 0.3s;
         }
 
         /* ========================================
-           PeopleSoft Classic Plus Header
+           PeopleSoft Header Navigation
+           IDs: pthdr2navbar, pthdr2menu, pthdr2breadcrumb
            ======================================== */
-        .ps-header {
+        #pthdr2 {
             background: linear-gradient(180deg, #6a8aa9 0%, #4b6b8a 50%, #3a5a79 100%);
             color: white;
             padding: 0;
         }
 
-        .ps-header-top {
+        #pthdr2navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -86,13 +65,13 @@
             border-bottom: 1px solid #3a5a79;
         }
 
-        .ps-nav-menu {
+        #pthdr2menu {
             display: flex;
             align-items: center;
             gap: 2px;
         }
 
-        .ps-nav-menu-btn {
+        #pthdr2menu .PSPUSHBUTTON {
             font-family: Arial, sans-serif;
             font-size: 11px;
             padding: 4px 12px;
@@ -105,38 +84,38 @@
             gap: 4px;
         }
 
-        .ps-nav-menu-btn:hover {
+        #pthdr2menu .PSPUSHBUTTON:hover {
             background: linear-gradient(180deg, #80a0c0 0%, #6080b0 100%);
         }
 
-        .ps-nav-menu-btn::after {
+        #pthdr2menu .PSPUSHBUTTON::after {
             content: '▼';
             font-size: 8px;
         }
 
-        .ps-breadcrumb-nav {
+        #pthdr2breadcrumb {
             display: flex;
             align-items: center;
             font-size: 11px;
             color: white;
         }
 
-        .ps-breadcrumb-nav a {
+        #pthdr2breadcrumb .PSHYPERLINK {
             color: white;
             text-decoration: underline;
         }
 
-        .ps-breadcrumb-nav a:hover {
+        #pthdr2breadcrumb .PSHYPERLINK:hover {
             color: #ffffcc;
         }
 
-        .ps-breadcrumb-nav .sep {
+        #pthdr2breadcrumb .sep {
             margin: 0 6px;
             color: #c0c0c0;
         }
 
-        /* Oracle Branding Bar */
-        .ps-oracle-bar {
+        /* Branding Bar */
+        #pthdr2branding {
             background: #ffffff;
             padding: 6px 12px;
             border-bottom: 1px solid #c0c0c0;
@@ -145,115 +124,18 @@
             align-items: center;
         }
 
-        .ps-oracle-logo {
-            color: #ff0000;
+        #pthdr2branding .PTBRANDLOGO {
+            color: #4b6b8a;
             font-size: 20px;
             font-weight: bold;
             font-family: Arial, sans-serif;
             letter-spacing: -1px;
         }
 
-        .ps-oracle-logo sup {
-            font-size: 10px;
-            vertical-align: super;
-        }
-
-        .ps-app-name {
-            font-size: 11px;
-            color: #666666;
-        }
-
-        /* Navigation Bar - Classic Plus Style */
-        .ps-navbar {
-            background: #f0f0f0;
-            border-bottom: 1px solid var(--ps-border);
-            padding: 0;
-            display: none; /* Hidden in Classic Plus - using header nav instead */
-        }
-
-        .ps-nav-btn {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 12px;
-            padding: 6px 14px;
-            background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
-            border: 1px solid var(--ps-button-border);
-            border-radius: 3px;
-            cursor: pointer;
-            color: var(--ps-text);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.15s ease;
-        }
-
-        .ps-nav-btn:hover {
-            background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 100%);
-            border-color: var(--ps-border-dark);
-        }
-
-        .ps-nav-btn:active {
-            background: linear-gradient(180deg, #e8e8e8 0%, #f0f0f0 100%);
-        }
-
-        .ps-nav-btn:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px var(--ps-focus);
-        }
-
-        .ps-nav-btn.primary {
-            background: linear-gradient(180deg, var(--ps-primary-light) 0%, var(--ps-primary) 100%);
-            color: white;
-            border-color: var(--ps-primary-dark);
-        }
-
-        .ps-nav-btn.primary:hover {
-            background: linear-gradient(180deg, #2080d0 0%, var(--ps-primary-light) 100%);
-        }
-
-        .ps-nav-separator {
-            width: 1px;
-            height: 24px;
-            background: var(--ps-border);
-            margin: 0 8px;
-        }
-
-        /* Breadcrumb - Classic Plus Style */
-        .ps-breadcrumb {
-            background: #ffffff;
-            padding: 8px 16px;
-            font-size: 12px;
-            border-bottom: 1px solid var(--ps-border-light);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .ps-breadcrumb a {
-            color: var(--ps-link);
-            text-decoration: none;
-            transition: color 0.15s;
-        }
-
-        .ps-breadcrumb a:hover {
-            color: var(--ps-link-hover);
-            text-decoration: underline;
-        }
-
-        .ps-breadcrumb .separator {
-            color: var(--ps-border-dark);
-            font-size: 10px;
-        }
-
-        .ps-breadcrumb .current {
-            color: var(--ps-text);
-            font-weight: 600;
-        }
-
         /* ========================================
-           Page Content Area
+           Page Content Container
            ======================================== */
-        .ps-page-container {
+        #ptpgltbody {
             max-width: 1200px;
             margin: 0 auto;
             padding: 12px;
@@ -261,19 +143,50 @@
             background: var(--ps-body-bg);
         }
 
-        .ps-page-title {
-            display: none; /* Not shown in Classic Plus style */
+        /* ========================================
+           PTPAGETITLE - Page Title
+           ======================================== */
+        .PTPAGETITLE {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--ps-primary);
         }
 
-        /* Group Box - Classic Plus Style with Orange Headers */
-        .ps-group-box {
+        /* ========================================
+           PTSECTIONHEADER - Section Headers
+           ======================================== */
+        .PTSECTIONHEADER {
+            color: var(--ps-section-header);
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 0;
+            font-weight: normal;
+        }
+
+        .PTSECTIONHEADER::before {
+            content: '▸';
+            font-size: 10px;
+        }
+
+        .PTSECTIONHEADER.expanded::before {
+            content: '▾';
+        }
+
+        /* ========================================
+           PSGROUPBOX - Group Boxes
+           ======================================== */
+        .PSGROUPBOX {
             background: var(--ps-content-bg);
             border: 1px solid #b0b0b0;
             margin-bottom: 12px;
             overflow: visible;
         }
 
-        .ps-group-box-header {
+        .PSGROUPBOXLABEL {
             background: none;
             border: none;
             padding: 6px 0;
@@ -286,82 +199,43 @@
             cursor: pointer;
         }
 
-        .ps-group-box-header::before {
+        .PSGROUPBOXLABEL::before {
             content: '▸';
-            width: auto;
-            height: auto;
-            background: none;
-            border-radius: 0;
             font-size: 10px;
             color: var(--ps-section-header);
         }
 
-        .ps-group-box-header.expanded::before {
+        .PSGROUPBOXLABEL.expanded::before {
             content: '▾';
         }
 
-        .ps-group-box-checkbox {
-            width: 13px;
-            height: 13px;
-            margin-right: 4px;
-        }
-
-        .ps-group-box-content {
+        .PSGROUPBOXWL {
             padding: 10px 12px;
             border-top: 1px solid #d0d0d0;
         }
 
-        .ps-group-box-description {
-            font-size: 11px;
-            color: #333333;
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
-
-        .ps-group-box p {
+        .PSGROUPBOXWL p {
             margin: 0 0 8px 0;
             font-size: 11px;
             line-height: 1.5;
+            color: #333333;
         }
 
-        .ps-group-box p:last-child {
+        .PSGROUPBOXWL p:last-child {
             margin-bottom: 0;
-        }
-
-        /* Collapsible Subsection */
-        .ps-subsection {
-            margin: 8px 0;
-        }
-
-        .ps-subsection-header {
-            color: var(--ps-section-header);
-            font-size: 11px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 4px 0;
-        }
-
-        .ps-subsection-header::before {
-            content: '▸';
-            font-size: 10px;
-        }
-
-        .ps-subsection-header.expanded::before {
-            content: '▾';
         }
 
         /* ========================================
            Form Elements - Classic Plus Style
            ======================================== */
-        .ps-form-row {
+        .PSFORMROW {
             display: flex;
             align-items: center;
             margin-bottom: 6px;
         }
 
-        .ps-label {
+        /* Labels */
+        .PSLABEL {
             font-family: Arial, sans-serif;
             font-size: 11px;
             font-weight: normal;
@@ -370,17 +244,24 @@
             padding-right: 8px;
         }
 
-        .ps-label.required::before {
+        .PSREQUIREDFLDLBL {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ps-text);
+            min-width: 100px;
+            padding-right: 8px;
+        }
+
+        .PSREQUIREDFLDLBL::before {
             content: "*";
             color: var(--ps-required);
             font-weight: bold;
         }
 
-        .ps-label.required::after {
-            content: none;
-        }
-
-        .ps-input {
+        /* Edit Boxes / Input Fields */
+        .PSEDITBOX,
+        input.PSEDITBOX {
             font-family: Arial, sans-serif;
             font-size: 11px;
             padding: 2px 4px;
@@ -389,12 +270,33 @@
             color: var(--ps-text);
         }
 
-        .ps-input:focus {
-            outline: none;
-            border-color: #4b6b8a;
+        .PSEDITBOX:focus,
+        input.PSEDITBOX:focus {
+            outline: 2px solid var(--ps-focus) !important;
+            outline-offset: 1px !important;
+            border-color: var(--ps-focus) !important;
         }
 
-        .ps-select {
+        .PSLONGEDITBOX,
+        textarea.PSLONGEDITBOX {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            padding: 2px 4px;
+            border: 1px solid #7f9db9;
+            background: #ffffff;
+            color: var(--ps-text);
+            font-weight: 500;
+        }
+
+        .PSLONGEDITBOX:focus,
+        textarea.PSLONGEDITBOX:focus {
+            outline: 2px solid var(--ps-focus) !important;
+            outline-offset: 1px !important;
+        }
+
+        /* Dropdown Lists */
+        .PSDROPDOWNLIST,
+        select.PSDROPDOWNLIST {
             font-family: Arial, sans-serif;
             font-size: 11px;
             padding: 2px;
@@ -403,19 +305,23 @@
             cursor: pointer;
         }
 
-        .ps-select:focus {
-            outline: none;
-            border-color: #4b6b8a;
+        .PSDROPDOWNLIST:focus,
+        select.PSDROPDOWNLIST:focus {
+            outline: 2px solid var(--ps-focus) !important;
+            outline-offset: 1px !important;
         }
 
-        .ps-checkbox {
+        /* Checkboxes */
+        .PSCHECKBOX {
             width: 13px;
             height: 13px;
             margin-right: 6px;
         }
 
-        /* Classic Plus Buttons - Blue text style */
-        .ps-button {
+        /* ========================================
+           PSPUSHBUTTON - Buttons
+           ======================================== */
+        .PSPUSHBUTTON {
             font-family: Arial, sans-serif;
             font-size: 11px;
             padding: 2px 8px;
@@ -429,33 +335,36 @@
             gap: 4px;
         }
 
-        .ps-button:hover {
+        .PSPUSHBUTTON:hover {
             background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 100%);
         }
 
-        .ps-button:active {
+        .PSPUSHBUTTON:active {
             background: linear-gradient(180deg, #d0d0d0 0%, #e0e0e0 100%);
         }
 
-        .ps-button:focus {
-            outline: 1px dotted #000000;
-            outline-offset: -3px;
+        .PSPUSHBUTTON:focus {
+            outline: 3px solid var(--ps-focus) !important;
+            outline-offset: 2px !important;
         }
 
-        .ps-button-icon {
-            width: 16px;
-            height: 16px;
-        }
-
-        .ps-button-primary {
+        .PSPUSHBUTTONTBHDR {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            padding: 2px 8px;
             background: linear-gradient(180deg, #f8f8f8 0%, #e0e0e0 100%);
-            color: var(--ps-text);
-            border-color: #808080;
-            font-weight: normal;
+            border: 1px solid #808080;
+            cursor: pointer;
+            color: #0066cc;
+        }
+
+        .PSPUSHBUTTONTBHDR:focus {
+            outline: 3px solid var(--ps-focus) !important;
+            outline-offset: 2px !important;
         }
 
         /* Plus/Minus buttons for grid */
-        .ps-grid-btn {
+        .PSGRIDBTN {
             width: 20px;
             height: 18px;
             font-size: 14px;
@@ -466,9 +375,36 @@
         }
 
         /* ========================================
-           Grid/Table - Classic Plus Style
+           PSHYPERLINK - Links
            ======================================== */
-        .ps-grid {
+        .PSHYPERLINK {
+            color: var(--ps-link);
+            text-decoration: none;
+        }
+
+        .PSHYPERLINK:hover {
+            color: var(--ps-link-hover);
+            text-decoration: underline;
+        }
+
+        .PSHYPERLINK:focus {
+            outline: 2px solid var(--ps-focus) !important;
+            outline-offset: 2px !important;
+            background-color: rgba(0, 102, 204, 0.1) !important;
+        }
+
+        .PSHYPERLINKDISABLED {
+            color: #666666;
+            opacity: 0.6;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+
+        /* ========================================
+           PSLEVEL1GRID, PSLEVEL2GRID - Grids/Tables
+           ======================================== */
+        .PSLEVEL1GRID,
+        .PSLEVEL2GRID {
             width: 100%;
             border-collapse: collapse;
             font-size: 11px;
@@ -476,94 +412,48 @@
             border: 1px solid #7f9db9;
         }
 
-        .ps-grid th {
+        .PSLEVEL1GRID th,
+        .PSLEVEL2GRID th {
             background: linear-gradient(180deg, #d4e4f4 0%, #b4c4d4 100%);
             color: #000000;
-            font-weight: bold;
+            font-weight: 600;
             padding: 4px 8px;
             text-align: left;
             border: 1px solid #7f9db9;
         }
 
-        .ps-grid td {
+        .PSLEVEL1GRID td,
+        .PSLEVEL2GRID td {
             padding: 4px 8px;
             border: 1px solid #c0c0c0;
             background: #ffffff;
         }
 
-        .ps-grid tr:nth-child(even) td {
-            background: #f8f8f8;
+        .PSLEVEL1GRID tbody tr:nth-child(even) td,
+        .PSLEVEL2GRID tbody tr:nth-child(even) td {
+            background: #f8f9fa;
         }
 
-        .ps-grid tr:hover td {
+        .PSLEVEL1GRID tr:hover td,
+        .PSLEVEL2GRID tr:hover td {
             background: #e8f4ff;
         }
 
-        .ps-grid tr:last-child td {
-            border-bottom: none;
+        .PSLEVEL1GRID tr:focus-within,
+        .PSLEVEL2GRID tr:focus-within {
+            outline: 2px solid var(--ps-focus);
+            outline-offset: -2px;
         }
 
-        .ps-grid a {
-            color: var(--ps-link);
-            text-decoration: none;
+        .PSLEVEL1GRID .PSHYPERLINK,
+        .PSLEVEL2GRID .PSHYPERLINK {
             font-weight: 500;
         }
 
-        .ps-grid a:hover {
-            text-decoration: underline;
-            color: var(--ps-link-hover);
-        }
-
-        .ps-grid .actions {
-            white-space: nowrap;
-        }
-
-        .ps-grid .actions a {
-            margin-right: 12px;
-        }
-
-        /* Status Badges */
-        .ps-badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .ps-badge.active {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .ps-badge.inactive {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .ps-badge.pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
         /* ========================================
-           Links
+           PSTAB - Tabs
            ======================================== */
-        .ps-link {
-            color: var(--ps-link);
-            text-decoration: none;
-            transition: color 0.15s;
-        }
-
-        .ps-link:hover {
-            color: var(--ps-link-hover);
-            text-decoration: underline;
-        }
-
-        /* ========================================
-           Tabs - Classic Plus Style
-           ======================================== */
-        .ps-tabs {
+        .PSTABCONTAINER {
             display: flex;
             background: #f5f5f5;
             padding: 0 8px;
@@ -571,7 +461,7 @@
             border-bottom: 1px solid var(--ps-border);
         }
 
-        .ps-tab {
+        .PSTAB {
             font-family: 'Segoe UI', Arial, sans-serif;
             font-size: 12px;
             padding: 10px 20px;
@@ -584,65 +474,53 @@
             margin-right: 4px;
             position: relative;
             top: 1px;
-            transition: all 0.15s;
         }
 
-        .ps-tab:hover {
+        .PSTAB:hover {
             background: #ffffff;
             color: var(--ps-text);
         }
 
-        .ps-tab.active {
+        .PSTAB:focus {
+            outline: 2px solid var(--ps-focus) !important;
+            outline-offset: -2px !important;
+        }
+
+        .PSTABSEL {
             background: #ffffff;
             color: var(--ps-primary);
             font-weight: 600;
-            border-bottom: 1px solid #ffffff;
-        }
-
-        .ps-tab:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px var(--ps-focus);
-        }
-
-        .ps-tab-content {
-            background: var(--ps-content-bg);
-            border: 1px solid var(--ps-border);
-            border-top: none;
-            padding: 14px;
+            border-bottom: 3px solid var(--ps-focus) !important;
         }
 
         /* ========================================
-           Message Bar - Classic Plus Style
+           PSERRORMESSAGE - Error Messages
            ======================================== */
-        .ps-message-bar {
-            background: linear-gradient(180deg, #fff8e6 0%, #fff3cd 100%);
-            border: 1px solid #ffc107;
-            border-left: 4px solid #ffc107;
-            border-radius: 4px;
-            padding: 10px 14px;
-            margin-bottom: 16px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .PSERRORMESSAGE {
+            color: var(--ps-error) !important;
+            font-weight: 500 !important;
+            padding: 4px 8px !important;
+            background-color: #fff5f5 !important;
+            border-left: 3px solid var(--ps-error) !important;
+            margin-bottom: 10px;
         }
 
-        .ps-message-bar.error {
-            background: linear-gradient(180deg, #fff0f0 0%, #f8d7da 100%);
-            border-color: #dc3545;
+        /* ========================================
+           PSMODAL - Modals
+           ======================================== */
+        .PSMODAL {
+            background: white;
+            border: 1px solid var(--ps-border);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        .ps-message-bar.success {
-            background: linear-gradient(180deg, #f0fff4 0%, #d4edda 100%);
-            border-color: #28a745;
+        .PSMODAL:focus {
+            outline: 3px solid var(--ps-focus);
+            outline-offset: -3px;
         }
 
-        .ps-message-bar.info {
-            background: linear-gradient(180deg, #f0f8ff 0%, #cce5ff 100%);
-            border-color: #17a2b8;
-        }
-
-        .ps-message-bar strong {
+        .PSMODAL .PTPAGETITLE {
+            font-size: 1.25em;
             font-weight: 600;
         }
 
@@ -679,37 +557,39 @@
         }
 
         /* ========================================
-           Keyboard Shortcuts Display
+           Process Status Indicators
            ======================================== */
-        .keyboard-shortcuts {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 8px;
-            margin-top: 10px;
+        .PSPROCRUNNING {
+            color: var(--ps-focus);
+            font-weight: 500;
         }
 
-        .shortcut {
-            background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
-            padding: 8px 12px;
-            border: 1px solid var(--ps-border-light);
-            border-radius: 4px;
-            font-size: 12px;
+        .PSPROCERROR {
+            color: var(--ps-error);
+            font-weight: 500;
         }
 
-        .shortcut kbd {
-            background: var(--ps-primary);
-            color: #ffffff;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 11px;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            font-weight: 600;
+        .PSPROCSUCCESS {
+            color: var(--ps-success);
+            font-weight: 500;
+        }
+
+        /* ========================================
+           PSSCROLLAREAFRAME - Scroll Areas
+           ======================================== */
+        .PSSCROLLAREAFRAME {
+            border: 1px solid var(--ps-border);
+            padding: 8px;
+        }
+
+        .PSSCROLLAREAFRAME:focus-within {
+            outline: 1px solid var(--ps-focus);
         }
 
         /* ========================================
            Footer
            ======================================== */
-        .ps-footer {
+        #ptfooter {
             background: linear-gradient(180deg, #f5f5f5 0%, #e8e8e8 100%);
             border-top: 1px solid var(--ps-border);
             padding: 12px 16px;
@@ -720,7 +600,7 @@
         }
 
         /* ========================================
-           A11Y Widget Styles - Classic Plus
+           A11Y Widget Container Styles
            ======================================== */
         .a11y-widget-container {
             position: fixed;
@@ -751,7 +631,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: -2px 2px 8px var(--a11y-shadow);
+            box-shadow: -2px 2px 8px rgba(0,0,0,0.15);
             transition: all 0.2s ease;
         }
 
@@ -759,7 +639,7 @@
             border-radius: 0 8px 8px 0;
             border: 1px solid var(--ps-primary-dark);
             border-left: none;
-            box-shadow: 2px 2px 8px var(--a11y-shadow);
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
         }
 
         .a11y-trigger:hover {
@@ -769,7 +649,7 @@
 
         .a11y-trigger:focus {
             outline: none;
-            box-shadow: -2px 2px 8px var(--a11y-shadow), 0 0 0 3px var(--a11y-focus);
+            box-shadow: -2px 2px 8px rgba(0,0,0,0.15), 0 0 0 3px #ffcc00;
         }
 
         .a11y-trigger svg {
@@ -784,10 +664,10 @@
             transform: translateY(-50%);
             width: 320px;
             max-height: 80vh;
-            background: var(--a11y-white);
+            background: #ffffff;
             border: 1px solid var(--ps-border);
             border-radius: 8px;
-            box-shadow: 0 8px 24px var(--a11y-shadow);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -856,7 +736,7 @@
 
         .a11y-close:focus {
             outline: none;
-            box-shadow: 0 0 0 2px var(--a11y-focus);
+            box-shadow: 0 0 0 2px #ffcc00;
         }
 
         .a11y-body {
@@ -893,17 +773,12 @@
             font-family: 'Segoe UI', Arial, sans-serif;
             background: white;
             cursor: pointer;
-            transition: border-color 0.15s;
-        }
-
-        .a11y-profile-select:hover {
-            border-color: var(--ps-border-dark);
         }
 
         .a11y-profile-select:focus {
             outline: none;
-            border-color: var(--a11y-primary);
-            box-shadow: 0 0 0 3px rgba(15, 84, 153, 0.15);
+            border-color: var(--ps-primary);
+            box-shadow: 0 0 0 3px rgba(75, 107, 138, 0.15);
         }
 
         .a11y-font-controls {
@@ -916,7 +791,7 @@
         .a11y-font-btn {
             width: 36px;
             height: 32px;
-            border: 1px solid var(--ps-button-border);
+            border: 1px solid var(--ps-border-dark);
             border-radius: 4px;
             background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
             cursor: pointer;
@@ -931,16 +806,11 @@
 
         .a11y-font-btn:hover {
             background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 100%);
-            border-color: var(--ps-border-dark);
-        }
-
-        .a11y-font-btn:active {
-            background: linear-gradient(180deg, #e8e8e8 0%, #f0f0f0 100%);
         }
 
         .a11y-font-btn:focus {
             outline: none;
-            box-shadow: 0 0 0 2px var(--a11y-focus);
+            box-shadow: 0 0 0 2px #ffcc00;
         }
 
         .a11y-font-display {
@@ -959,7 +829,7 @@
 
         .a11y-contrast-btn {
             padding: 8px 10px;
-            border: 1px solid var(--ps-button-border);
+            border: 1px solid var(--ps-border-dark);
             border-radius: 4px;
             background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
             cursor: pointer;
@@ -970,12 +840,11 @@
 
         .a11y-contrast-btn:hover {
             background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 100%);
-            border-color: var(--ps-border-dark);
         }
 
         .a11y-contrast-btn:focus {
             outline: none;
-            box-shadow: 0 0 0 2px var(--a11y-focus);
+            box-shadow: 0 0 0 2px #ffcc00;
         }
 
         .a11y-contrast-btn.active {
@@ -1001,7 +870,7 @@
         }
 
         .a11y-toggle:hover {
-            background: var(--ps-grid-alt-row);
+            background: #f5f5f5;
         }
 
         .a11y-toggle input[type="checkbox"] {
@@ -1056,7 +925,7 @@
         }
 
         .a11y-slider:focus {
-            box-shadow: 0 0 0 3px rgba(15, 84, 153, 0.2);
+            box-shadow: 0 0 0 3px rgba(75, 107, 138, 0.2);
         }
 
         .a11y-cursor-grid {
@@ -1067,7 +936,7 @@
 
         .a11y-cursor-btn {
             padding: 8px 6px;
-            border: 1px solid var(--ps-button-border);
+            border: 1px solid var(--ps-border-dark);
             border-radius: 4px;
             background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
             cursor: pointer;
@@ -1078,12 +947,11 @@
 
         .a11y-cursor-btn:hover {
             background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 100%);
-            border-color: var(--ps-border-dark);
         }
 
         .a11y-cursor-btn:focus {
             outline: none;
-            box-shadow: 0 0 0 2px var(--a11y-focus);
+            box-shadow: 0 0 0 2px #ffcc00;
         }
 
         .a11y-cursor-btn.active {
@@ -1133,7 +1001,7 @@
         .a11y-position-btn {
             width: 32px;
             height: 28px;
-            border: 1px solid var(--ps-button-border);
+            border: 1px solid var(--ps-border-dark);
             border-radius: 4px;
             background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
             cursor: pointer;
@@ -1146,16 +1014,15 @@
 
         .a11y-position-btn:hover {
             background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 100%);
-            border-color: var(--ps-border-dark);
         }
 
         .a11y-position-btn:focus {
             outline: none;
-            box-shadow: 0 0 0 2px var(--a11y-focus);
+            box-shadow: 0 0 0 2px #ffcc00;
         }
 
         /* ========================================
-           Accessibility Effect Styles
+           Reading Guide
            ======================================== */
         .a11y-reading-guide {
             position: fixed;
@@ -1170,58 +1037,55 @@
             display: none;
         }
 
-        /* Text Size Scaling - Applied via CSS variable */
+        /* ========================================
+           Text Size Scaling - PeopleSoft Classes
+           ======================================== */
         :root {
             --a11y-text-scale: 1;
         }
 
-        /* Comprehensive text scaling - all elements with font-size */
         body.a11y-text-scaled {
             font-size: calc(12px * var(--a11y-text-scale)) !important;
         }
 
-        body.a11y-text-scaled .ps-page-container,
-        body.a11y-text-scaled .ps-header,
-        body.a11y-text-scaled .ps-navbar,
-        body.a11y-text-scaled .ps-breadcrumb,
-        body.a11y-text-scaled .ps-footer {
+        body.a11y-text-scaled #ptpgltbody,
+        body.a11y-text-scaled #pthdr2,
+        body.a11y-text-scaled #ptfooter {
             font-size: calc(12px * var(--a11y-text-scale)) !important;
         }
 
-        body.a11y-text-scaled .ps-nav-menu-btn,
-        body.a11y-text-scaled .ps-breadcrumb-nav,
-        body.a11y-text-scaled .ps-group-box-header,
-        body.a11y-text-scaled .ps-group-box-description,
-        body.a11y-text-scaled .ps-group-box p,
-        body.a11y-text-scaled .ps-subsection-header,
-        body.a11y-text-scaled .ps-label,
-        body.a11y-text-scaled .ps-input,
-        body.a11y-text-scaled .ps-select,
-        body.a11y-text-scaled .ps-button,
-        body.a11y-text-scaled .ps-app-name,
-        body.a11y-text-scaled .ps-badge,
-        body.a11y-text-scaled .shortcut kbd,
-        body.a11y-text-scaled .ps-footer {
+        body.a11y-text-scaled #pthdr2menu .PSPUSHBUTTON,
+        body.a11y-text-scaled #pthdr2breadcrumb,
+        body.a11y-text-scaled .PSGROUPBOXLABEL,
+        body.a11y-text-scaled .PSGROUPBOXWL,
+        body.a11y-text-scaled .PSGROUPBOXWL p,
+        body.a11y-text-scaled .PTSECTIONHEADER,
+        body.a11y-text-scaled .PSLABEL,
+        body.a11y-text-scaled .PSREQUIREDFLDLBL,
+        body.a11y-text-scaled .PSEDITBOX,
+        body.a11y-text-scaled .PSLONGEDITBOX,
+        body.a11y-text-scaled .PSDROPDOWNLIST,
+        body.a11y-text-scaled .PSPUSHBUTTON,
+        body.a11y-text-scaled .PSPUSHBUTTONTBHDR,
+        body.a11y-text-scaled .PSHYPERLINK,
+        body.a11y-text-scaled .PSERRORMESSAGE,
+        body.a11y-text-scaled #ptfooter {
             font-size: calc(11px * var(--a11y-text-scale)) !important;
         }
 
-        body.a11y-text-scaled .ps-nav-btn,
-        body.a11y-text-scaled .ps-breadcrumb,
-        body.a11y-text-scaled .ps-grid th,
-        body.a11y-text-scaled .ps-grid td {
-            font-size: calc(12px * var(--a11y-text-scale)) !important;
+        body.a11y-text-scaled .PSLEVEL1GRID th,
+        body.a11y-text-scaled .PSLEVEL1GRID td,
+        body.a11y-text-scaled .PSLEVEL2GRID th,
+        body.a11y-text-scaled .PSLEVEL2GRID td {
+            font-size: calc(11px * var(--a11y-text-scale)) !important;
         }
 
-        body.a11y-text-scaled .ps-oracle-logo {
+        body.a11y-text-scaled #pthdr2branding .PTBRANDLOGO {
             font-size: calc(20px * var(--a11y-text-scale)) !important;
         }
 
-        body.a11y-text-scaled .ps-page-title h1 {
+        body.a11y-text-scaled .PTPAGETITLE {
             font-size: calc(18px * var(--a11y-text-scale)) !important;
-        }
-
-        body.a11y-text-scaled .ps-logo-text {
-            font-size: calc(16px * var(--a11y-text-scale)) !important;
         }
 
         /* Scale all remaining text elements */
@@ -1239,7 +1103,7 @@
         }
 
         /* ========================================
-           Dark Mode - Comprehensive Coverage
+           Dark Mode - PeopleSoft Classes
            ======================================== */
         body.a11y-dark-mode {
             --ps-body-bg: #1a1a2e;
@@ -1256,142 +1120,129 @@
             color: #e8e8e8 !important;
         }
 
-        body.a11y-dark-mode .ps-header,
-        body.a11y-dark-mode .ps-header-top {
+        body.a11y-dark-mode #pthdr2,
+        body.a11y-dark-mode #pthdr2navbar {
             background: linear-gradient(180deg, #3a4a5a 0%, #2a3a4a 100%) !important;
             border-color: #404060 !important;
         }
 
-        body.a11y-dark-mode .ps-nav-menu-btn {
+        body.a11y-dark-mode #pthdr2menu .PSPUSHBUTTON {
             background: linear-gradient(180deg, #4a5a6a 0%, #3a4a5a 100%) !important;
             border-color: #505070 !important;
             color: #ffffff !important;
         }
 
-        body.a11y-dark-mode .ps-oracle-bar {
+        body.a11y-dark-mode #pthdr2branding {
             background: #252540 !important;
             border-color: #404060 !important;
         }
 
-        body.a11y-dark-mode .ps-oracle-logo {
+        body.a11y-dark-mode #pthdr2branding .PTBRANDLOGO {
             color: #88aaff !important;
         }
 
-        body.a11y-dark-mode .ps-page-container {
+        body.a11y-dark-mode #ptpgltbody {
             background: #1a1a2e !important;
         }
 
-        body.a11y-dark-mode .ps-navbar,
-        body.a11y-dark-mode .ps-breadcrumb {
-            background: #252540 !important;
-            border-color: #404060 !important;
-            color: #e8e8e8 !important;
-        }
-
-        body.a11y-dark-mode .ps-breadcrumb a,
-        body.a11y-dark-mode .ps-breadcrumb-nav a {
+        body.a11y-dark-mode #pthdr2breadcrumb .PSHYPERLINK {
             color: #66aaff !important;
         }
 
-        body.a11y-dark-mode .ps-nav-btn {
-            background: linear-gradient(180deg, #3a3a5a 0%, #2a2a4a 100%) !important;
-            border-color: #505070 !important;
-            color: #e8e8e8 !important;
-        }
-
-        body.a11y-dark-mode .ps-group-box {
+        body.a11y-dark-mode .PSGROUPBOX {
             background: #252540 !important;
             border-color: #404060 !important;
         }
 
-        body.a11y-dark-mode .ps-group-box-header {
+        body.a11y-dark-mode .PSGROUPBOXLABEL {
             color: #ffaa44 !important;
         }
 
-        body.a11y-dark-mode .ps-group-box-header::before {
+        body.a11y-dark-mode .PSGROUPBOXLABEL::before {
             color: #ffaa44 !important;
         }
 
-        body.a11y-dark-mode .ps-group-box-content {
+        body.a11y-dark-mode .PSGROUPBOXWL {
             background: #252540 !important;
             border-color: #404060 !important;
         }
 
-        body.a11y-dark-mode .ps-group-box-description,
-        body.a11y-dark-mode .ps-group-box p {
+        body.a11y-dark-mode .PSGROUPBOXWL p {
             color: #c0c0c0 !important;
         }
 
-        body.a11y-dark-mode .ps-subsection-header {
+        body.a11y-dark-mode .PTSECTIONHEADER {
             color: #ffaa44 !important;
         }
 
-        body.a11y-dark-mode .ps-label {
+        body.a11y-dark-mode .PTPAGETITLE {
+            color: #88aaff !important;
+        }
+
+        body.a11y-dark-mode .PSLABEL,
+        body.a11y-dark-mode .PSREQUIREDFLDLBL {
             color: #e8e8e8 !important;
         }
 
-        body.a11y-dark-mode .ps-input,
-        body.a11y-dark-mode .ps-select {
+        body.a11y-dark-mode .PSEDITBOX,
+        body.a11y-dark-mode .PSLONGEDITBOX,
+        body.a11y-dark-mode .PSDROPDOWNLIST {
             background: #1a1a2e !important;
             border-color: #505070 !important;
             color: #e8e8e8 !important;
         }
 
-        body.a11y-dark-mode .ps-button {
+        body.a11y-dark-mode .PSPUSHBUTTON,
+        body.a11y-dark-mode .PSPUSHBUTTONTBHDR {
             background: linear-gradient(180deg, #3a3a5a 0%, #2a2a4a 100%) !important;
             border-color: #505070 !important;
             color: #66aaff !important;
         }
 
-        body.a11y-dark-mode .ps-page-title {
-            background: #252540 !important;
+        body.a11y-dark-mode .PSLEVEL1GRID,
+        body.a11y-dark-mode .PSLEVEL2GRID {
             border-color: #404060 !important;
         }
 
-        body.a11y-dark-mode .ps-page-title h1 {
-            color: #88aaff !important;
-        }
-
-        body.a11y-dark-mode .ps-grid {
-            border-color: #404060 !important;
-        }
-
-        body.a11y-dark-mode .ps-grid th {
+        body.a11y-dark-mode .PSLEVEL1GRID th,
+        body.a11y-dark-mode .PSLEVEL2GRID th {
             background: linear-gradient(180deg, #3a5080 0%, #2a4070 100%) !important;
             border-color: #404060 !important;
             color: #ffffff !important;
         }
 
-        body.a11y-dark-mode .ps-grid td {
+        body.a11y-dark-mode .PSLEVEL1GRID td,
+        body.a11y-dark-mode .PSLEVEL2GRID td {
             background: #252540 !important;
             border-color: #404060 !important;
             color: #e8e8e8 !important;
         }
 
-        body.a11y-dark-mode .ps-grid tr:nth-child(even) td {
+        body.a11y-dark-mode .PSLEVEL1GRID tbody tr:nth-child(even) td,
+        body.a11y-dark-mode .PSLEVEL2GRID tbody tr:nth-child(even) td {
             background: #2a2a4a !important;
         }
 
-        body.a11y-dark-mode .ps-grid tr:hover td {
+        body.a11y-dark-mode .PSLEVEL1GRID tr:hover td,
+        body.a11y-dark-mode .PSLEVEL2GRID tr:hover td {
             background: #3a3a5a !important;
         }
 
-        body.a11y-dark-mode .ps-grid a,
-        body.a11y-dark-mode .ps-link,
+        body.a11y-dark-mode .PSHYPERLINK,
         body.a11y-dark-mode a {
             color: #66aaff !important;
         }
 
-        body.a11y-dark-mode .ps-footer {
+        body.a11y-dark-mode #ptfooter {
             background: #252540 !important;
             border-color: #404060 !important;
             color: #a0a0a0 !important;
         }
 
-        body.a11y-dark-mode .ps-message-bar {
-            background: #3a3a3a !important;
-            border-color: #606060 !important;
-            color: #e8e8e8 !important;
+        body.a11y-dark-mode .PSERRORMESSAGE {
+            background: #3a2020 !important;
+            border-color: #ff6666 !important;
+            color: #ffaaaa !important;
         }
 
         body.a11y-dark-mode .animated-box {
@@ -1403,7 +1254,7 @@
         }
 
         /* ========================================
-           Light Mode (High Contrast) - Comprehensive
+           Light Mode (High Contrast) - PeopleSoft
            ======================================== */
         body.a11y-light-mode {
             --ps-body-bg: #ffffff;
@@ -1416,106 +1267,114 @@
             color: #000000 !important;
         }
 
-        body.a11y-light-mode .ps-header,
-        body.a11y-light-mode .ps-header-top {
+        body.a11y-light-mode #pthdr2,
+        body.a11y-light-mode #pthdr2navbar {
             background: #000066 !important;
             color: #ffffff !important;
         }
 
-        body.a11y-light-mode .ps-nav-menu-btn {
+        body.a11y-light-mode #pthdr2menu .PSPUSHBUTTON {
             background: #000099 !important;
             border-color: #ffffff !important;
             color: #ffffff !important;
         }
 
-        body.a11y-light-mode .ps-oracle-bar {
+        body.a11y-light-mode #pthdr2branding {
             background: #ffffff !important;
             border: 2px solid #000000 !important;
         }
 
-        body.a11y-light-mode .ps-oracle-logo {
+        body.a11y-light-mode #pthdr2branding .PTBRANDLOGO {
             color: #000066 !important;
         }
 
-        body.a11y-light-mode .ps-page-container {
+        body.a11y-light-mode #ptpgltbody {
             background: #ffffff !important;
         }
 
-        body.a11y-light-mode .ps-group-box {
+        body.a11y-light-mode .PSGROUPBOX {
             background: #ffffff !important;
             border: 2px solid #000000 !important;
         }
 
-        body.a11y-light-mode .ps-group-box-header {
+        body.a11y-light-mode .PSGROUPBOXLABEL {
             color: #cc4400 !important;
         }
 
-        body.a11y-light-mode .ps-group-box-header::before {
+        body.a11y-light-mode .PSGROUPBOXLABEL::before {
             color: #cc4400 !important;
         }
 
-        body.a11y-light-mode .ps-group-box-content {
+        body.a11y-light-mode .PSGROUPBOXWL {
             background: #ffffff !important;
             border-color: #000000 !important;
         }
 
-        body.a11y-light-mode .ps-group-box-description,
-        body.a11y-light-mode .ps-group-box p,
-        body.a11y-light-mode .ps-label {
+        body.a11y-light-mode .PSGROUPBOXWL p,
+        body.a11y-light-mode .PSLABEL,
+        body.a11y-light-mode .PSREQUIREDFLDLBL {
             color: #000000 !important;
         }
 
-        body.a11y-light-mode .ps-subsection-header {
+        body.a11y-light-mode .PTSECTIONHEADER {
             color: #cc4400 !important;
         }
 
-        body.a11y-light-mode .ps-input,
-        body.a11y-light-mode .ps-select {
+        body.a11y-light-mode .PSEDITBOX,
+        body.a11y-light-mode .PSLONGEDITBOX,
+        body.a11y-light-mode .PSDROPDOWNLIST {
             background: #ffffff !important;
             border: 2px solid #000000 !important;
             color: #000000 !important;
         }
 
-        body.a11y-light-mode .ps-button {
+        body.a11y-light-mode .PSPUSHBUTTON,
+        body.a11y-light-mode .PSPUSHBUTTONTBHDR {
             background: #ffffff !important;
             border: 2px solid #000000 !important;
             color: #0000cc !important;
         }
 
-        body.a11y-light-mode .ps-grid,
-        body.a11y-light-mode .ps-grid td,
-        body.a11y-light-mode .ps-grid th {
+        body.a11y-light-mode .PSLEVEL1GRID,
+        body.a11y-light-mode .PSLEVEL2GRID,
+        body.a11y-light-mode .PSLEVEL1GRID td,
+        body.a11y-light-mode .PSLEVEL2GRID td,
+        body.a11y-light-mode .PSLEVEL1GRID th,
+        body.a11y-light-mode .PSLEVEL2GRID th {
             border: 2px solid #000000 !important;
         }
 
-        body.a11y-light-mode .ps-grid th {
+        body.a11y-light-mode .PSLEVEL1GRID th,
+        body.a11y-light-mode .PSLEVEL2GRID th {
             background: #000066 !important;
             color: #ffffff !important;
         }
 
-        body.a11y-light-mode .ps-grid td {
+        body.a11y-light-mode .PSLEVEL1GRID td,
+        body.a11y-light-mode .PSLEVEL2GRID td {
             background: #ffffff !important;
             color: #000000 !important;
         }
 
-        body.a11y-light-mode .ps-grid tr:nth-child(even) td {
+        body.a11y-light-mode .PSLEVEL1GRID tbody tr:nth-child(even) td,
+        body.a11y-light-mode .PSLEVEL2GRID tbody tr:nth-child(even) td {
             background: #f0f0f0 !important;
         }
 
-        body.a11y-light-mode .ps-link,
+        body.a11y-light-mode .PSHYPERLINK,
         body.a11y-light-mode a {
             color: #0000cc !important;
             text-decoration: underline !important;
         }
 
-        body.a11y-light-mode .ps-footer {
+        body.a11y-light-mode #ptfooter {
             background: #ffffff !important;
             border-top: 2px solid #000000 !important;
             color: #000000 !important;
         }
 
         /* ========================================
-           Invert Mode - Exclude widget
+           Invert Mode
            ======================================== */
         body.a11y-invert-mode {
             filter: invert(1) hue-rotate(180deg);
@@ -1526,7 +1385,9 @@
             filter: invert(1) hue-rotate(180deg);
         }
 
-        /* Stop Animations */
+        /* ========================================
+           Stop Animations
+           ======================================== */
         body.a11y-stop-animations *,
         body.a11y-stop-animations *::before,
         body.a11y-stop-animations *::after {
@@ -1534,15 +1395,20 @@
             transition: none !important;
         }
 
-        /* Focus Highlight */
+        /* ========================================
+           Focus Highlight
+           ======================================== */
         body.a11y-focus-highlight *:focus {
             outline: 3px solid #ff6600 !important;
             outline-offset: 3px !important;
             box-shadow: 0 0 0 6px rgba(255, 102, 0, 0.3) !important;
         }
 
-        /* Highlight Links */
-        body.a11y-highlight-links a {
+        /* ========================================
+           Highlight Links
+           ======================================== */
+        body.a11y-highlight-links a,
+        body.a11y-highlight-links .PSHYPERLINK {
             background-color: #ffffcc !important;
             color: #0000cc !important;
             text-decoration: underline !important;
@@ -1550,136 +1416,126 @@
             border-radius: 2px !important;
         }
 
-        /* Large Cursor */
+        /* ========================================
+           Large Cursor
+           ======================================== */
         body.a11y-cursor-large,
         body.a11y-cursor-large * {
             cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="%23000" stroke="%23fff" stroke-width="1" d="M5 3l14 9-6 1 4 8-3 1-4-8-5 4z"/></svg>') 0 0, auto !important;
         }
 
-        /* X-Large Cursor */
         body.a11y-cursor-xlarge,
         body.a11y-cursor-xlarge * {
             cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24"><path fill="%23000" stroke="%23fff" stroke-width="1" d="M5 3l14 9-6 1 4 8-3 1-4-8-5 4z"/></svg>') 0 0, auto !important;
         }
 
-        /* Responsive */
-        @media (max-width: 400px) {
-            .a11y-panel {
-                width: 280px;
-            }
-        }
-
-        @media (max-height: 600px) {
-            .a11y-panel {
-                max-height: 90vh;
-            }
-        }
-
+        /* ========================================
+           Print Overrides
+           ======================================== */
         @media print {
+            .PSPUSHBUTTON,
+            .PSPUSHBUTTONTBHDR,
             .a11y-widget-container {
                 display: none !important;
+            }
+
+            .PSLEVEL1GRID,
+            .PSLEVEL2GRID {
+                border: 1px solid #000 !important;
             }
         }
     </style>
 </head>
 <body>
-    <!-- PeopleSoft Classic Plus Header -->
-    <div class="ps-header">
-        <div class="ps-header-top">
-            <div class="ps-nav-menu">
-                <button class="ps-nav-menu-btn">Favorites</button>
-                <button class="ps-nav-menu-btn">Main Menu</button>
+    <!-- PeopleSoft Header (pthdr2) -->
+    <div id="pthdr2">
+        <div id="pthdr2navbar">
+            <div id="pthdr2menu">
+                <button class="PSPUSHBUTTON">Favorites</button>
+                <button class="PSPUSHBUTTON">Main Menu</button>
             </div>
-            <div class="ps-breadcrumb-nav">
-                <a href="#">PeopleTools</a>
+            <div id="pthdr2breadcrumb">
+                <a href="#" class="PSHYPERLINK">PeopleTools</a>
                 <span class="sep">&gt;</span>
-                <a href="#">Portal</a>
+                <a href="#" class="PSHYPERLINK">Portal</a>
                 <span class="sep">&gt;</span>
-                <a href="#">Accessibility Demo</a>
+                <a href="#" class="PSHYPERLINK">Accessibility Demo</a>
                 <span class="sep">&gt;</span>
                 <span>A11Y Widget Demo</span>
             </div>
         </div>
     </div>
 
-    <!-- PS_A11Y Branding Bar -->
-    <div class="ps-oracle-bar">
+    <!-- Branding Bar -->
+    <div id="pthdr2branding">
         <div>
-            <span class="ps-oracle-logo" style="color: #4b6b8a;">PS_A11Y</span>
+            <span class="PTBRANDLOGO">PS_A11Y</span>
         </div>
     </div>
 
-    <!-- Page Content -->
-    <div class="ps-page-container">
+    <!-- Page Content (ptpgltbody) -->
+    <div id="ptpgltbody">
 
         <!-- Homepage Pagelet Section -->
-        <div class="ps-group-box">
-            <div class="ps-group-box-header expanded">
-                <input type="checkbox" class="ps-group-box-checkbox">
+        <div class="PSGROUPBOX">
+            <div class="PSGROUPBOXLABEL expanded">
+                <input type="checkbox" class="PSCHECKBOX">
                 Homepage Pagelet
             </div>
-            <div class="ps-group-box-content">
-                <p class="ps-group-box-description">Publishing as a Homepage Pagelet allows this pagelet to be placed on a user's Homepage tab. Homepage Pagelets are organized by pagelet folders.</p>
-                <div class="ps-form-row">
-                    <label class="ps-label">Folder:</label>
-                    <select class="ps-select" style="width: 200px;">
+            <div class="PSGROUPBOXWL">
+                <p>Publishing as a Homepage Pagelet allows this pagelet to be placed on a user's Homepage tab. Homepage Pagelets are organized by pagelet folders.</p>
+                <div class="PSFORMROW">
+                    <label class="PSLABEL">Folder:</label>
+                    <select class="PSDROPDOWNLIST" style="width: 200px;">
                         <option></option>
                         <option>Accessibility</option>
                         <option>General</option>
                     </select>
                 </div>
-                <div class="ps-subsection">
-                    <div class="ps-subsection-header">Advanced Options</div>
-                </div>
-                <div class="ps-subsection">
-                    <div class="ps-subsection-header">WSRP Options</div>
-                </div>
+                <div class="PTSECTIONHEADER">Advanced Options</div>
+                <div class="PTSECTIONHEADER">WSRP Options</div>
             </div>
         </div>
 
         <!-- Template Pagelet Section -->
-        <div class="ps-group-box">
-            <div class="ps-group-box-header expanded">
-                <input type="checkbox" class="ps-group-box-checkbox">
+        <div class="PSGROUPBOX">
+            <div class="PSGROUPBOXLABEL expanded">
+                <input type="checkbox" class="PSCHECKBOX">
                 Template Pagelet
             </div>
-            <div class="ps-group-box-content">
-                <p class="ps-group-box-description">Publishing as a Template Pagelet allows this pagelet to be used with any template. For the Context Manager template, this pagelet can be context sensitive to the target transaction.</p>
-                <div class="ps-subsection">
-                    <div class="ps-subsection-header">Advanced Options</div>
-                </div>
-                <div class="ps-subsection">
-                    <div class="ps-subsection-header">WSRP Options</div>
-                </div>
+            <div class="PSGROUPBOXWL">
+                <p>Publishing as a Template Pagelet allows this pagelet to be used with any template. For the Context Manager template, this pagelet can be context sensitive to the target transaction.</p>
+                <div class="PTSECTIONHEADER">Advanced Options</div>
+                <div class="PTSECTIONHEADER">WSRP Options</div>
             </div>
         </div>
 
         <!-- Embeddable Pagelet Section -->
-        <div class="ps-group-box">
-            <div class="ps-group-box-header expanded">
-                <input type="checkbox" class="ps-group-box-checkbox">
+        <div class="PSGROUPBOX">
+            <div class="PSGROUPBOXLABEL expanded">
+                <input type="checkbox" class="PSCHECKBOX">
                 Embeddable Pagelet
             </div>
-            <div class="ps-group-box-content">
-                <p class="ps-group-box-description">Publishing as an Embeddable Pagelet allows this pagelet to be rendered on a target transaction page. The target transaction executes this pagelet from the Pagelet Wizard API.</p>
+            <div class="PSGROUPBOXWL">
+                <p>Publishing as an Embeddable Pagelet allows this pagelet to be rendered on a target transaction page. The target transaction executes this pagelet from the Pagelet Wizard API.</p>
             </div>
         </div>
 
         <!-- Pagelet Security Section -->
-        <div class="ps-group-box">
-            <div class="ps-group-box-header expanded">
+        <div class="PSGROUPBOX">
+            <div class="PSGROUPBOXLABEL expanded">
                 Pagelet Security
             </div>
-            <div class="ps-group-box-content">
-                <div class="ps-form-row">
-                    <label class="ps-label required">Security Type:</label>
-                    <select class="ps-select" style="width: 180px;">
+            <div class="PSGROUPBOXWL">
+                <div class="PSFORMROW">
+                    <label class="PSREQUIREDFLDLBL">Security Type:</label>
+                    <select class="PSDROPDOWNLIST" style="width: 180px;">
                         <option>Select Security Access</option>
                         <option>Public</option>
                         <option>Permission List</option>
                     </select>
-                    <input type="checkbox" class="ps-checkbox" style="margin-left: 16px;">
-                    <label style="font-size: 11px;">Author Access</label>
+                    <input type="checkbox" class="PSCHECKBOX" style="margin-left: 16px;">
+                    <label class="PSLABEL" style="min-width: auto;">Author Access</label>
                 </div>
 
                 <!-- Selected Security Grid -->
@@ -1687,38 +1543,38 @@
                     <div style="font-size: 11px; color: var(--ps-section-header); font-weight: bold; margin-bottom: 6px;">Selected Security</div>
                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 11px;">
                         <span>|</span>
-                        <a href="#" class="ps-link">⊞</a>
+                        <a href="#" class="PSHYPERLINK">⊞</a>
                         <span>First</span>
                         <span>◀</span>
                         <span>1 of 1</span>
                         <span>▶</span>
                         <span>Last</span>
                     </div>
-                    <table class="ps-grid">
+                    <table class="PSLEVEL1GRID">
                         <thead>
                             <tr>
-                                <th style="width: 120px;">*Type</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th style="width: 50px;"></th>
+                                <th style="width: 120px;" scope="col">*Type</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Description</th>
+                                <th style="width: 50px;" scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <select class="ps-select" style="width: 110px;">
+                                    <select class="PSDROPDOWNLIST" style="width: 110px;">
                                         <option>Permission List</option>
                                         <option>Role</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="ps-input" style="width: 120px;" value="PTPT1000">
-                                    <a href="#" style="margin-left: 2px;">🔍</a>
+                                    <input type="text" class="PSEDITBOX" style="width: 120px;" value="PTPT1000">
+                                    <a href="#" class="PSHYPERLINK" style="margin-left: 2px;">🔍</a>
                                 </td>
                                 <td>PeopleSoft User</td>
                                 <td>
-                                    <button class="ps-button ps-grid-btn">+</button>
-                                    <button class="ps-button ps-grid-btn">−</button>
+                                    <button class="PSPUSHBUTTON PSGRIDBTN">+</button>
+                                    <button class="PSPUSHBUTTON PSGRIDBTN">−</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -1728,12 +1584,12 @@
         </div>
 
         <!-- Animation Demo Section -->
-        <div class="ps-group-box">
-            <div class="ps-group-box-header expanded">
+        <div class="PSGROUPBOX">
+            <div class="PSGROUPBOXLABEL expanded">
                 Animation Demo
             </div>
-            <div class="ps-group-box-content">
-                <p class="ps-group-box-description">Use the "Stop Animations" feature in the accessibility widget to pause these animations for users with motion sensitivity or vestibular disorders.</p>
+            <div class="PSGROUPBOXWL">
+                <p>Use the "Stop Animations" feature in the accessibility widget to pause these animations for users with motion sensitivity or vestibular disorders.</p>
                 <div style="display: flex; align-items: center; gap: 20px; padding: 10px 0;">
                     <div class="animated-box" title="Pulsing animation"></div>
                     <div class="spinning-box" title="Spinning animation"></div>
@@ -1746,14 +1602,22 @@
 
         <!-- Action Buttons -->
         <div style="margin-top: 16px; padding: 8px 0; border-top: 1px solid #c0c0c0;">
-            <button class="ps-button">
+            <button class="PSPUSHBUTTON">
                 <span>💾</span> Save
             </button>
-            <button class="ps-button">
+            <button class="PSPUSHBUTTON">
                 <span>✉</span> Notify
+            </button>
+            <button class="PSPUSHBUTTON">
+                <span>🔙</span> Return to Search
             </button>
         </div>
 
+    </div>
+
+    <!-- Footer -->
+    <div id="ptfooter">
+        PeopleSoft FSCM 9.2 | A11Y Widget Demo | &copy; 2024 PS_A11Y Project
     </div>
 
     <!-- Reading Guide (follows mouse) -->
@@ -1880,22 +1744,6 @@
     <script>
         (function() {
             'use strict';
-
-            // Tab functionality
-            window.showTab = function(btn, tabId) {
-                // Hide all tab contents
-                document.querySelectorAll('.ps-tab-content').forEach(content => {
-                    content.style.display = 'none';
-                });
-                // Remove active class from all tabs
-                document.querySelectorAll('.ps-tab').forEach(tab => {
-                    tab.classList.remove('active');
-                });
-                // Show selected tab content
-                document.getElementById(tabId).style.display = 'block';
-                // Add active class to clicked tab
-                btn.classList.add('active');
-            };
 
             // State
             const state = {
