@@ -414,7 +414,7 @@
             margin-right: 6px;
         }
 
-        /* Classic Plus Buttons */
+        /* Classic Plus Buttons - Blue text style */
         .ps-button {
             font-family: Arial, sans-serif;
             font-size: 11px;
@@ -422,7 +422,7 @@
             background: linear-gradient(180deg, #f8f8f8 0%, #e0e0e0 100%);
             border: 1px solid #808080;
             cursor: pointer;
-            color: var(--ps-text);
+            color: #0066cc;
             margin-right: 4px;
             display: inline-flex;
             align-items: center;
@@ -1391,12 +1391,11 @@
         </div>
     </div>
 
-    <!-- Oracle Branding Bar -->
+    <!-- PS_A11Y Branding Bar -->
     <div class="ps-oracle-bar">
         <div>
-            <span class="ps-oracle-logo">ORACLE</span><sup>&reg;</sup>
+            <span class="ps-oracle-logo" style="color: #4b6b8a;">PS_A11Y</span>
         </div>
-        <div class="ps-app-name">PeopleSoft Classic Plus</div>
     </div>
 
     <!-- Page Content -->
@@ -1517,13 +1516,30 @@
             </div>
         </div>
 
+        <!-- Animation Demo Section -->
+        <div class="ps-group-box">
+            <div class="ps-group-box-header expanded">
+                Animation Demo
+            </div>
+            <div class="ps-group-box-content">
+                <p class="ps-group-box-description">Use the "Stop Animations" feature in the accessibility widget to pause these animations for users with motion sensitivity or vestibular disorders.</p>
+                <div style="display: flex; align-items: center; gap: 20px; padding: 10px 0;">
+                    <div class="animated-box" title="Pulsing animation"></div>
+                    <div class="spinning-box" title="Spinning animation"></div>
+                    <div style="font-size: 11px; color: #666;">
+                        <strong>Tip:</strong> Enable "Stop Animations" in the A11Y widget to pause all motion.
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Action Buttons -->
         <div style="margin-top: 16px; padding: 8px 0; border-top: 1px solid #c0c0c0;">
             <button class="ps-button">
-                <span style="color: #0066cc;">💾</span> Save
+                <span>💾</span> Save
             </button>
             <button class="ps-button">
-                <span style="color: #0066cc;">✉</span> Notify
+                <span>✉</span> Notify
             </button>
         </div>
 
