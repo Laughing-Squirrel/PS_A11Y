@@ -13,43 +13,45 @@
         }
 
         :root {
-            /* PeopleSoft Classic Plus Color Palette */
-            --ps-primary: #0f5499;
-            --ps-primary-light: #1a6fc2;
-            --ps-primary-dark: #0a3d70;
-            --ps-header-bg: #0f5499;
-            --ps-header-gradient-start: #1a6fc2;
-            --ps-header-gradient-end: #0a3d70;
+            /* PeopleSoft Classic Plus Color Palette - Actual Colors */
+            --ps-primary: #4b6b8a;
+            --ps-primary-light: #5a7a99;
+            --ps-primary-dark: #3a5a79;
+            --ps-header-bg: #4b6b8a;
+            --ps-header-gradient-start: #6a8aa9;
+            --ps-header-gradient-end: #3a5a79;
+            --ps-section-header: #e07000;
+            --ps-section-header-light: #f08010;
             --ps-nav-bg: #f0f0f0;
             --ps-nav-border: #c0c0c0;
-            --ps-body-bg: #f5f5f5;
+            --ps-body-bg: #f0f0f0;
             --ps-content-bg: #ffffff;
-            --ps-text: #333333;
-            --ps-text-secondary: #666666;
-            --ps-link: #0066cc;
-            --ps-link-hover: #004499;
-            --ps-border: #cccccc;
-            --ps-border-light: #e0e0e0;
-            --ps-border-dark: #999999;
-            --ps-button-bg: #f7f7f7;
-            --ps-button-border: #b0b0b0;
-            --ps-button-hover: #e8e8e8;
-            --ps-grid-header: #0f5499;
-            --ps-grid-alt-row: #f8f9fa;
+            --ps-text: #000000;
+            --ps-text-secondary: #333333;
+            --ps-link: #0000ff;
+            --ps-link-hover: #0000cc;
+            --ps-border: #b0b0b0;
+            --ps-border-light: #d0d0d0;
+            --ps-border-dark: #808080;
+            --ps-button-bg: #e8e8e8;
+            --ps-button-border: #808080;
+            --ps-button-hover: #d8d8d8;
+            --ps-grid-header: #4b6b8a;
+            --ps-grid-alt-row: #f5f5f5;
             --ps-required: #cc0000;
             --ps-focus: #ffcc00;
             --ps-success: #28a745;
             --ps-warning: #ffc107;
             --ps-info: #17a2b8;
-            --ps-shadow: rgba(0, 0, 0, 0.1);
+            --ps-shadow: rgba(0, 0, 0, 0.15);
 
             /* A11Y Widget Colors */
-            --a11y-primary: #0f5499;
-            --a11y-primary-dark: #0a3d70;
+            --a11y-primary: #4b6b8a;
+            --a11y-primary-dark: #3a5a79;
             --a11y-white: #ffffff;
-            --a11y-light-gray: #f5f5f5;
-            --a11y-border: #cccccc;
-            --a11y-text: #333333;
+            --a11y-light-gray: #f0f0f0;
+            --a11y-border: #b0b0b0;
+            --a11y-text: #000000;
             --a11y-focus: #ffcc00;
             --a11y-shadow: rgba(0, 0, 0, 0.15);
         }
@@ -70,82 +72,103 @@
            PeopleSoft Classic Plus Header
            ======================================== */
         .ps-header {
-            background: linear-gradient(180deg, var(--ps-header-gradient-start) 0%, var(--ps-header-bg) 50%, var(--ps-header-gradient-end) 100%);
+            background: linear-gradient(180deg, #6a8aa9 0%, #4b6b8a 50%, #3a5a79 100%);
             color: white;
             padding: 0;
-            box-shadow: 0 2px 4px var(--ps-shadow);
         }
 
         .ps-header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 16px;
+            padding: 2px 8px;
+            background: linear-gradient(180deg, #5a7a99 0%, #4b6b8a 100%);
+            border-bottom: 1px solid #3a5a79;
         }
 
-        .ps-logo {
+        .ps-nav-menu {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 2px;
         }
 
-        .ps-logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--ps-primary);
-            font-size: 14px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        }
-
-        .ps-logo-text {
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-        }
-
-        .ps-logo-subtitle {
+        .ps-nav-menu-btn {
+            font-family: Arial, sans-serif;
             font-size: 11px;
-            opacity: 0.9;
-            font-weight: 400;
+            padding: 4px 12px;
+            background: linear-gradient(180deg, #7090b0 0%, #5070a0 100%);
+            border: 1px solid #405080;
+            color: white;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
 
-        .ps-user-info {
-            font-size: 12px;
-            text-align: right;
+        .ps-nav-menu-btn:hover {
+            background: linear-gradient(180deg, #80a0c0 0%, #6080b0 100%);
         }
 
-        .ps-user-info a {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 4px 8px;
-            border-radius: 3px;
-            transition: background 0.2s;
+        .ps-nav-menu-btn::after {
+            content: '▼';
+            font-size: 8px;
         }
 
-        .ps-user-info a:hover {
-            background: rgba(255, 255, 255, 0.15);
+        .ps-breadcrumb-nav {
+            display: flex;
+            align-items: center;
+            font-size: 11px;
+            color: white;
+        }
+
+        .ps-breadcrumb-nav a {
+            color: white;
             text-decoration: underline;
         }
 
-        .ps-user-name {
-            font-weight: 600;
-            margin-bottom: 4px;
+        .ps-breadcrumb-nav a:hover {
+            color: #ffffcc;
+        }
+
+        .ps-breadcrumb-nav .sep {
+            margin: 0 6px;
+            color: #c0c0c0;
+        }
+
+        /* Oracle Branding Bar */
+        .ps-oracle-bar {
+            background: #ffffff;
+            padding: 6px 12px;
+            border-bottom: 1px solid #c0c0c0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ps-oracle-logo {
+            color: #ff0000;
+            font-size: 20px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+            letter-spacing: -1px;
+        }
+
+        .ps-oracle-logo sup {
+            font-size: 10px;
+            vertical-align: super;
+        }
+
+        .ps-app-name {
+            font-size: 11px;
+            color: #666666;
         }
 
         /* Navigation Bar - Classic Plus Style */
         .ps-navbar {
-            background: linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%);
+            background: #f0f0f0;
             border-bottom: 1px solid var(--ps-border);
-            padding: 6px 16px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            padding: 0;
+            display: none; /* Hidden in Classic Plus - using header nav instead */
         }
 
         .ps-nav-btn {
@@ -233,74 +256,100 @@
         .ps-page-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 16px;
+            padding: 12px;
             padding-right: 80px;
+            background: var(--ps-body-bg);
         }
 
         .ps-page-title {
-            background: #ffffff;
-            border: 1px solid var(--ps-border-light);
-            border-radius: 4px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 1px 3px var(--ps-shadow);
+            display: none; /* Not shown in Classic Plus style */
         }
 
-        .ps-page-title h1 {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--ps-primary);
-            margin: 0;
-        }
-
-        .ps-page-title p {
-            font-size: 12px;
-            color: var(--ps-text-secondary);
-            margin: 6px 0 0 0;
-        }
-
-        /* Group Box - Classic Plus Style */
+        /* Group Box - Classic Plus Style with Orange Headers */
         .ps-group-box {
             background: var(--ps-content-bg);
-            border: 1px solid var(--ps-border-light);
-            border-radius: 4px;
-            margin-bottom: 16px;
-            box-shadow: 0 1px 3px var(--ps-shadow);
-            overflow: hidden;
+            border: 1px solid #b0b0b0;
+            margin-bottom: 12px;
+            overflow: visible;
         }
 
         .ps-group-box-header {
-            background: linear-gradient(180deg, #f8f8f8 0%, #efefef 100%);
-            border-bottom: 1px solid var(--ps-border-light);
-            padding: 10px 14px;
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--ps-primary);
+            background: none;
+            border: none;
+            padding: 6px 0;
+            font-weight: normal;
+            font-size: 11px;
+            color: var(--ps-section-header);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            cursor: pointer;
         }
 
         .ps-group-box-header::before {
-            content: '';
-            width: 4px;
-            height: 16px;
-            background: var(--ps-primary);
-            border-radius: 2px;
+            content: '▸';
+            width: auto;
+            height: auto;
+            background: none;
+            border-radius: 0;
+            font-size: 10px;
+            color: var(--ps-section-header);
+        }
+
+        .ps-group-box-header.expanded::before {
+            content: '▾';
+        }
+
+        .ps-group-box-checkbox {
+            width: 13px;
+            height: 13px;
+            margin-right: 4px;
         }
 
         .ps-group-box-content {
-            padding: 14px;
+            padding: 10px 12px;
+            border-top: 1px solid #d0d0d0;
+        }
+
+        .ps-group-box-description {
+            font-size: 11px;
+            color: #333333;
+            margin-bottom: 10px;
+            line-height: 1.4;
         }
 
         .ps-group-box p {
-            margin: 0 0 10px 0;
-            font-size: 12px;
-            line-height: 1.6;
+            margin: 0 0 8px 0;
+            font-size: 11px;
+            line-height: 1.5;
         }
 
         .ps-group-box p:last-child {
             margin-bottom: 0;
+        }
+
+        /* Collapsible Subsection */
+        .ps-subsection {
+            margin: 8px 0;
+        }
+
+        .ps-subsection-header {
+            color: var(--ps-section-header);
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 0;
+        }
+
+        .ps-subsection-header::before {
+            content: '▸';
+            font-size: 10px;
+        }
+
+        .ps-subsection-header.expanded::before {
+            content: '▾';
         }
 
         /* ========================================
@@ -309,107 +358,111 @@
         .ps-form-row {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
         }
 
         .ps-label {
-            font-size: 12px;
-            font-weight: 600;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            font-weight: normal;
             color: var(--ps-text);
-            min-width: 130px;
-            padding-right: 12px;
+            min-width: 100px;
+            padding-right: 8px;
         }
 
-        .ps-label.required::after {
-            content: " *";
+        .ps-label.required::before {
+            content: "*";
             color: var(--ps-required);
             font-weight: bold;
         }
 
-        .ps-input {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 12px;
-            padding: 6px 10px;
-            border: 1px solid var(--ps-border);
-            border-radius: 3px;
-            background: #ffffff;
-            color: var(--ps-text);
-            transition: border-color 0.15s, box-shadow 0.15s;
+        .ps-label.required::after {
+            content: none;
         }
 
-        .ps-input:hover {
-            border-color: var(--ps-border-dark);
+        .ps-input {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            padding: 2px 4px;
+            border: 1px solid #7f9db9;
+            background: #ffffff;
+            color: var(--ps-text);
         }
 
         .ps-input:focus {
             outline: none;
-            border-color: var(--ps-primary);
-            box-shadow: 0 0 0 3px rgba(15, 84, 153, 0.15);
+            border-color: #4b6b8a;
         }
 
         .ps-select {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 12px;
-            padding: 6px 10px;
-            border: 1px solid var(--ps-border);
-            border-radius: 3px;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            padding: 2px;
+            border: 1px solid #7f9db9;
             background: #ffffff;
             cursor: pointer;
-            transition: border-color 0.15s;
-        }
-
-        .ps-select:hover {
-            border-color: var(--ps-border-dark);
         }
 
         .ps-select:focus {
             outline: none;
-            border-color: var(--ps-primary);
-            box-shadow: 0 0 0 3px rgba(15, 84, 153, 0.15);
+            border-color: #4b6b8a;
+        }
+
+        .ps-checkbox {
+            width: 13px;
+            height: 13px;
+            margin-right: 6px;
         }
 
         /* Classic Plus Buttons */
         .ps-button {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 12px;
-            padding: 7px 16px;
-            background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
-            border: 1px solid var(--ps-button-border);
-            border-radius: 3px;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            padding: 2px 8px;
+            background: linear-gradient(180deg, #f8f8f8 0%, #e0e0e0 100%);
+            border: 1px solid #808080;
             cursor: pointer;
             color: var(--ps-text);
-            margin-right: 6px;
-            margin-bottom: 6px;
-            transition: all 0.15s ease;
+            margin-right: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .ps-button:hover {
             background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 100%);
-            border-color: var(--ps-border-dark);
         }
 
         .ps-button:active {
-            background: linear-gradient(180deg, #e8e8e8 0%, #f0f0f0 100%);
+            background: linear-gradient(180deg, #d0d0d0 0%, #e0e0e0 100%);
         }
 
         .ps-button:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px var(--ps-focus);
+            outline: 1px dotted #000000;
+            outline-offset: -3px;
+        }
+
+        .ps-button-icon {
+            width: 16px;
+            height: 16px;
         }
 
         .ps-button-primary {
-            background: linear-gradient(180deg, var(--ps-primary-light) 0%, var(--ps-primary) 100%);
-            color: #ffffff;
-            border-color: var(--ps-primary-dark);
-            font-weight: 600;
+            background: linear-gradient(180deg, #f8f8f8 0%, #e0e0e0 100%);
+            color: var(--ps-text);
+            border-color: #808080;
+            font-weight: normal;
         }
 
-        .ps-button-primary:hover {
-            background: linear-gradient(180deg, #2080d0 0%, var(--ps-primary-light) 100%);
-        }
-
-        .ps-button-primary:active {
-            background: linear-gradient(180deg, var(--ps-primary) 0%, var(--ps-primary-dark) 100%);
+        /* Plus/Minus buttons for grid */
+        .ps-grid-btn {
+            width: 20px;
+            height: 18px;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 0;
+            text-align: center;
+            line-height: 16px;
         }
 
         /* ========================================
@@ -418,34 +471,28 @@
         .ps-grid {
             width: 100%;
             border-collapse: collapse;
-            font-size: 12px;
-            margin-top: 10px;
-            border: 1px solid var(--ps-border);
-            border-radius: 4px;
-            overflow: hidden;
+            font-size: 11px;
+            margin-top: 8px;
+            border: 1px solid #7f9db9;
         }
 
         .ps-grid th {
-            background: linear-gradient(180deg, var(--ps-primary-light) 0%, var(--ps-primary) 100%);
-            color: #ffffff;
-            font-weight: 600;
-            padding: 10px 12px;
+            background: linear-gradient(180deg, #d4e4f4 0%, #b4c4d4 100%);
+            color: #000000;
+            font-weight: bold;
+            padding: 4px 8px;
             text-align: left;
-            border-bottom: 2px solid var(--ps-primary-dark);
-        }
-
-        .ps-grid th:not(:last-child) {
-            border-right: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid #7f9db9;
         }
 
         .ps-grid td {
-            padding: 10px 12px;
-            border-bottom: 1px solid var(--ps-border-light);
+            padding: 4px 8px;
+            border: 1px solid #c0c0c0;
             background: #ffffff;
         }
 
         .ps-grid tr:nth-child(even) td {
-            background: var(--ps-grid-alt-row);
+            background: #f8f8f8;
         }
 
         .ps-grid tr:hover td {
@@ -1123,6 +1170,52 @@
             display: none;
         }
 
+        /* Text Size Scaling - Applied via CSS variable */
+        :root {
+            --a11y-text-scale: 1;
+        }
+
+        body.a11y-text-scaled .ps-page-container,
+        body.a11y-text-scaled .ps-header,
+        body.a11y-text-scaled .ps-navbar,
+        body.a11y-text-scaled .ps-breadcrumb,
+        body.a11y-text-scaled .ps-footer {
+            font-size: calc(12px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .ps-page-title h1 {
+            font-size: calc(18px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .ps-logo-text {
+            font-size: calc(16px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .ps-logo-subtitle {
+            font-size: calc(11px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .ps-group-box-header {
+            font-size: calc(13px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .ps-grid th,
+        body.a11y-text-scaled .ps-grid td {
+            font-size: calc(12px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .ps-badge {
+            font-size: calc(11px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .shortcut kbd {
+            font-size: calc(11px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .ps-footer {
+            font-size: calc(11px * var(--a11y-text-scale));
+        }
+
         /* Dark Mode */
         body.a11y-dark-mode {
             background-color: #1a1a2e !important;
@@ -1282,227 +1375,158 @@
     <!-- PeopleSoft Classic Plus Header -->
     <div class="ps-header">
         <div class="ps-header-top">
-            <div class="ps-logo">
-                <div class="ps-logo-icon">PS</div>
-                <div>
-                    <div class="ps-logo-text">PeopleSoft FSCM 9.2</div>
-                    <div class="ps-logo-subtitle">Financial Supply Chain Management</div>
-                </div>
+            <div class="ps-nav-menu">
+                <button class="ps-nav-menu-btn">Favorites</button>
+                <button class="ps-nav-menu-btn">Main Menu</button>
             </div>
-            <div class="ps-user-info">
-                <div class="ps-user-name">PSADMIN | Administrator</div>
-                <div>
-                    <a href="#">Sign Out</a>
-                    <a href="#">Preferences</a>
-                    <a href="#">Help</a>
-                </div>
+            <div class="ps-breadcrumb-nav">
+                <a href="#">PeopleTools</a>
+                <span class="sep">&gt;</span>
+                <a href="#">Portal</a>
+                <span class="sep">&gt;</span>
+                <a href="#">Accessibility Demo</a>
+                <span class="sep">&gt;</span>
+                <span>A11Y Widget Demo</span>
             </div>
         </div>
     </div>
 
-    <!-- Navigation Bar -->
-    <div class="ps-navbar">
-        <button class="ps-nav-btn primary">Home</button>
-        <button class="ps-nav-btn">Worklist</button>
-        <button class="ps-nav-btn">Reports</button>
-        <div class="ps-nav-separator"></div>
-        <button class="ps-nav-btn">Add to Favorites</button>
-        <button class="ps-nav-btn">New Window</button>
-    </div>
-
-    <!-- Breadcrumb -->
-    <div class="ps-breadcrumb">
-        <a href="#">Main Menu</a>
-        <span class="separator">&#9656;</span>
-        <a href="#">Set Up Financials/Supply Chain</a>
-        <span class="separator">&#9656;</span>
-        <a href="#">Common Definitions</a>
-        <span class="separator">&#9656;</span>
-        <span class="current">Accessibility Widget Demo</span>
+    <!-- Oracle Branding Bar -->
+    <div class="ps-oracle-bar">
+        <div>
+            <span class="ps-oracle-logo">ORACLE</span><sup>&reg;</sup>
+        </div>
+        <div class="ps-app-name">PeopleSoft Classic Plus</div>
     </div>
 
     <!-- Page Content -->
     <div class="ps-page-container">
-        <div class="ps-page-title">
-            <h1>Accessibility Widget Demo</h1>
-            <p>Click the accessibility button on the right side to open the A11Y control panel</p>
-        </div>
 
-        <!-- Message Bar -->
-        <div class="ps-message-bar info">
-            <strong>Information:</strong> This page demonstrates the A11Y Widget integrated with PeopleSoft FSCM 9.2 Classic Plus interface.
-        </div>
-
-        <!-- About Section -->
+        <!-- Homepage Pagelet Section -->
         <div class="ps-group-box">
-            <div class="ps-group-box-header">About This Demo</div>
-            <div class="ps-group-box-content">
-                <p>This is a standalone demonstration of the A11Y Widget integrated with PeopleSoft FSCM 9.2 Classic Plus styling. The widget provides comprehensive accessibility controls that allow users to customize their browsing experience according to their individual needs.</p>
-                <p>Try the different features using the widget panel, or use the <a href="#shortcuts" class="ps-link">keyboard shortcuts</a> listed below.</p>
+            <div class="ps-group-box-header expanded">
+                <input type="checkbox" class="ps-group-box-checkbox">
+                Homepage Pagelet
             </div>
-        </div>
-
-        <!-- Sample Form Section -->
-        <div class="ps-group-box">
-            <div class="ps-group-box-header">Sample Form Elements</div>
             <div class="ps-group-box-content">
-                <p>Test the focus highlight feature by tabbing through these interactive elements:</p>
+                <p class="ps-group-box-description">Publishing as a Homepage Pagelet allows this pagelet to be placed on a user's Homepage tab. Homepage Pagelets are organized by pagelet folders.</p>
                 <div class="ps-form-row">
-                    <label class="ps-label required">Business Unit:</label>
-                    <input type="text" class="ps-input" style="width: 120px;" value="US001">
-                    <button class="ps-button" style="margin-left: 8px;">Look Up</button>
-                </div>
-                <div class="ps-form-row">
-                    <label class="ps-label required">Vendor ID:</label>
-                    <input type="text" class="ps-input" style="width: 180px;" placeholder="Enter Vendor ID">
-                </div>
-                <div class="ps-form-row">
-                    <label class="ps-label">Description:</label>
-                    <input type="text" class="ps-input" style="width: 350px;" placeholder="Enter Description">
-                </div>
-                <div class="ps-form-row">
-                    <label class="ps-label">Status:</label>
-                    <select class="ps-select" style="width: 160px;">
-                        <option>Active</option>
-                        <option>Inactive</option>
-                        <option>Pending</option>
+                    <label class="ps-label">Folder:</label>
+                    <select class="ps-select" style="width: 200px;">
+                        <option></option>
+                        <option>Accessibility</option>
+                        <option>General</option>
                     </select>
                 </div>
-                <div style="margin-top: 16px;">
-                    <button class="ps-button ps-button-primary">Save</button>
-                    <button class="ps-button">Return to Search</button>
-                    <button class="ps-button">Add</button>
-                    <button class="ps-button">Notify</button>
+                <div class="ps-subsection">
+                    <div class="ps-subsection-header">Advanced Options</div>
+                </div>
+                <div class="ps-subsection">
+                    <div class="ps-subsection-header">WSRP Options</div>
                 </div>
             </div>
         </div>
 
-        <!-- Tabs Section -->
+        <!-- Template Pagelet Section -->
         <div class="ps-group-box">
-            <div class="ps-group-box-header">Tabbed Content</div>
-            <div class="ps-group-box-content" style="padding: 0;">
-                <div class="ps-tabs">
-                    <button class="ps-tab active" onclick="showTab(this, 'tab1')">General Info</button>
-                    <button class="ps-tab" onclick="showTab(this, 'tab2')">Address</button>
-                    <button class="ps-tab" onclick="showTab(this, 'tab3')">Contact</button>
+            <div class="ps-group-box-header expanded">
+                <input type="checkbox" class="ps-group-box-checkbox">
+                Template Pagelet
+            </div>
+            <div class="ps-group-box-content">
+                <p class="ps-group-box-description">Publishing as a Template Pagelet allows this pagelet to be used with any template. For the Context Manager template, this pagelet can be context sensitive to the target transaction.</p>
+                <div class="ps-subsection">
+                    <div class="ps-subsection-header">Advanced Options</div>
                 </div>
-                <div class="ps-tab-content" id="tab1">
-                    <p>This tab contains general information. Use the tabs above to navigate between different sections of the form. Tab navigation is fully keyboard accessible.</p>
-                    <p>Here's a <a href="#" class="ps-link">sample link</a> that will be highlighted when you enable the "Highlight Links" feature.</p>
-                </div>
-                <div class="ps-tab-content" id="tab2" style="display: none;">
-                    <p>Address information would be displayed here. This demonstrates how tab panels work in PeopleSoft Classic Plus UI.</p>
-                </div>
-                <div class="ps-tab-content" id="tab3" style="display: none;">
-                    <p>Contact details would be displayed here. Each tab maintains its own content area.</p>
+                <div class="ps-subsection">
+                    <div class="ps-subsection-header">WSRP Options</div>
                 </div>
             </div>
         </div>
 
-        <!-- Grid/Table Section -->
+        <!-- Embeddable Pagelet Section -->
         <div class="ps-group-box">
-            <div class="ps-group-box-header">Sample Data Grid</div>
+            <div class="ps-group-box-header expanded">
+                <input type="checkbox" class="ps-group-box-checkbox">
+                Embeddable Pagelet
+            </div>
             <div class="ps-group-box-content">
-                <p>This is a typical PeopleSoft grid displaying data in a tabular format:</p>
-                <table class="ps-grid">
-                    <thead>
-                        <tr>
-                            <th>Vendor ID</th>
-                            <th>Vendor Name</th>
-                            <th>Location</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><a href="#">V0001</a></td>
-                            <td>ABC Corporation</td>
-                            <td>New York, NY</td>
-                            <td><span class="ps-badge active">Active</span></td>
-                            <td class="actions"><a href="#">Edit</a><a href="#">View</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">V0002</a></td>
-                            <td>XYZ Industries</td>
-                            <td>Los Angeles, CA</td>
-                            <td><span class="ps-badge active">Active</span></td>
-                            <td class="actions"><a href="#">Edit</a><a href="#">View</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">V0003</a></td>
-                            <td>Global Supplies Inc</td>
-                            <td>Chicago, IL</td>
-                            <td><span class="ps-badge pending">Pending</span></td>
-                            <td class="actions"><a href="#">Edit</a><a href="#">View</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">V0004</a></td>
-                            <td>Tech Solutions Ltd</td>
-                            <td>Austin, TX</td>
-                            <td><span class="ps-badge active">Active</span></td>
-                            <td class="actions"><a href="#">Edit</a><a href="#">View</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">V0005</a></td>
-                            <td>Premier Services</td>
-                            <td>Seattle, WA</td>
-                            <td><span class="ps-badge inactive">Inactive</span></td>
-                            <td class="actions"><a href="#">Edit</a><a href="#">View</a></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <p class="ps-group-box-description">Publishing as an Embeddable Pagelet allows this pagelet to be rendered on a target transaction page. The target transaction executes this pagelet from the Pagelet Wizard API.</p>
             </div>
         </div>
 
-        <!-- Animation Section -->
+        <!-- Pagelet Security Section -->
         <div class="ps-group-box">
-            <div class="ps-group-box-header">Animated Content</div>
-            <div class="ps-group-box-content">
-                <p>Enable "Stop Animations" to pause these animated elements:</p>
-                <div style="margin: 12px 0;">
-                    <div class="animated-box"></div>
-                    <div class="spinning-box"></div>
-                </div>
-                <p>The animations will freeze when the stop animations feature is enabled. This is helpful for users who are sensitive to motion.</p>
+            <div class="ps-group-box-header expanded">
+                Pagelet Security
             </div>
-        </div>
-
-        <!-- Keyboard Shortcuts Section -->
-        <div class="ps-group-box" id="shortcuts">
-            <div class="ps-group-box-header">Keyboard Shortcuts</div>
             <div class="ps-group-box-content">
-                <p>Use these keyboard shortcuts for quick access to accessibility features:</p>
-                <div class="keyboard-shortcuts">
-                    <div class="shortcut"><kbd>Alt</kbd> + <kbd>A</kbd> Toggle panel</div>
-                    <div class="shortcut"><kbd>Alt</kbd> + <kbd>+</kbd> Increase font</div>
-                    <div class="shortcut"><kbd>Alt</kbd> + <kbd>-</kbd> Decrease font</div>
-                    <div class="shortcut"><kbd>Alt</kbd> + <kbd>0</kbd> Reset font</div>
-                    <div class="shortcut"><kbd>Alt</kbd> + <kbd>C</kbd> Cycle contrast</div>
-                    <div class="shortcut"><kbd>Alt</kbd> + <kbd>R</kbd> Reading guide</div>
-                    <div class="shortcut"><kbd>Esc</kbd> Close panel</div>
+                <div class="ps-form-row">
+                    <label class="ps-label required">Security Type:</label>
+                    <select class="ps-select" style="width: 180px;">
+                        <option>Select Security Access</option>
+                        <option>Public</option>
+                        <option>Permission List</option>
+                    </select>
+                    <input type="checkbox" class="ps-checkbox" style="margin-left: 16px;">
+                    <label style="font-size: 11px;">Author Access</label>
+                </div>
+
+                <!-- Selected Security Grid -->
+                <div style="margin-top: 12px;">
+                    <div style="font-size: 11px; color: var(--ps-section-header); font-weight: bold; margin-bottom: 6px;">Selected Security</div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 11px;">
+                        <span>|</span>
+                        <a href="#" class="ps-link">⊞</a>
+                        <span>First</span>
+                        <span>◀</span>
+                        <span>1 of 1</span>
+                        <span>▶</span>
+                        <span>Last</span>
+                    </div>
+                    <table class="ps-grid">
+                        <thead>
+                            <tr>
+                                <th style="width: 120px;">*Type</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th style="width: 50px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <select class="ps-select" style="width: 110px;">
+                                        <option>Permission List</option>
+                                        <option>Role</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="ps-input" style="width: 120px;" value="PTPT1000">
+                                    <a href="#" style="margin-left: 2px;">🔍</a>
+                                </td>
+                                <td>PeopleSoft User</td>
+                                <td>
+                                    <button class="ps-button ps-grid-btn">+</button>
+                                    <button class="ps-button ps-grid-btn">−</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
 
-        <!-- Contrast Testing Section -->
-        <div class="ps-group-box">
-            <div class="ps-group-box-header">Contrast Mode Testing</div>
-            <div class="ps-group-box-content">
-                <p>Use the contrast mode buttons in the widget to switch between:</p>
-                <ul style="margin: 10px 0; padding-left: 24px; line-height: 1.8;">
-                    <li><strong>Normal:</strong> Default PeopleSoft colors</li>
-                    <li><strong>Dark:</strong> Dark background with light text</li>
-                    <li><strong>Light:</strong> High contrast light mode</li>
-                    <li><strong>Invert:</strong> Inverts all colors on the page</li>
-                </ul>
-            </div>
+        <!-- Action Buttons -->
+        <div style="margin-top: 16px; padding: 8px 0; border-top: 1px solid #c0c0c0;">
+            <button class="ps-button">
+                <span style="color: #0066cc;">💾</span> Save
+            </button>
+            <button class="ps-button">
+                <span style="color: #0066cc;">✉</span> Notify
+            </button>
         </div>
-    </div>
 
-    <!-- Footer -->
-    <div class="ps-footer">
-        Copyright &copy; 2024 Oracle Corporation. All rights reserved. | PeopleSoft FSCM 9.2 Classic Plus | A11Y Widget Demo
     </div>
 
     <!-- Reading Guide (follows mouse) -->
@@ -1712,7 +1736,13 @@
             function updateFontSize(delta) {
                 state.fontSize = Math.max(50, Math.min(300, state.fontSize + delta));
                 fontDisplay.textContent = state.fontSize + '%';
-                document.body.style.fontSize = (state.fontSize / 100 * 12) + 'px';
+                const scale = state.fontSize / 100;
+                document.documentElement.style.setProperty('--a11y-text-scale', scale);
+                if (state.fontSize !== 100) {
+                    document.body.classList.add('a11y-text-scaled');
+                } else {
+                    document.body.classList.remove('a11y-text-scaled');
+                }
             }
 
             // Update contrast
@@ -1792,7 +1822,9 @@
                 if (profile.fontSize) {
                     state.fontSize = profile.fontSize;
                     fontDisplay.textContent = state.fontSize + '%';
-                    document.body.style.fontSize = (state.fontSize / 100 * 12) + 'px';
+                    const scale = state.fontSize / 100;
+                    document.documentElement.style.setProperty('--a11y-text-scale', scale);
+                    document.body.classList.add('a11y-text-scaled');
                 }
                 if (profile.contrast) updateContrast(profile.contrast);
                 if (profile.cursor) updateCursor(profile.cursor);
@@ -1814,7 +1846,8 @@
             function resetAll() {
                 state.fontSize = 100;
                 fontDisplay.textContent = '100%';
-                document.body.style.fontSize = '';
+                document.documentElement.style.setProperty('--a11y-text-scale', 1);
+                document.body.classList.remove('a11y-text-scaled');
 
                 updateContrast('normal');
                 updateCursor('default');
@@ -1902,7 +1935,8 @@
                             e.preventDefault();
                             state.fontSize = 100;
                             fontDisplay.textContent = '100%';
-                            document.body.style.fontSize = '';
+                            document.documentElement.style.setProperty('--a11y-text-scale', 1);
+                            document.body.classList.remove('a11y-text-scaled');
                             break;
                         case 'c':
                             e.preventDefault();
