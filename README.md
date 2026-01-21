@@ -8,37 +8,7 @@ The A11Y Widget provides a comprehensive accessibility overlay that enables user
 
 ## Widget Preview
 
-```
-                              ┌──────────────────────────────┐
-                              │  Accessibility          [×]  │ ← Blue header
-                              ├──────────────────────────────┤
-                              │  QUICK PROFILES              │
-                              │  [-- Select Profile --  ▼]   │
-                              │                              │
-                              │  TEXT SIZE                   │
-                              │  [A-]    100%    [A+]        │
-                              │                              │
-                              │  CONTRAST                    │
-                              │  [Normal] [Dark] [Light]     │
-                              │  [Invert]                    │
-                              │                              │
-                              │  FEATURES                    │
-                              │  ☑ Stop Animations           │
-                              │  ☐ Reading Guide             │
-                              │  ☐ Focus Highlight           │
-                              │  ☐ Highlight Links           │
-  ┌────┐                      │                              │
-  │ ♿ │ ← Trigger button     │  SPACING                     │
-  └────┘   (48px blue circle) │  Line Height: ───●────       │
-                              │  Letter Spacing: ──●─────    │
-                              │                              │
-                              │  CURSOR                      │
-                              │  [Default] [Large] [X-Large] │
-                              │                              │
-                              ├──────────────────────────────┤
-                              │  [Reset All] [←] [→]         │
-                              └──────────────────────────────┘
-```
+<img width="755" height="835" alt="demo_image" src="https://github.com/user-attachments/assets/6de0d3c8-3cb9-40c7-9ccf-0086c141586c" />
 
 For an interactive demo, open `demo/widget-demo.html` in your browser.
 
