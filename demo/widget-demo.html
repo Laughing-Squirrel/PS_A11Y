@@ -3,134 +3,473 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A11Y Widget Demo</title>
+    <title>PeopleSoft FSCM 9.2 - A11Y Widget Demo</title>
     <style>
         /* ========================================
-           Reset and Base Styles
+           PeopleSoft FSCM 9.2 Classic Theme
            ======================================== */
         *, *::before, *::after {
             box-sizing: border-box;
         }
 
         :root {
-            --a11y-primary: #0066cc;
-            --a11y-primary-dark: #004c99;
+            /* PeopleSoft Classic Color Palette */
+            --ps-header-bg: #336699;
+            --ps-header-dark: #1a4d80;
+            --ps-nav-bg: #d4d0c8;
+            --ps-nav-border: #808080;
+            --ps-body-bg: #f5f5f5;
+            --ps-content-bg: #ffffff;
+            --ps-text: #000000;
+            --ps-text-secondary: #333333;
+            --ps-link: #0000cc;
+            --ps-link-hover: #000099;
+            --ps-border: #aca899;
+            --ps-border-dark: #716f64;
+            --ps-button-face: #d4d0c8;
+            --ps-button-highlight: #ffffff;
+            --ps-button-shadow: #808080;
+            --ps-grid-header: #336699;
+            --ps-grid-alt-row: #f0f4f8;
+            --ps-required: #cc0000;
+            --ps-focus: #ffcc00;
+            --ps-shadow: rgba(0, 0, 0, 0.2);
+
+            /* A11Y Widget Colors */
+            --a11y-primary: #336699;
+            --a11y-primary-dark: #1a4d80;
             --a11y-white: #ffffff;
-            --a11y-light-gray: #f8f9fa;
-            --a11y-border: #dee2e6;
-            --a11y-text: #212529;
+            --a11y-light-gray: #f5f5f5;
+            --a11y-border: #aca899;
+            --a11y-text: #000000;
             --a11y-focus: #ffcc00;
-            --a11y-shadow: rgba(0, 0, 0, 0.15);
+            --a11y-shadow: rgba(0, 0, 0, 0.2);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            font-size: 16px;
-            line-height: 1.5;
-            color: var(--a11y-text);
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            line-height: 1.4;
+            color: var(--ps-text);
             margin: 0;
             padding: 0;
+            background: var(--ps-body-bg);
             min-height: 100vh;
             transition: background-color 0.3s, color 0.3s;
         }
 
         /* ========================================
-           Demo Page Content
+           PeopleSoft Classic Header
            ======================================== */
-        .demo-content {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            padding-right: 100px;
+        .ps-header {
+            background: linear-gradient(to bottom, #4a7ab0 0%, #336699 50%, #1a4d80 100%);
+            color: white;
+            padding: 0;
+            border-bottom: 1px solid #1a4d80;
         }
 
-        .demo-header {
-            text-align: center;
-            margin-bottom: 40px;
+        .ps-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 10px;
+            background: linear-gradient(to bottom, #5588bb 0%, #336699 100%);
         }
 
-        .demo-header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            color: var(--a11y-primary);
+        .ps-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .demo-header p {
-            font-size: 1.2em;
-            color: #666;
+        .ps-logo-icon {
+            width: 24px;
+            height: 24px;
+            background: #ffffff;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #336699;
+            font-size: 14px;
         }
 
-        .demo-section {
-            background: var(--a11y-white);
-            border: 1px solid var(--a11y-border);
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 24px;
+        .ps-logo-text {
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
         }
 
-        .demo-section h2 {
-            margin-top: 0;
-            color: var(--a11y-primary);
-            border-bottom: 2px solid var(--a11y-primary);
-            padding-bottom: 8px;
+        .ps-logo-subtitle {
+            font-size: 10px;
+            opacity: 0.9;
         }
 
-        .demo-section p {
-            margin-bottom: 16px;
+        .ps-user-info {
+            font-size: 11px;
+            text-align: right;
         }
 
-        .demo-link {
-            color: var(--a11y-primary);
+        .ps-user-info a {
+            color: #ffffff;
             text-decoration: underline;
         }
 
-        .demo-link:hover {
-            color: var(--a11y-primary-dark);
+        .ps-user-info a:hover {
+            color: #ffcc00;
         }
 
-        .demo-button {
-            background: var(--a11y-primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
+        /* Navigation Bar */
+        .ps-navbar {
+            background: var(--ps-nav-bg);
+            border-bottom: 1px solid var(--ps-nav-border);
+            padding: 2px 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .ps-nav-btn {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            padding: 3px 12px;
+            background: linear-gradient(to bottom, #ffffff 0%, #d4d0c8 40%, #c0bcb0 100%);
+            border: 1px solid #808080;
+            border-radius: 0;
             cursor: pointer;
-            font-size: 16px;
-            margin-right: 10px;
-            margin-bottom: 10px;
+            color: var(--ps-text);
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .demo-button:hover {
-            background: var(--a11y-primary-dark);
+        .ps-nav-btn:hover {
+            background: linear-gradient(to bottom, #ffffff 0%, #e8e4dc 40%, #d4d0c8 100%);
         }
 
-        .demo-button:focus {
-            outline: 3px solid var(--a11y-focus);
-            outline-offset: 2px;
+        .ps-nav-btn:active {
+            background: linear-gradient(to bottom, #c0bcb0 0%, #d4d0c8 100%);
+            border-style: inset;
         }
 
-        .demo-input {
-            padding: 10px;
-            border: 1px solid var(--a11y-border);
-            border-radius: 4px;
-            font-size: 16px;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-
-        .demo-input:focus {
-            outline: 2px solid var(--a11y-primary);
+        .ps-nav-btn:focus {
+            outline: 2px solid var(--ps-focus);
             outline-offset: 1px;
         }
 
+        .ps-nav-separator {
+            width: 1px;
+            height: 20px;
+            background: var(--ps-nav-border);
+            margin: 0 4px;
+        }
+
+        /* Breadcrumb */
+        .ps-breadcrumb {
+            background: #e8e8e0;
+            padding: 4px 10px;
+            font-size: 11px;
+            border-bottom: 1px solid var(--ps-border);
+        }
+
+        .ps-breadcrumb a {
+            color: var(--ps-link);
+            text-decoration: none;
+        }
+
+        .ps-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .ps-breadcrumb span {
+            color: var(--ps-text-secondary);
+            margin: 0 4px;
+        }
+
+        /* ========================================
+           Page Content Area
+           ======================================== */
+        .ps-page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px;
+            padding-right: 80px;
+        }
+
+        .ps-page-title {
+            background: linear-gradient(to bottom, #ffffff 0%, #f5f5f5 100%);
+            border: 1px solid var(--ps-border);
+            padding: 8px 12px;
+            margin-bottom: 10px;
+        }
+
+        .ps-page-title h1 {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--ps-header-bg);
+            margin: 0;
+        }
+
+        .ps-page-title p {
+            font-size: 11px;
+            color: var(--ps-text-secondary);
+            margin: 4px 0 0 0;
+        }
+
+        /* Group Box (Classic PeopleSoft container) */
+        .ps-group-box {
+            background: var(--ps-content-bg);
+            border: 1px solid var(--ps-border);
+            margin-bottom: 10px;
+        }
+
+        .ps-group-box-header {
+            background: linear-gradient(to bottom, #e8e8e0 0%, #d4d0c8 100%);
+            border-bottom: 1px solid var(--ps-border);
+            padding: 4px 8px;
+            font-weight: bold;
+            font-size: 11px;
+            color: var(--ps-text);
+        }
+
+        .ps-group-box-content {
+            padding: 10px;
+        }
+
+        .ps-group-box p {
+            margin: 0 0 8px 0;
+            font-size: 11px;
+        }
+
+        .ps-group-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ========================================
+           Form Elements (Classic Style)
+           ======================================== */
+        .ps-form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .ps-label {
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--ps-text);
+            min-width: 120px;
+            padding-right: 8px;
+        }
+
+        .ps-label.required::after {
+            content: " *";
+            color: var(--ps-required);
+        }
+
+        .ps-input {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            padding: 2px 4px;
+            border: 1px solid var(--ps-border-dark);
+            background: #ffffff;
+            color: var(--ps-text);
+        }
+
+        .ps-input:focus {
+            outline: none;
+            border-color: var(--ps-header-bg);
+            box-shadow: 0 0 0 1px var(--ps-header-bg);
+        }
+
+        .ps-select {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            padding: 2px;
+            border: 1px solid var(--ps-border-dark);
+            background: #ffffff;
+        }
+
+        .ps-select:focus {
+            outline: none;
+            border-color: var(--ps-header-bg);
+        }
+
+        /* Classic PeopleSoft Buttons */
+        .ps-button {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            padding: 3px 16px;
+            background: linear-gradient(to bottom, #ffffff 0%, #d4d0c8 40%, #c0bcb0 100%);
+            border: 1px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            cursor: pointer;
+            color: var(--ps-text);
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+
+        .ps-button:hover {
+            background: linear-gradient(to bottom, #ffffff 0%, #e8e4dc 40%, #d4d0c8 100%);
+        }
+
+        .ps-button:active {
+            background: linear-gradient(to bottom, #c0bcb0 0%, #d4d0c8 100%);
+            border-color: #808080 #ffffff #ffffff #808080;
+        }
+
+        .ps-button:focus {
+            outline: 2px solid var(--ps-focus);
+            outline-offset: 1px;
+        }
+
+        .ps-button-primary {
+            background: linear-gradient(to bottom, #5588bb 0%, #336699 40%, #1a4d80 100%);
+            color: #ffffff;
+            border-color: #5588bb #1a4d80 #1a4d80 #5588bb;
+        }
+
+        .ps-button-primary:hover {
+            background: linear-gradient(to bottom, #6699cc 0%, #4477aa 40%, #336699 100%);
+        }
+
+        .ps-button-primary:active {
+            background: linear-gradient(to bottom, #1a4d80 0%, #336699 100%);
+            border-color: #1a4d80 #5588bb #5588bb #1a4d80;
+        }
+
+        /* ========================================
+           Grid/Table (Classic Style)
+           ======================================== */
+        .ps-grid {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+
+        .ps-grid th {
+            background: linear-gradient(to bottom, #4a7ab0 0%, #336699 100%);
+            color: #ffffff;
+            font-weight: bold;
+            padding: 4px 8px;
+            text-align: left;
+            border: 1px solid #1a4d80;
+        }
+
+        .ps-grid td {
+            padding: 4px 8px;
+            border: 1px solid var(--ps-border);
+            background: #ffffff;
+        }
+
+        .ps-grid tr:nth-child(even) td {
+            background: var(--ps-grid-alt-row);
+        }
+
+        .ps-grid tr:hover td {
+            background: #ffffcc;
+        }
+
+        .ps-grid a {
+            color: var(--ps-link);
+            text-decoration: none;
+        }
+
+        .ps-grid a:hover {
+            text-decoration: underline;
+        }
+
+        /* ========================================
+           Links
+           ======================================== */
+        .ps-link {
+            color: var(--ps-link);
+            text-decoration: underline;
+        }
+
+        .ps-link:hover {
+            color: var(--ps-link-hover);
+        }
+
+        /* ========================================
+           Tabs (Classic Style)
+           ======================================== */
+        .ps-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--ps-border);
+            background: var(--ps-nav-bg);
+            padding: 0 4px;
+            padding-top: 4px;
+        }
+
+        .ps-tab {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            padding: 4px 16px;
+            background: linear-gradient(to bottom, #e8e8e0 0%, #c0bcb0 100%);
+            border: 1px solid var(--ps-border);
+            border-bottom: none;
+            cursor: pointer;
+            color: var(--ps-text);
+            margin-right: 2px;
+            position: relative;
+            top: 1px;
+        }
+
+        .ps-tab:hover {
+            background: linear-gradient(to bottom, #f5f5f0 0%, #d4d0c8 100%);
+        }
+
+        .ps-tab.active {
+            background: var(--ps-content-bg);
+            border-bottom: 1px solid var(--ps-content-bg);
+            font-weight: bold;
+        }
+
+        .ps-tab:focus {
+            outline: 2px solid var(--ps-focus);
+            outline-offset: 1px;
+        }
+
+        .ps-tab-content {
+            background: var(--ps-content-bg);
+            border: 1px solid var(--ps-border);
+            border-top: none;
+            padding: 10px;
+        }
+
+        /* ========================================
+           Message Bar
+           ======================================== */
+        .ps-message-bar {
+            background: #ffffcc;
+            border: 1px solid #cccc00;
+            padding: 6px 10px;
+            margin-bottom: 10px;
+            font-size: 11px;
+        }
+
+        .ps-message-bar.error {
+            background: #ffcccc;
+            border-color: #cc0000;
+        }
+
+        .ps-message-bar.success {
+            background: #ccffcc;
+            border-color: #00cc00;
+        }
+
+        /* ========================================
+           Animations Demo
+           ======================================== */
         .animated-box {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(45deg, #0066cc, #00cc66);
-            border-radius: 8px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #336699, #00cc66);
             animation: pulse 2s infinite;
             display: inline-block;
-            margin-right: 20px;
+            margin-right: 15px;
         }
 
         @keyframes pulse {
@@ -139,8 +478,8 @@
         }
 
         .spinning-box {
-            width: 60px;
-            height: 60px;
+            width: 40px;
+            height: 40px;
             background: #cc6600;
             animation: spin 3s linear infinite;
             display: inline-block;
@@ -151,25 +490,43 @@
             to { transform: rotate(360deg); }
         }
 
+        /* ========================================
+           Keyboard Shortcuts Display
+           ======================================== */
         .keyboard-shortcuts {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 6px;
+            margin-top: 8px;
         }
 
         .shortcut {
-            background: var(--a11y-light-gray);
-            padding: 10px;
-            border-radius: 4px;
-            font-family: monospace;
+            background: #e8e8e0;
+            padding: 6px 8px;
+            border: 1px solid var(--ps-border);
+            font-size: 11px;
         }
 
         .shortcut kbd {
-            background: var(--a11y-text);
-            color: var(--a11y-white);
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 0.9em;
+            background: var(--ps-header-bg);
+            color: #ffffff;
+            padding: 1px 4px;
+            border-radius: 2px;
+            font-size: 10px;
+            font-family: Arial, sans-serif;
+        }
+
+        /* ========================================
+           Footer
+           ======================================== */
+        .ps-footer {
+            background: var(--ps-nav-bg);
+            border-top: 1px solid var(--ps-border);
+            padding: 8px 10px;
+            text-align: center;
+            font-size: 10px;
+            color: var(--ps-text-secondary);
+            margin-top: 20px;
         }
 
         /* ========================================
@@ -180,8 +537,8 @@
             top: 50%;
             transform: translateY(-50%);
             z-index: 999999;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            font-size: 14px;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
             line-height: 1.4;
         }
 
@@ -194,22 +551,29 @@
         }
 
         .a11y-trigger {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: var(--a11y-primary);
-            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 4px 0 0 4px;
+            background: linear-gradient(to bottom, #5588bb 0%, #336699 50%, #1a4d80 100%);
+            border: 1px solid #1a4d80;
+            border-right: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 8px var(--a11y-shadow);
-            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: -2px 2px 4px var(--a11y-shadow);
+            transition: background 0.2s;
+        }
+
+        .position-left .a11y-trigger {
+            border-radius: 0 4px 4px 0;
+            border: 1px solid #1a4d80;
+            border-left: none;
+            box-shadow: 2px 2px 4px var(--a11y-shadow);
         }
 
         .a11y-trigger:hover {
-            background: var(--a11y-primary-dark);
-            transform: scale(1.1);
+            background: linear-gradient(to bottom, #6699cc 0%, #4477aa 50%, #336699 100%);
         }
 
         .a11y-trigger:focus {
@@ -218,8 +582,8 @@
         }
 
         .a11y-trigger svg {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             fill: white;
         }
 
@@ -227,10 +591,10 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 320px;
+            width: 300px;
             max-height: 80vh;
             background: var(--a11y-white);
-            border-radius: 8px;
+            border: 1px solid var(--ps-border-dark);
             box-shadow: 0 4px 12px var(--a11y-shadow);
             overflow: hidden;
             display: flex;
@@ -246,8 +610,8 @@
         }
 
         .position-right .a11y-panel {
-            right: 60px;
-            transform: translateY(-50%) scale(0.9);
+            right: 50px;
+            transform: translateY(-50%) scale(0.95);
         }
 
         .position-right .a11y-panel.open {
@@ -255,8 +619,8 @@
         }
 
         .position-left .a11y-panel {
-            left: 60px;
-            transform: translateY(-50%) scale(0.9);
+            left: 50px;
+            transform: translateY(-50%) scale(0.95);
         }
 
         .position-left .a11y-panel.open {
@@ -264,9 +628,9 @@
         }
 
         .a11y-header {
-            background: var(--a11y-primary);
+            background: linear-gradient(to bottom, #4a7ab0 0%, #336699 50%, #1a4d80 100%);
             color: white;
-            padding: 12px 16px;
+            padding: 8px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -274,23 +638,22 @@
 
         .a11y-header h2 {
             margin: 0;
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: bold;
         }
 
         .a11y-close {
             background: transparent;
             border: none;
             color: white;
-            font-size: 24px;
+            font-size: 18px;
             cursor: pointer;
             padding: 0;
-            width: 32px;
-            height: 32px;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 4px;
         }
 
         .a11y-close:hover {
@@ -303,13 +666,13 @@
         }
 
         .a11y-body {
-            padding: 16px;
+            padding: 10px;
             overflow-y: auto;
             flex: 1;
         }
 
         .a11y-section {
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .a11y-section:last-child {
@@ -317,53 +680,60 @@
         }
 
         .a11y-section-title {
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 10px;
+            font-weight: bold;
             text-transform: uppercase;
             color: #666;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--ps-border);
+            padding-bottom: 2px;
         }
 
         .a11y-profile-select {
             width: 100%;
-            padding: 8px 12px;
-            border: 1px solid var(--a11y-border);
-            border-radius: 4px;
-            font-size: 14px;
+            padding: 4px;
+            border: 1px solid var(--ps-border-dark);
+            font-size: 11px;
+            font-family: Arial, sans-serif;
             background: white;
             cursor: pointer;
         }
 
         .a11y-profile-select:focus {
-            outline: 2px solid var(--a11y-primary);
-            outline-offset: 1px;
+            outline: none;
+            border-color: var(--a11y-primary);
         }
 
         .a11y-font-controls {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 8px;
         }
 
         .a11y-font-btn {
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--a11y-border);
-            background: var(--a11y-white);
-            border-radius: 4px;
+            width: 32px;
+            height: 28px;
+            border: 1px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            background: linear-gradient(to bottom, #ffffff 0%, #d4d0c8 40%, #c0bcb0 100%);
             cursor: pointer;
-            font-size: 16px;
+            font-size: 11px;
             font-weight: bold;
+            font-family: Arial, sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .a11y-font-btn:hover {
-            background: var(--a11y-light-gray);
-            border-color: var(--a11y-primary);
+            background: linear-gradient(to bottom, #ffffff 0%, #e8e4dc 40%, #d4d0c8 100%);
+        }
+
+        .a11y-font-btn:active {
+            background: linear-gradient(to bottom, #c0bcb0 0%, #d4d0c8 100%);
+            border-color: #808080 #ffffff #ffffff #808080;
         }
 
         .a11y-font-btn:focus {
@@ -372,31 +742,31 @@
         }
 
         .a11y-font-display {
-            font-size: 18px;
-            font-weight: 600;
-            min-width: 60px;
+            font-size: 13px;
+            font-weight: bold;
+            min-width: 50px;
             text-align: center;
         }
 
         .a11y-contrast-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
+            gap: 4px;
         }
 
         .a11y-contrast-btn {
-            padding: 8px 12px;
-            border: 1px solid var(--a11y-border);
-            background: var(--a11y-white);
-            border-radius: 4px;
+            padding: 4px 8px;
+            border: 1px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            background: linear-gradient(to bottom, #ffffff 0%, #d4d0c8 40%, #c0bcb0 100%);
             cursor: pointer;
-            font-size: 13px;
-            transition: all 0.2s;
+            font-size: 11px;
+            font-family: Arial, sans-serif;
+            transition: all 0.15s;
         }
 
         .a11y-contrast-btn:hover {
-            background: var(--a11y-light-gray);
-            border-color: var(--a11y-primary);
+            background: linear-gradient(to bottom, #ffffff 0%, #e8e4dc 40%, #d4d0c8 100%);
         }
 
         .a11y-contrast-btn:focus {
@@ -405,52 +775,51 @@
         }
 
         .a11y-contrast-btn.active {
-            background: var(--a11y-primary);
+            background: linear-gradient(to bottom, #5588bb 0%, #336699 40%, #1a4d80 100%);
             color: white;
-            border-color: var(--a11y-primary);
+            border-color: #5588bb #1a4d80 #1a4d80 #5588bb;
         }
 
         .a11y-toggle-list {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
         }
 
         .a11y-toggle {
             display: flex;
             align-items: center;
-            padding: 8px;
-            border-radius: 4px;
+            padding: 4px 6px;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.15s;
         }
 
         .a11y-toggle:hover {
-            background: var(--a11y-light-gray);
+            background: #e8e8e0;
         }
 
         .a11y-toggle input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-right: 10px;
-            accent-color: var(--a11y-primary);
+            width: 14px;
+            height: 14px;
+            margin-right: 8px;
             cursor: pointer;
         }
 
         .a11y-toggle label {
             cursor: pointer;
             flex: 1;
+            font-size: 11px;
         }
 
         .a11y-slider-group {
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .a11y-slider-label {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 4px;
-            font-size: 13px;
+            margin-bottom: 2px;
+            font-size: 11px;
         }
 
         .a11y-slider {
@@ -458,44 +827,42 @@
             height: 6px;
             -webkit-appearance: none;
             appearance: none;
-            background: var(--a11y-border);
-            border-radius: 3px;
+            background: var(--ps-border);
             outline: none;
         }
 
         .a11y-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 18px;
-            height: 18px;
+            width: 14px;
+            height: 14px;
             background: var(--a11y-primary);
-            border-radius: 50%;
             cursor: pointer;
         }
 
         .a11y-slider:focus {
-            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.3);
+            box-shadow: 0 0 0 2px rgba(51, 102, 153, 0.3);
         }
 
         .a11y-cursor-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            gap: 4px;
         }
 
         .a11y-cursor-btn {
-            padding: 8px;
-            border: 1px solid var(--a11y-border);
-            background: var(--a11y-white);
-            border-radius: 4px;
+            padding: 4px;
+            border: 1px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            background: linear-gradient(to bottom, #ffffff 0%, #d4d0c8 40%, #c0bcb0 100%);
             cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s;
+            font-size: 10px;
+            font-family: Arial, sans-serif;
+            transition: all 0.15s;
         }
 
         .a11y-cursor-btn:hover {
-            background: var(--a11y-light-gray);
-            border-color: var(--a11y-primary);
+            background: linear-gradient(to bottom, #ffffff 0%, #e8e4dc 40%, #d4d0c8 100%);
         }
 
         .a11y-cursor-btn:focus {
@@ -504,59 +871,60 @@
         }
 
         .a11y-cursor-btn.active {
-            background: var(--a11y-primary);
+            background: linear-gradient(to bottom, #5588bb 0%, #336699 40%, #1a4d80 100%);
             color: white;
-            border-color: var(--a11y-primary);
+            border-color: #5588bb #1a4d80 #1a4d80 #5588bb;
         }
 
         .a11y-footer {
-            padding: 12px 16px;
-            border-top: 1px solid var(--a11y-border);
+            padding: 8px 10px;
+            border-top: 1px solid var(--ps-border);
+            background: #e8e8e0;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .a11y-reset-btn {
-            padding: 8px 16px;
-            border: 1px solid #dc3545;
-            background: white;
-            color: #dc3545;
-            border-radius: 4px;
+            padding: 3px 12px;
+            border: 1px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            background: linear-gradient(to bottom, #ffcccc 0%, #ff9999 100%);
+            color: #990000;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 11px;
+            font-family: Arial, sans-serif;
         }
 
         .a11y-reset-btn:hover {
-            background: #dc3545;
-            color: white;
+            background: linear-gradient(to bottom, #ffdddd 0%, #ffaaaa 100%);
         }
 
         .a11y-reset-btn:focus {
-            outline: 2px solid #dc3545;
+            outline: 2px solid #cc0000;
             outline-offset: 1px;
         }
 
         .a11y-position-btns {
             display: flex;
-            gap: 4px;
+            gap: 2px;
         }
 
         .a11y-position-btn {
-            width: 32px;
-            height: 32px;
-            border: 1px solid var(--a11y-border);
-            background: white;
-            border-radius: 4px;
+            width: 26px;
+            height: 24px;
+            border: 1px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            background: linear-gradient(to bottom, #ffffff 0%, #d4d0c8 40%, #c0bcb0 100%);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 12px;
         }
 
         .a11y-position-btn:hover {
-            background: var(--a11y-light-gray);
-            border-color: var(--a11y-primary);
+            background: linear-gradient(to bottom, #ffffff 0%, #e8e4dc 40%, #d4d0c8 100%);
         }
 
         .a11y-position-btn:focus {
@@ -571,10 +939,10 @@
             position: fixed;
             left: 0;
             right: 0;
-            height: 30px;
+            height: 24px;
             background: rgba(255, 255, 0, 0.3);
-            border-top: 2px solid #ffcc00;
-            border-bottom: 2px solid #ffcc00;
+            border-top: 2px solid #cccc00;
+            border-bottom: 2px solid #cccc00;
             pointer-events: none;
             z-index: 999998;
             display: none;
@@ -586,14 +954,52 @@
             color: #f0f0f0 !important;
         }
 
-        body.a11y-dark-mode .demo-section {
+        body.a11y-dark-mode .ps-header,
+        body.a11y-dark-mode .ps-header-top {
+            background: linear-gradient(to bottom, #2a2a3a 0%, #1a1a2a 100%);
+        }
+
+        body.a11y-dark-mode .ps-navbar,
+        body.a11y-dark-mode .ps-breadcrumb {
             background: #2a2a2a;
             border-color: #444;
         }
 
-        body.a11y-dark-mode .demo-section h2 {
+        body.a11y-dark-mode .ps-group-box {
+            background: #2a2a2a;
+            border-color: #444;
+        }
+
+        body.a11y-dark-mode .ps-group-box-header {
+            background: linear-gradient(to bottom, #3a3a3a 0%, #2a2a2a 100%);
+            color: #f0f0f0;
+        }
+
+        body.a11y-dark-mode .ps-page-title {
+            background: #2a2a2a;
+            border-color: #444;
+        }
+
+        body.a11y-dark-mode .ps-page-title h1 {
             color: #66b3ff;
-            border-color: #66b3ff;
+        }
+
+        body.a11y-dark-mode .ps-grid th {
+            background: linear-gradient(to bottom, #3a4a5a 0%, #2a3a4a 100%);
+        }
+
+        body.a11y-dark-mode .ps-grid td {
+            background: #2a2a2a;
+            border-color: #444;
+        }
+
+        body.a11y-dark-mode .ps-grid tr:nth-child(even) td {
+            background: #333;
+        }
+
+        body.a11y-dark-mode .ps-footer {
+            background: #2a2a2a;
+            border-color: #444;
         }
 
         /* Light Mode (High Contrast) */
@@ -602,10 +1008,16 @@
             color: #000000 !important;
         }
 
-        body.a11y-light-mode .demo-section {
+        body.a11y-light-mode .ps-group-box {
             background: #ffffff;
             border-color: #000000;
             border-width: 2px;
+        }
+
+        body.a11y-light-mode .ps-grid td,
+        body.a11y-light-mode .ps-grid th {
+            border-width: 2px;
+            border-color: #000000;
         }
 
         /* Invert Mode */
@@ -638,8 +1050,7 @@
             background-color: #ffffcc !important;
             color: #0000cc !important;
             text-decoration: underline !important;
-            padding: 2px 4px !important;
-            border-radius: 2px !important;
+            padding: 1px 3px !important;
         }
 
         /* Large Cursor */
@@ -657,7 +1068,7 @@
         /* Responsive */
         @media (max-width: 400px) {
             .a11y-panel {
-                width: 280px;
+                width: 260px;
             }
         }
 
@@ -675,66 +1086,226 @@
     </style>
 </head>
 <body>
-    <!-- Demo Page Content -->
-    <div class="demo-content">
-        <div class="demo-header">
-            <h1>A11Y Widget Demo</h1>
-            <p>Click the blue accessibility button on the right to open the widget</p>
+    <!-- PeopleSoft Classic Header -->
+    <div class="ps-header">
+        <div class="ps-header-top">
+            <div class="ps-logo">
+                <div class="ps-logo-icon">PS</div>
+                <div>
+                    <div class="ps-logo-text">PeopleSoft FSCM 9.2</div>
+                    <div class="ps-logo-subtitle">Financial Supply Chain Management</div>
+                </div>
+            </div>
+            <div class="ps-user-info">
+                <div>User: PSADMIN | Role: Administrator</div>
+                <div><a href="#">Sign Out</a> | <a href="#">Preferences</a> | <a href="#">Help</a></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="ps-navbar">
+        <button class="ps-nav-btn">Home</button>
+        <button class="ps-nav-btn">Worklist</button>
+        <button class="ps-nav-btn">Reports</button>
+        <div class="ps-nav-separator"></div>
+        <button class="ps-nav-btn">Add to Favorites</button>
+        <button class="ps-nav-btn">New Window</button>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="ps-breadcrumb">
+        <a href="#">Main Menu</a>
+        <span>&gt;</span>
+        <a href="#">Set Up Financials/Supply Chain</a>
+        <span>&gt;</span>
+        <a href="#">Common Definitions</a>
+        <span>&gt;</span>
+        <strong>Accessibility Widget Demo</strong>
+    </div>
+
+    <!-- Page Content -->
+    <div class="ps-page-container">
+        <div class="ps-page-title">
+            <h1>Accessibility Widget Demo</h1>
+            <p>Click the accessibility button on the right side to open the A11Y control panel</p>
         </div>
 
-        <div class="demo-section">
-            <h2>About This Demo</h2>
-            <p>This is a standalone demonstration of the A11Y Widget - a PeopleSoft Accessibility Overlay. The widget provides comprehensive accessibility controls that allow users to customize their browsing experience according to their individual needs.</p>
-            <p>Try the different features using the widget panel, or use the <a href="#shortcuts" class="demo-link">keyboard shortcuts</a> listed below.</p>
+        <!-- Message Bar -->
+        <div class="ps-message-bar">
+            <strong>Information:</strong> This page demonstrates the A11Y Widget integrated with PeopleSoft FSCM 9.2 Classic interface.
         </div>
 
-        <div class="demo-section">
-            <h2>Sample Text Content</h2>
-            <p>This paragraph contains sample text that you can use to test the font size, line height, and letter spacing controls. Adjust the sliders in the widget to see how the text appearance changes.</p>
-            <p>Here's another paragraph with a <a href="#" class="demo-link">sample link</a> that will be highlighted when you enable the "Highlight Links" feature. Notice how links become more visible and easier to identify.</p>
-            <p><strong>Bold text</strong> and <em>italic text</em> are also supported. The accessibility features work with all text styles.</p>
-        </div>
-
-        <div class="demo-section">
-            <h2>Interactive Elements</h2>
-            <p>Test the focus highlight feature by tabbing through these interactive elements:</p>
-            <button class="demo-button">Primary Button</button>
-            <button class="demo-button">Secondary Button</button>
-            <input type="text" class="demo-input" placeholder="Text input field">
-            <input type="email" class="demo-input" placeholder="Email input field">
-        </div>
-
-        <div class="demo-section">
-            <h2>Animated Content</h2>
-            <p>Enable "Stop Animations" to pause these animated elements:</p>
-            <div class="animated-box"></div>
-            <div class="spinning-box"></div>
-            <p style="margin-top: 20px;">The animations will freeze when the stop animations feature is enabled.</p>
-        </div>
-
-        <div class="demo-section" id="shortcuts">
-            <h2>Keyboard Shortcuts</h2>
-            <div class="keyboard-shortcuts">
-                <div class="shortcut"><kbd>Alt</kbd> + <kbd>A</kbd> Toggle panel</div>
-                <div class="shortcut"><kbd>Alt</kbd> + <kbd>+</kbd> Increase font</div>
-                <div class="shortcut"><kbd>Alt</kbd> + <kbd>-</kbd> Decrease font</div>
-                <div class="shortcut"><kbd>Alt</kbd> + <kbd>0</kbd> Reset font</div>
-                <div class="shortcut"><kbd>Alt</kbd> + <kbd>C</kbd> Cycle contrast</div>
-                <div class="shortcut"><kbd>Alt</kbd> + <kbd>R</kbd> Reading guide</div>
-                <div class="shortcut"><kbd>Esc</kbd> Close panel</div>
+        <!-- About Section -->
+        <div class="ps-group-box">
+            <div class="ps-group-box-header">About This Demo</div>
+            <div class="ps-group-box-content">
+                <p>This is a standalone demonstration of the A11Y Widget integrated with PeopleSoft FSCM 9.2 Classic styling. The widget provides comprehensive accessibility controls that allow users to customize their browsing experience according to their individual needs.</p>
+                <p>Try the different features using the widget panel, or use the <a href="#shortcuts" class="ps-link">keyboard shortcuts</a> listed below.</p>
             </div>
         </div>
 
-        <div class="demo-section">
-            <h2>Contrast Mode Testing</h2>
-            <p>Use the contrast mode buttons to switch between:</p>
-            <ul>
-                <li><strong>Normal:</strong> Default colors</li>
-                <li><strong>Dark:</strong> Dark background with light text</li>
-                <li><strong>Light:</strong> High contrast light mode</li>
-                <li><strong>Invert:</strong> Inverts all colors on the page</li>
-            </ul>
+        <!-- Sample Form Section -->
+        <div class="ps-group-box">
+            <div class="ps-group-box-header">Sample Form Elements</div>
+            <div class="ps-group-box-content">
+                <p>Test the focus highlight feature by tabbing through these interactive elements:</p>
+                <div class="ps-form-row">
+                    <label class="ps-label required">Business Unit:</label>
+                    <input type="text" class="ps-input" style="width: 100px;" value="US001">
+                    <button class="ps-button" style="margin-left: 4px;">Look Up</button>
+                </div>
+                <div class="ps-form-row">
+                    <label class="ps-label required">Vendor ID:</label>
+                    <input type="text" class="ps-input" style="width: 150px;" placeholder="Enter Vendor ID">
+                </div>
+                <div class="ps-form-row">
+                    <label class="ps-label">Description:</label>
+                    <input type="text" class="ps-input" style="width: 300px;" placeholder="Enter Description">
+                </div>
+                <div class="ps-form-row">
+                    <label class="ps-label">Status:</label>
+                    <select class="ps-select" style="width: 150px;">
+                        <option>Active</option>
+                        <option>Inactive</option>
+                        <option>Pending</option>
+                    </select>
+                </div>
+                <div style="margin-top: 12px;">
+                    <button class="ps-button ps-button-primary">Save</button>
+                    <button class="ps-button">Return to Search</button>
+                    <button class="ps-button">Add</button>
+                    <button class="ps-button">Notify</button>
+                </div>
+            </div>
         </div>
+
+        <!-- Tabs Section -->
+        <div class="ps-group-box">
+            <div class="ps-group-box-header">Tabbed Content</div>
+            <div class="ps-group-box-content" style="padding: 0;">
+                <div class="ps-tabs">
+                    <button class="ps-tab active" onclick="showTab(this, 'tab1')">General Info</button>
+                    <button class="ps-tab" onclick="showTab(this, 'tab2')">Address</button>
+                    <button class="ps-tab" onclick="showTab(this, 'tab3')">Contact</button>
+                </div>
+                <div class="ps-tab-content" id="tab1">
+                    <p>This tab contains general information. Use the tabs above to navigate between different sections of the form. Tab navigation is fully keyboard accessible.</p>
+                    <p>Here's a <a href="#" class="ps-link">sample link</a> that will be highlighted when you enable the "Highlight Links" feature.</p>
+                </div>
+                <div class="ps-tab-content" id="tab2" style="display: none;">
+                    <p>Address information would be displayed here. This demonstrates how tab panels work in PeopleSoft Classic UI.</p>
+                </div>
+                <div class="ps-tab-content" id="tab3" style="display: none;">
+                    <p>Contact details would be displayed here. Each tab maintains its own content area.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid/Table Section -->
+        <div class="ps-group-box">
+            <div class="ps-group-box-header">Sample Data Grid</div>
+            <div class="ps-group-box-content">
+                <p>This is a typical PeopleSoft grid displaying data in a tabular format:</p>
+                <table class="ps-grid">
+                    <thead>
+                        <tr>
+                            <th>Vendor ID</th>
+                            <th>Vendor Name</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#">V0001</a></td>
+                            <td>ABC Corporation</td>
+                            <td>New York, NY</td>
+                            <td>Active</td>
+                            <td><a href="#">Edit</a> | <a href="#">View</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">V0002</a></td>
+                            <td>XYZ Industries</td>
+                            <td>Los Angeles, CA</td>
+                            <td>Active</td>
+                            <td><a href="#">Edit</a> | <a href="#">View</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">V0003</a></td>
+                            <td>Global Supplies Inc</td>
+                            <td>Chicago, IL</td>
+                            <td>Pending</td>
+                            <td><a href="#">Edit</a> | <a href="#">View</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">V0004</a></td>
+                            <td>Tech Solutions Ltd</td>
+                            <td>Austin, TX</td>
+                            <td>Active</td>
+                            <td><a href="#">Edit</a> | <a href="#">View</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">V0005</a></td>
+                            <td>Premier Services</td>
+                            <td>Seattle, WA</td>
+                            <td>Inactive</td>
+                            <td><a href="#">Edit</a> | <a href="#">View</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Animation Section -->
+        <div class="ps-group-box">
+            <div class="ps-group-box-header">Animated Content</div>
+            <div class="ps-group-box-content">
+                <p>Enable "Stop Animations" to pause these animated elements:</p>
+                <div style="margin: 10px 0;">
+                    <div class="animated-box"></div>
+                    <div class="spinning-box"></div>
+                </div>
+                <p>The animations will freeze when the stop animations feature is enabled. This is helpful for users who are sensitive to motion.</p>
+            </div>
+        </div>
+
+        <!-- Keyboard Shortcuts Section -->
+        <div class="ps-group-box" id="shortcuts">
+            <div class="ps-group-box-header">Keyboard Shortcuts</div>
+            <div class="ps-group-box-content">
+                <p>Use these keyboard shortcuts for quick access to accessibility features:</p>
+                <div class="keyboard-shortcuts">
+                    <div class="shortcut"><kbd>Alt</kbd> + <kbd>A</kbd> Toggle panel</div>
+                    <div class="shortcut"><kbd>Alt</kbd> + <kbd>+</kbd> Increase font</div>
+                    <div class="shortcut"><kbd>Alt</kbd> + <kbd>-</kbd> Decrease font</div>
+                    <div class="shortcut"><kbd>Alt</kbd> + <kbd>0</kbd> Reset font</div>
+                    <div class="shortcut"><kbd>Alt</kbd> + <kbd>C</kbd> Cycle contrast</div>
+                    <div class="shortcut"><kbd>Alt</kbd> + <kbd>R</kbd> Reading guide</div>
+                    <div class="shortcut"><kbd>Esc</kbd> Close panel</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contrast Testing Section -->
+        <div class="ps-group-box">
+            <div class="ps-group-box-header">Contrast Mode Testing</div>
+            <div class="ps-group-box-content">
+                <p>Use the contrast mode buttons in the widget to switch between:</p>
+                <ul style="margin: 8px 0; padding-left: 20px;">
+                    <li><strong>Normal:</strong> Default PeopleSoft colors</li>
+                    <li><strong>Dark:</strong> Dark background with light text</li>
+                    <li><strong>Light:</strong> High contrast light mode</li>
+                    <li><strong>Invert:</strong> Inverts all colors on the page</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="ps-footer">
+        Copyright &copy; 2024 Oracle Corporation. All rights reserved. | PeopleSoft FSCM 9.2 | A11Y Widget Demo
     </div>
 
     <!-- Reading Guide (follows mouse) -->
@@ -752,7 +1323,7 @@
         <!-- Panel -->
         <div class="a11y-panel" id="a11yPanel" role="dialog" aria-label="Accessibility options">
             <div class="a11y-header">
-                <h2>Accessibility</h2>
+                <h2>Accessibility Options</h2>
                 <button class="a11y-close" id="a11yClose" aria-label="Close accessibility panel">&times;</button>
             </div>
 
@@ -824,9 +1395,9 @@
                     <div class="a11y-slider-group">
                         <div class="a11y-slider-label">
                             <span>Line Height</span>
-                            <span id="lineHeightValue">1.5</span>
+                            <span id="lineHeightValue">1.4</span>
                         </div>
-                        <input type="range" class="a11y-slider" id="lineHeight" min="1" max="2" step="0.1" value="1.5">
+                        <input type="range" class="a11y-slider" id="lineHeight" min="1" max="2" step="0.1" value="1.4">
                     </div>
                     <div class="a11y-slider-group">
                         <div class="a11y-slider-label">
@@ -862,6 +1433,22 @@
         (function() {
             'use strict';
 
+            // Tab functionality
+            window.showTab = function(btn, tabId) {
+                // Hide all tab contents
+                document.querySelectorAll('.ps-tab-content').forEach(content => {
+                    content.style.display = 'none';
+                });
+                // Remove active class from all tabs
+                document.querySelectorAll('.ps-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                // Show selected tab content
+                document.getElementById(tabId).style.display = 'block';
+                // Add active class to clicked tab
+                btn.classList.add('active');
+            };
+
             // State
             const state = {
                 panelOpen: false,
@@ -872,7 +1459,7 @@
                 readingGuide: false,
                 focusHighlight: false,
                 highlightLinks: false,
-                lineHeight: 1.5,
+                lineHeight: 1.4,
                 letterSpacing: 0,
                 cursor: 'default'
             };
@@ -907,11 +1494,11 @@
                 colorBlind: { fontSize: 110, contrast: 'light', focusHighlight: true, highlightLinks: true },
                 lightSensitive: { contrast: 'dark', stopAnimations: true },
                 motor: { fontSize: 120, focusHighlight: true, cursor: 'xlarge', lineHeight: 1.8 },
-                dyslexia: { fontSize: 120, lineHeight: 1.5, letterSpacing: 2, readingGuide: true },
+                dyslexia: { fontSize: 120, lineHeight: 1.6, letterSpacing: 2, readingGuide: true },
                 adhd: { stopAnimations: true, focusHighlight: true, readingGuide: true },
                 seizureSafe: { stopAnimations: true },
                 screenReader: { stopAnimations: true, focusHighlight: true },
-                senior: { fontSize: 140, lineHeight: 1.4, contrast: 'light', focusHighlight: true, cursor: 'large', highlightLinks: true, stopAnimations: true }
+                senior: { fontSize: 140, lineHeight: 1.6, contrast: 'light', focusHighlight: true, cursor: 'large', highlightLinks: true, stopAnimations: true }
             };
 
             // Toggle panel
@@ -928,7 +1515,7 @@
             function updateFontSize(delta) {
                 state.fontSize = Math.max(50, Math.min(300, state.fontSize + delta));
                 fontDisplay.textContent = state.fontSize + '%';
-                document.body.style.fontSize = state.fontSize + '%';
+                document.body.style.fontSize = (state.fontSize / 100 * 11) + 'px';
             }
 
             // Update contrast
@@ -1008,7 +1595,7 @@
                 if (profile.fontSize) {
                     state.fontSize = profile.fontSize;
                     fontDisplay.textContent = state.fontSize + '%';
-                    document.body.style.fontSize = state.fontSize + '%';
+                    document.body.style.fontSize = (state.fontSize / 100 * 11) + 'px';
                 }
                 if (profile.contrast) updateContrast(profile.contrast);
                 if (profile.cursor) updateCursor(profile.cursor);
@@ -1039,8 +1626,8 @@
                 toggleFocusHighlight(false);
                 toggleHighlightLinks(false);
 
-                lineHeightSlider.value = 1.5;
-                updateLineHeight(1.5);
+                lineHeightSlider.value = 1.4;
+                updateLineHeight(1.4);
                 letterSpacingSlider.value = 0;
                 updateLetterSpacing(0);
 
@@ -1079,7 +1666,7 @@
             // Reading guide mouse tracking
             document.addEventListener('mousemove', (e) => {
                 if (state.readingGuide) {
-                    readingGuideEl.style.top = (e.clientY - 15) + 'px';
+                    readingGuideEl.style.top = (e.clientY - 12) + 'px';
                 }
             });
 
