@@ -1123,6 +1123,52 @@
             display: none;
         }
 
+        /* Text Size Scaling - Applied via CSS variable */
+        :root {
+            --a11y-text-scale: 1;
+        }
+
+        body.a11y-text-scaled .ps-page-container,
+        body.a11y-text-scaled .ps-header,
+        body.a11y-text-scaled .ps-navbar,
+        body.a11y-text-scaled .ps-breadcrumb,
+        body.a11y-text-scaled .ps-footer {
+            font-size: calc(12px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .ps-page-title h1 {
+            font-size: calc(18px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .ps-logo-text {
+            font-size: calc(16px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .ps-logo-subtitle {
+            font-size: calc(11px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .ps-group-box-header {
+            font-size: calc(13px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .ps-grid th,
+        body.a11y-text-scaled .ps-grid td {
+            font-size: calc(12px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .ps-badge {
+            font-size: calc(11px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .shortcut kbd {
+            font-size: calc(11px * var(--a11y-text-scale));
+        }
+
+        body.a11y-text-scaled .ps-footer {
+            font-size: calc(11px * var(--a11y-text-scale));
+        }
+
         /* Dark Mode */
         body.a11y-dark-mode {
             background-color: #1a1a2e !important;
@@ -1712,7 +1758,13 @@
             function updateFontSize(delta) {
                 state.fontSize = Math.max(50, Math.min(300, state.fontSize + delta));
                 fontDisplay.textContent = state.fontSize + '%';
-                document.body.style.fontSize = (state.fontSize / 100 * 12) + 'px';
+                const scale = state.fontSize / 100;
+                document.documentElement.style.setProperty('--a11y-text-scale', scale);
+                if (state.fontSize !== 100) {
+                    document.body.classList.add('a11y-text-scaled');
+                } else {
+                    document.body.classList.remove('a11y-text-scaled');
+                }
             }
 
             // Update contrast
@@ -1792,7 +1844,9 @@
                 if (profile.fontSize) {
                     state.fontSize = profile.fontSize;
                     fontDisplay.textContent = state.fontSize + '%';
-                    document.body.style.fontSize = (state.fontSize / 100 * 12) + 'px';
+                    const scale = state.fontSize / 100;
+                    document.documentElement.style.setProperty('--a11y-text-scale', scale);
+                    document.body.classList.add('a11y-text-scaled');
                 }
                 if (profile.contrast) updateContrast(profile.contrast);
                 if (profile.cursor) updateCursor(profile.cursor);
@@ -1814,7 +1868,8 @@
             function resetAll() {
                 state.fontSize = 100;
                 fontDisplay.textContent = '100%';
-                document.body.style.fontSize = '';
+                document.documentElement.style.setProperty('--a11y-text-scale', 1);
+                document.body.classList.remove('a11y-text-scaled');
 
                 updateContrast('normal');
                 updateCursor('default');
@@ -1902,7 +1957,8 @@
                             e.preventDefault();
                             state.fontSize = 100;
                             fontDisplay.textContent = '100%';
-                            document.body.style.fontSize = '';
+                            document.documentElement.style.setProperty('--a11y-text-scale', 1);
+                            document.body.classList.remove('a11y-text-scaled');
                             break;
                         case 'c':
                             e.preventDefault();
